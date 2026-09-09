@@ -24,9 +24,9 @@
      `page` is matched against <body data-page="…">; the case-study pages carry
      data-page="portfolio", so the portfolio pill stays lit inside them. */
   var NAV = [
-    { page: 'home',      href: 'index.html',     label: 'home' },
-    { page: 'portfolio', href: 'portfolio.html', label: 'portfolio' },
-    { page: 'bio',       href: 'bio.html',       label: 'bio / cv' }
+    { page: 'home',      href: '/',          label: 'home' },
+    { page: 'portfolio', href: '/portfolio', label: 'portfolio' },
+    { page: 'bio',       href: '/bio',       label: 'bio / cv' }
   ];
 
   /* Values come from assets/js/site.config.js, loaded just before this file.
@@ -53,7 +53,7 @@
     return '' +
       '<header class="site-header">' +
         '<div class="container site-header__inner">' +
-          '<a class="brand" href="index.html" aria-label="Francesco Lauriola — home">' +
+          '<a class="brand" href="/" aria-label="Francesco Lauriola — home">' +
             '<svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">' +
               '<rect width="32" height="32" rx="7" fill="currentColor"/>' +
               '<g fill="var(--on-strong)">' +
@@ -75,7 +75,7 @@
         '<div class="container site-footer__inner">' +
           '<div class="site-footer__left">' +
             '<span class="mono">' + ROLE + '</span>' +
-            '<a class="out" href="privacy.html">' +
+            '<a class="out" href="/privacy">' +
               'privacy <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>' +
             '</a>' +
           '</div>' +
