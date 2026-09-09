@@ -1,0 +1,1434 @@
+/* =============================================================================
+   Francesco Lauriola — personal site
+   -----------------------------------------------------------------------------
+   Mobile first. Every rule is written for a narrow screen; the min-width
+   queries at the end of each component only ADD what a wider screen earns.
+
+   Contents
+     1. Fonts
+     2. Tokens            ← edit colours and type here
+     3. Dark theme        ← token overrides only, follows the OS
+     4. Reset + cursor
+     5. Typography
+     6. Layout
+     7. Components
+     8. Motion
+     9. Print
+   -----------------------------------------------------------------------------
+   RULE: components must only ever reference the SEMANTIC tokens (--bg, --text,
+   --border …), never the primitives (--warm-100 …). That single rule is what
+   makes the dark theme a block of token overrides instead of a rewrite.
+   ========================================================================== */
+
+
+/* 1. Fonts ================================================================= */
+/* Inter and Roboto Mono, both under the SIL Open Font License 1.1. The licence
+   travels with the files: assets/fonts/OFL-Inter.txt and OFL-Roboto-Mono.txt.
+   Keep them there — serving a woff2 counts as redistributing the font, and the
+   OFL asks for the notice to come along. */
+/* Self-hosted variable woff2 — one file per subset covers every weight.
+   Downloaded from Google Fonts (OFL). No third-party requests at runtime. */
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/inter-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/inter-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Roboto Mono';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url('../fonts/robotomono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Roboto Mono';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url('../fonts/robotomono-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+
+/* 2. Tokens ================================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* --- primitives: brand colours, extracted from the 2026 CV and the Figma portfolio --- */
+  --warm-50:  #FFFBF3;
+  --warm-75:  #F8F5EF;   /* the portfolio's secondary surface */
+  --warm-100: #F8F3E8;
+  --warm-200: #EFE7D8;
+  --warm-300: #C3B8A5;
+  --warm-600: #605746;
+  --warm-800: #38342D;
+  --warm-950: #0A0805;
+  /* dark-theme stops, same hue family; higher = darker, like the rest of the ramp */
+  --warm-400: #A99F91;   /* muted text on dark — 7.7:1 on warm-950 */
+  --warm-700: #4A443A;   /* hairline on dark  — 2.1:1 on warm-950 */
+  --warm-850: #1B1611;   /* surface on dark */
+  --warm-900: #120E0A;   /* dark background, gradient start */
+  --white:      #FFFFFF;
+  --select-500: #5B7FA6;
+
+  /* --- semantic: the only colour tokens components may use --- */
+  /*   --bg:          linear-gradient(153deg, #FFF9EE 0%, #FFF 100%), #FFF; */
+  --bg:          var(--warm-50);    /*website bg*/  
+  --surface:     var(--warm-100);   /* cards, chips, facts — flat, no border */
+  --surface-alt: var(--white);      /* image grounds, placeholder */
+  --border:      var(--warm-300);   /* dividers only */
+  --border-subtle: var(--warm-200);
+  --text-muted:  var(--warm-600);   /* 6.4:1 on --bg — safe for body copy */
+  --text:        var(--warm-800);   /* 11.2:1 on --bg */
+  --text-strong: var(--warm-950);
+  --select:      var(--select-500); /* 3.8:1 — UI affordances only, never small text */
+  --on-strong:   var(--warm-50);
+  --sel-handle:  var(--white);      /* Figma's handles are white in both themes */
+
+  --hairline:    1px solid var(--border);
+  --shadow-lift: 0 2px 4px rgb(10 8 5 / 5%), 0 16px 40px -16px rgb(10 8 5 / 16%);
+
+  /* --- cursor: assets/cursor.svg, 29×33, tip at (5,2) --- */
+  --cursor: url('../cursor.svg') 5 2, auto;
+
+  /* --- type --- */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --step-display: clamp(2.75rem, 1.2rem + 7vw, 5.75rem);
+  --step-h2:      clamp(1.625rem, 1.1rem + 2.4vw, 2.625rem);
+  --step-h3:      clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --step-lead:    clamp(1.125rem, 1rem + 0.9vw, 1.5rem);
+  --step-body:    1.0625rem;
+  --step-small:   0.9375rem;
+  --step-mono:    0.75rem;
+
+  /* --- space --- */
+  --sp-1: 0.25rem;  --sp-2: 0.5rem;   --sp-3: 0.75rem;  --sp-4: 1rem;
+  --sp-5: 1.5rem;   --sp-6: 2rem;     --sp-7: 3rem;     --sp-8: 4rem;
+  --sp-9: 6rem;     --sp-10: 8rem;
+
+  --radius-sm: 4px;
+  --radius:    10px;
+  --radius-lg: 16px;
+
+  --container: 68rem;
+  --measure:   38rem;
+  --gutter:    var(--sp-4);   /* page side padding — grows on wider screens */
+}
+
+
+/* 3. Dark theme ============================================================ */
+/* Token overrides only — no component below knows the theme exists.
+
+   Two selectors, one block each, and the blocks must stay identical:
+     <html data-theme="dark">   → dark, whatever the OS says
+     <html data-theme="light">  → light, whatever the OS says
+     no attribute               → follows prefers-color-scheme
+   The media query wraps ONLY the second selector. Put it outside and
+   :not([data-theme="light"]) matches everyone — dark becomes the default.
+
+   What changes: background, surfaces, hairline, the three text levels,
+   on-strong (buttons and the brand mark invert), and the shadow.
+   What stays: --select (the brand blue reads 4.8:1 on warm-950) and
+   --sel-handle (Figma's handles are white in dark mode too). */
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:          linear-gradient(153deg, var(--warm-900) 0%, var(--warm-950) 100%), var(--warm-950);
+  --surface:     var(--warm-850);
+  --surface-alt: var(--warm-800);
+  --border:      var(--warm-700);
+  --border-subtle: var(--warm-800);
+  --text-muted:  var(--warm-400);   /* 7.7:1 */
+  --text:        var(--warm-200);   /* 16:1 */
+  --text-strong: var(--warm-50);
+  --on-strong:   var(--warm-950);   /* cream buttons, dark text */
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / 45%), 0 16px 40px -16px rgb(0 0 0 / 65%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg:          linear-gradient(153deg, var(--warm-900) 0%, var(--warm-950) 100%), var(--warm-950);
+    --surface:     var(--warm-850);
+    --surface-alt: var(--warm-800);
+    --border:      var(--warm-700);
+    --border-subtle: var(--warm-800);
+    --text-muted:  var(--warm-400);
+    --text:        var(--warm-200);
+    --text-strong: var(--warm-50);
+    --on-strong:   var(--warm-950);
+    --shadow-lift: 0 2px 4px rgb(0 0 0 / 45%), 0 16px 40px -16px rgb(0 0 0 / 65%);
+  }
+}
+
+
+/* 4. Reset + cursor ======================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; cursor: var(--cursor); }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--step-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;           /* belt and braces — nothing should overflow */
+}
+
+/* The custom arrow everywhere, links included; only the resize handles
+   keep a system cursor, because that cursor IS the affordance. */
+a, button, [role='button'], summary, label { cursor: var(--cursor); }
+
+img, svg, video { display: block; max-width: 100%; height: auto; }
+
+h1, h2, h3, h4, p, ul, ol, figure, blockquote { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+a { color: inherit; }
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--select);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+
+/* 5. Typography ============================================================ */
+
+.display {
+  font-size: var(--step-display);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  color: var(--text-strong);
+  text-wrap: balance;
+}
+
+.h2 {
+  font-size: var(--step-h2);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--text-strong);
+  text-wrap: balance;
+}
+
+.h3 {
+  font-size: var(--step-h3);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  color: var(--text-strong);
+}
+
+.lead {
+  font-size: var(--step-lead);
+  line-height: 1.45;
+  letter-spacing: -0.012em;
+  color: var(--text);
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+
+.prose { max-width: var(--measure); text-wrap: pretty; }
+.prose p + p { margin-top: var(--sp-4); }
+.prose strong { font-weight: 600; color: var(--text-strong); }
+
+.small { font-size: var(--step-small); color: var(--text-muted); }
+
+/* The mono label. His slides use it for every piece of metadata. */
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  font-feature-settings: 'zero' 1;
+}
+
+/* Inline link inside body copy */
+.link {
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.18s ease, color 0.18s ease;
+}
+.link:hover {
+  color: var(--text-strong);
+  text-decoration-color: var(--select);
+}
+
+
+/* 6. Layout ================================================================ */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section { padding-block: var(--sp-7); }
+.section + .section { border-top: var(--hairline); }
+
+/* Section heading with its mono label, mirroring the slides */
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--sp-4);
+  top: var(--sp-4);
+  z-index: 100;
+  padding: var(--sp-2) var(--sp-4);
+  background: var(--text-strong);
+  color: var(--on-strong);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; }
+
+@media (min-width: 40rem) {
+  :root { --gutter: var(--sp-5); }
+  .section { padding-block: var(--sp-8); }
+  .section-head {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--sp-3) var(--sp-5);
+    margin-bottom: var(--sp-6);
+  }
+}
+
+@media (min-width: 56rem) {
+  :root { --gutter: var(--sp-6); }
+}
+
+
+/* 7. Components ============================================================ */
+
+/* --- 7.1 Arrow -----------------------------------------------------------
+   ↗ and ↘ are NOT in Inter's latin subset — as text they fall back to a
+   system font with the wrong weight and baseline. Drawn as SVG instead.
+   .arrow--down flips the same path vertically. */
+
+.arrow {
+  width: 0.72em;
+  height: 0.72em;
+  flex: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+  vertical-align: baseline;
+  transition: transform 0.18s ease;
+}
+.arrow--down { transform: scaleY(-1); }
+
+
+/* --- 7.2 Metadata pair ---------------------------------------------------
+   label + value. The arrow points at the value: ↘ when the label sits above,
+   ↗ when it sits below. */
+
+.meta { display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-1); }
+
+.meta__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  white-space: nowrap;
+}
+
+.meta__value {
+  font-size: var(--step-small);
+  font-weight: 500;
+  color: var(--text-strong);
+  line-height: 1.3;
+}
+
+.meta--reverse { flex-direction: column-reverse; }
+
+/* A row of metadata pairs */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+}
+
+/* A 2×2 block of metadata pairs — the cover-slide layout, on a card */
+.meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3) var(--sp-4);
+}
+
+
+/* --- 7.2b Inner page head ------------------------------------------------
+   Home keeps the one display-size moment; inner pages open at h2 scale with
+   the same mono label underneath, like "Projects Index / page title ↗". */
+
+.page-head { padding-block: var(--sp-7) var(--sp-5); }
+.page-head .prose { margin-top: var(--sp-4); }
+
+@media (min-width: 40rem) {
+  .page-head { padding-block: var(--sp-8) var(--sp-6); }
+  .page-head .prose { margin-top: var(--sp-5); }
+}
+
+
+/* --- 7.3 Selection box ---------------------------------------------------
+   The name sits in a Figma-style selection box: a 2px frame with four corner
+   handles. With JS (site.js) the handles resize the box and the name scales
+   to fit — min font 20px, max width the grid — and everything below reflows.
+   Without JS it is a static frame and the name wraps as usual.
+
+   The box is a wrapper around the <h1>, not the <h1> itself, so the handle
+   button never becomes part of the heading's accessible name. */
+
+.selbox {
+  position: relative;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.04em 0.08em;
+  font-size: var(--step-display);
+  border-radius: 0;                   /* a selection frame is always square */
+  outline: 2px solid var(--select);   /* outline, not border: no effect on layout maths */
+  outline-offset: 0;
+}
+
+.selbox .display { font-size: inherit; }
+
+/* JS opts in to single-line scaling; without it the name wraps normally.
+   Both properties, on both elements: `text-wrap: balance` on .display is a
+   shorthand that would otherwise switch wrapping back on. */
+.selbox.is-ready, .selbox.is-ready .display { white-space: nowrap; text-wrap: nowrap; }
+
+.selbox__handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  margin: 0;
+  padding: 0;
+  background: var(--sel-handle);
+  border: 2px solid var(--select);
+  border-radius: 0;
+  transform: translate(-50%, -50%);
+  touch-action: none;
+  cursor: nwse-resize;
+}
+/* a 30px hit area around each 10px handle, for fingers */
+.selbox__handle::before { content: ''; position: absolute; inset: -10px; }
+
+.selbox__handle--nw { left: 0;    top: 0; }
+.selbox__handle--ne { left: 100%; top: 0;    cursor: nesw-resize; }
+.selbox__handle--sw { left: 0;    top: 100%; cursor: nesw-resize; }
+.selbox__handle--se { left: 100%; top: 100%; }
+
+.selbox__handle:focus-visible { outline: 2px solid var(--select); outline-offset: 3px; }
+
+body.is-resizing { user-select: none; -webkit-user-select: none; cursor: nwse-resize; }
+body.is-resizing * { cursor: inherit; }
+
+
+/* --- 7.4 Header ---------------------------------------------------------- */
+
+/* <site-header> / <site-footer> (assets/js/components.js) print the real
+   <header>/<footer> into their own light DOM. display:contents removes the
+   custom element's own box from the layout, so the header below still sticks
+   to the viewport and the footer still sits directly on <body>'s flow. */
+site-header, site-footer { display: contents; }
+
+.site-header {
+  position: sticky;
+  top: 8px;
+  z-index: 20;
+  background: var(--surface-alt);
+  border-radius: var(--radius-lg);
+  border: solid 1px var(--border-subtle);
+
+  /* The bar follows the grid: same max-width as .container, and centred by the
+     auto margins — without them a max-width block just stays at the left. */
+  max-width: var(--container);
+  margin-inline: auto;
+  /*background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: var(--hairline);*/
+}
+
+@supports not (backdrop-filter: blur(10px)) {
+  .site-header { background: var(--surface-alt); }
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  min-height: 3.25rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: var(--text-strong);
+  white-space: nowrap;
+}
+
+.brand__mark { width: 20px; height: 20px; flex: none; }
+
+/* Name only where there is room; the mark carries the brand on phones */
+.brand__name { display: none; }
+
+.nav { display: flex; align-items: center; gap: 2px; }
+
+.nav__link {
+  display: block;
+  padding: var(--sp-2) var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: var(--radius-sm);
+  transition: color 0.18s ease, background-color 0.18s ease;
+}
+.nav__link:hover { color: var(--text-strong); background: var(--surface); }
+
+.nav__link[aria-current='page'] {
+  color: var(--on-strong);
+  background: var(--text-strong);   /* semantic, so it inverts with the theme — a primitive here was black-on-black in dark */
+}
+
+/* --- 7.4b Nav fallback, for <noscript> ------------------------------------
+   The browser parses the contents of <noscript> only when scripting is off, so
+   with JS on this element never exists and these rules cost nothing. It is a
+   plain row of links rather than the sticky bar: without JS the job is reaching
+   the other pages, not reproducing the chrome. */
+
+.nav--fallback {
+  max-width: var(--container);
+  margin-inline: auto;
+  flex-wrap: wrap;
+  padding: var(--sp-3) var(--gutter);
+}
+
+/* The active pill without JS. site.js normally sets aria-current, but
+   <body data-page> is already in the static HTML — CSS can do the same job. */
+body[data-page='home']      .nav--fallback [data-page='home'],
+body[data-page='portfolio'] .nav--fallback [data-page='portfolio'],
+body[data-page='bio']       .nav--fallback [data-page='bio'] {
+  color: var(--on-strong);
+  background: var(--text-strong);
+}
+
+@media (min-width: 40rem) {
+  .site-header__inner { min-height: 3.75rem; gap: var(--sp-4); }
+  .brand__name { display: inline; }
+  .nav { gap: var(--sp-1); }
+  .nav__link { padding: var(--sp-2) var(--sp-3); }
+}
+
+
+/* --- 7.5 Hero ------------------------------------------------------------ */
+
+.hero { padding-block: var(--sp-7) var(--sp-6); }
+
+.hero__name { margin-bottom: var(--sp-5); }
+
+.hero__role {
+  font-size: var(--step-h2);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text-strong);
+}
+
+.hero__intro { margin-top: var(--sp-5); }
+
+@media (min-width: 40rem) {
+  .hero { padding-block: var(--sp-8) var(--sp-7); }
+  .hero__name { margin-bottom: var(--sp-6); }
+  .hero__intro { margin-top: var(--sp-6); }
+}
+
+@media (min-width: 56rem) {
+  .hero { padding-block: var(--sp-9) var(--sp-8); }
+}
+
+
+/* --- 7.6 Portrait -------------------------------------------------------- */
+/* The silhouette is backlit on warm amber — it sits on --surface-alt so the
+   photo's own glow blends into the page rather than fighting a hard edge. */
+
+.portrait {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--surface-alt);
+
+  /* macOS and iOS claim a press-and-hold on a photo for themselves — drag the
+     image out, lift the subject off the background, the save/copy callout —
+     and every one of those fought the reorder drag. The <figure> takes the
+     pointer instead, so the OS never sees an image being held. */
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.portrait img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 50% 42%;
+  border-radius: inherit;   /* .is-dragging lifts the figure's overflow clip */
+
+  /* the half that does the work — paired with draggable="false" in index.html.
+     site.js resolves the drag with closest('[data-sortable] > *'), and that is
+     the <figure>, so nothing about the reorder depends on the <img>. */
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+@media (min-width: 56rem) {
+  .portrait img { aspect-ratio: 3 / 2; }
+}
+
+
+/* --- 7.7 Facts strip ----------------------------------------------------- */
+
+.facts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  background: var(--surface);
+  border-radius: var(--radius);
+  align-content: start;
+}
+
+@media (min-width: 30rem) {
+  .facts { grid-template-columns: 1fr 1fr; gap: var(--sp-5); padding: var(--sp-5); }
+}
+
+
+/* --- 7.8 Project index --------------------------------------------------- */
+/* The numbered list from slide 2 of the portfolio. */
+
+.index { border-top: var(--hairline); }
+
+.index__row {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  align-items: baseline;
+  gap: var(--sp-1) var(--sp-3);
+  padding-block: var(--sp-4);
+  border-bottom: var(--hairline);
+  text-decoration: none;
+  transition: background-color 0.18s ease;
+}
+.index__row:hover { background: var(--surface); }
+
+.index__num {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  color: var(--text-muted);
+}
+
+.index__title {
+  font-size: var(--step-h3);
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  color: var(--text-strong);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.18s ease;
+}
+.index__row:hover .index__title { text-decoration-color: var(--select); }
+
+.index__meta {
+  grid-column: 2;
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  color: var(--text-muted);
+}
+
+@media (min-width: 40rem) {
+  .index__row { grid-template-columns: 2rem 1fr auto; }
+  .index__meta { grid-column: auto; }
+}
+
+
+/* --- 7.9 Project cards --------------------------------------------------- */
+/* Flat, borderless chips on the secondary surface — the way text sits in
+   boxes on the portfolio slides. The lift on hover is the only depth. */
+
+.projects {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-5);
+}
+
+@media (min-width: 40rem) {
+  .projects { grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: var(--sp-6); }
+}
+
+.project-card {
+  position: relative;          /* the stretched link below anchors to this */
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: box-shadow 0.22s ease, transform 0.22s ease;
+}
+.project-card:hover { box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+
+/* THE WHOLE CARD IS THE LINK. One anchor, sitting on the title, stretched
+   over the card by a pseudo-element. Not an <a> wrapping the card: on the
+   home page each card also holds a ⋮⋮ grip <button>, and a button inside an
+   anchor is invalid and unusable. This way the accessibility tree still gets
+   one link with the project's name as its text, and nothing else inside the
+   card competes for the click.
+
+   Two things depend on it and will break if you touch it:
+   • .grip is z-index 2 — above the overlay, so the grip stays pressable;
+   • site.js § 4 excludes .project-card__link from its "interactive" test, or
+     dragging a card on the home page would never start. */
+.project-card__link { text-decoration: none; }
+.project-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+/* The ring belongs around the card, not around the title's text box. Guarded:
+   where :has() is missing the link keeps the default ring, so a keyboard user
+   is never left without one. */
+@supports selector(:has(a)) {
+  .project-card__link:focus-visible { outline: 0; }
+  .project-card:has(.project-card__link:focus-visible) {
+    outline: 2px solid var(--select);
+    outline-offset: 3px;
+  }
+}
+
+/* The covers are Francesco's own Behance artwork on a cool grey. Inset on
+   the warm chip they read as artwork in a frame rather than a temperature
+   clash against the cream page. */
+.project-card__cover {
+  margin: var(--sp-3) var(--sp-3) 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+
+.project-card__cover img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+/* Placeholder for a cover that has not been exported yet. Styled as a title
+   card in the same language as the real covers, so it reads as intended.
+   To swap in the real image, replace the whole
+   <div class="project-card__cover project-card__cover--placeholder">…</div>
+   with the same markup used by the other cards. */
+.project-card__cover--placeholder {
+  display: grid;
+  place-content: center;
+  gap: var(--sp-1);
+  aspect-ratio: 16 / 10;
+  text-align: center;
+  padding: var(--sp-5);
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 10px,
+      color-mix(in srgb, var(--border) 28%, transparent) 10px 11px
+    ),
+    var(--surface-alt);
+}
+
+.project-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  flex: 1;
+}
+
+@media (min-width: 40rem) {
+  .project-card__body { padding: var(--sp-5); }
+}
+
+.project-card__desc { color: var(--text-muted); font-size: var(--step-small); text-wrap: pretty; }
+
+/* The details — company, date, team, ownership — sit under the paragraph and
+   are pushed to the bottom edge, so cards of different text lengths still
+   line their spec block up across a row. */
+.project-card__foot {
+  margin-top: auto;
+  padding-top: var(--sp-3);
+  border-top: var(--hairline);
+}
+
+
+/* --- 7.10 Outbound link -------------------------------------------------- */
+
+.out {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-height: 44px;                 /* comfortable touch target */
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  letter-spacing: 0.02em;
+  color: var(--text-strong);
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-underline-offset: 0.28em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.18s ease;
+}
+.out:hover { text-decoration-color: var(--select); }
+.out:hover .arrow { transform: translate(1px, -1px); }
+.out:hover .arrow--down { transform: scaleY(-1) translate(1px, -1px); }
+
+/* Inside a card foot the 44px box would add dead space; the card is the target */
+.project-card__foot .out, .site-footer .out { min-height: 0; }
+
+
+/* --- 7.11 Other work list ------------------------------------------------ */
+
+.other {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-3);
+}
+
+@media (min-width: 40rem) {
+  .other { grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+}
+
+.other__item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+.other__item:hover { box-shadow: var(--shadow-lift); transform: translateY(-1px); }
+
+.other__name { font-size: var(--step-small); font-weight: 500; color: var(--text-strong); }
+
+
+/* --- 7.12 CV blocks ------------------------------------------------------ */
+
+.cv-entry {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-2);
+  padding-block: var(--sp-5);
+  border-bottom: var(--hairline);
+}
+.cv-entry:first-of-type { border-top: var(--hairline); }
+
+.cv-entry__when { font-family: var(--font-mono); font-size: var(--step-mono); color: var(--text-muted); }
+
+.cv-entry__list { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-3); }
+
+.cv-entry__list li {
+  position: relative;
+  padding-left: 1.1em;
+  font-size: var(--step-small);
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+.cv-entry__list li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--border);
+}
+
+@media (min-width: 40rem) {
+  .cv-entry { grid-template-columns: minmax(9rem, 14rem) 1fr; gap: var(--sp-3) var(--sp-6); }
+}
+
+.skill-cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-6);
+}
+
+.skill-cols span {
+    color: var(--text-strong);
+}
+
+@media (min-width: 40rem) {
+  .skill-cols { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+}
+
+  .skill-list { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-4);}
+  .skill-list li { font-size: var(--step-small); color: var(--text-muted); }
+
+
+/* --- 7.13 Button --------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 44px;
+  padding: var(--sp-3) var(--sp-5);
+  background: var(--text-strong);
+  color: var(--on-strong);
+  border: 1px solid var(--text-strong);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+.btn:hover { background: transparent; color: var(--text-strong); }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-strong);
+  border-color: var(--border);
+}
+.btn--ghost:hover { border-color: var(--text-strong); background: var(--surface); }
+
+
+/* --- 7.14 Contact -------------------------------------------------------- */
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin-top: var(--sp-4);
+}
+
+@media (min-width: 40rem) {
+  .contact-list { flex-direction: row; flex-wrap: wrap; gap: var(--sp-3) var(--sp-6); margin-top: var(--sp-5); }
+}
+
+
+/* --- 7.15 Footer rail ---------------------------------------------------- */
+/* Mono, low, quiet — the running foot from the portfolio slides. */
+
+.site-footer {
+  border-top: var(--hairline);
+  margin-top: var(--sp-7);
+  padding-block: var(--sp-5);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/* the running credit and the privacy link travel together, so the rail keeps
+   its two ends: who made this on the left, when it last changed on the right */
+.site-footer__left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-4);
+}
+
+@media (min-width: 40rem) {
+  .site-footer { margin-top: var(--sp-8); }
+  .site-footer__inner {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--sp-3) var(--sp-5);
+  }
+}
+
+
+/* --- 7.16 Two-column split ----------------------------------------------- */
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-5);
+}
+
+@media (min-width: 56rem) {
+  .split { grid-template-columns: 1.15fr 1fr; gap: var(--sp-7); align-items: start; }
+  .split--even { grid-template-columns: 1fr 1fr; }
+
+  /* The one split whose halves swap places (the home's portrait and facts)
+     gets equal columns. With 1.15fr / 1fr the portrait was genuinely a
+     different width in each slot, so the swap read as a resize rather than a
+     move — and FLIP animates transforms, which cannot smooth a size change. */
+  .split[data-sortable] { grid-template-columns: 1fr 1fr; }
+}
+
+
+/* 8. Motion ================================================================ */
+
+/* Content is visible by default. JS opts in by putting .js-reveal on <html>,
+   so a script error or blocked JS can never leave the page blank. */
+.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.js-reveal .reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js-reveal .reveal { opacity: 1; transform: none; }
+}
+
+
+/* 9. Print ================================================================= */
+/* Mostly for bio.html — a recruiter printing the CV should get something clean. */
+
+@media print {
+  .site-header, .site-footer, .skip-link, .btn, .portrait, .selbox__handle { display: none; }
+  body { background: #fff; color: #000; font-size: 10.5pt; }
+  .section { padding-block: 0.6cm; border: 0; }
+  .cv-entry { break-inside: avoid; grid-template-columns: 4cm 1fr; }
+  .display { font-size: 24pt; }
+  .h2 { font-size: 14pt; }
+  .selbox { outline: 0; padding: 0; font-size: 24pt; width: auto; white-space: normal; }
+  a { text-decoration: none; }
+  .out::after { content: ' (' attr(href) ')'; font-size: 8pt; color: #555; }
+  .js-reveal .reveal { opacity: 1; transform: none; }
+}
+
+
+/* --- 7.17 Case study ------------------------------------------------------
+   One project, told in the order of its portfolio slides: cover, then a
+   section per slide. Figures are flat chips like everything else. */
+
+.case-head { padding-block: var(--sp-7) var(--sp-5); }
+.case-head__title { margin-bottom: var(--sp-3); }
+.case-head__sub {
+  font-size: var(--step-h3);
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: var(--sp-5);
+}
+.case-head__actions { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); margin-top: var(--sp-5); align-items: center; }
+
+/* The cover slide's row of label ↘ value pairs. Each pair is its own chip —
+   the slides set them as separate boxes, not as one slab with the pairs
+   ruled off inside it. The container only does the spacing. */
+.case-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+
+.case-meta > .meta {
+  padding: var(--sp-4);
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+@media (min-width: 40rem) {
+  .case-head { padding-block: var(--sp-8) var(--sp-6); }
+  .case-meta { grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: var(--sp-4); }
+  .case-meta > .meta { padding: var(--sp-4) var(--sp-5); }
+}
+
+.figure { margin: 0; background: var(--surface); border-radius: var(--radius); overflow: hidden; }
+.figure img, .figure video { width: 100%; display: block; }
+.figure--inset { padding: var(--sp-3); }
+.figure--inset img, .figure--inset video { border-radius: var(--radius); }
+.figure__caption { display: block; padding: var(--sp-3) var(--sp-1) var(--sp-1); }
+
+.figure-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-4); }
+@media (min-width: 40rem) { .figure-grid { grid-template-columns: 1fr 1fr; gap: var(--sp-5); } }
+
+/* portrait phone videos: keep their ratio, never autoplay, load on demand */
+.video { aspect-ratio: 9 / 16; object-fit: cover; background: var(--surface-alt); }
+
+.bullets { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-3); }
+.bullets li { position: relative; padding-left: 1.1em; text-wrap: pretty; }
+.bullets li::before { content: '–'; position: absolute; left: 0; color: var(--border); }
+.prose .bullets + p { margin-top: var(--sp-4); }
+
+.case-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding-block: var(--sp-6);
+  border-top: var(--hairline);
+}
+@media (min-width: 40rem) {
+  .case-nav { flex-direction: row; justify-content: space-between; align-items: baseline; }
+}
+
+/* the running foot from the slides: "Arduino Labs | LED Matrix Editor" */
+.runfoot { display: block; margin-top: var(--sp-6); }
+
+
+/* --- 7.18 Sortable blocks ------------------------------------------------
+   Home only. Cards can be dragged into a new order; the portrait and the
+   facts chip can swap places. Mouse: drag from anywhere on the block.
+   Touch: long-press anywhere, or drag the ⋮⋮ grip straight away — so a
+   normal tap still scrolls the page. Icons are Lucide (MIT), inlined. */
+
+[data-sortable] > * { position: relative; }
+
+.grip {
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  color: var(--text-muted);
+  opacity: 0.85;
+  cursor: grab;                 /* the one place a system cursor is the affordance */
+  touch-action: none;           /* a finger on the grip never scrolls */
+  transition: opacity 0.18s ease, color 0.18s ease;
+}
+.grip svg { width: 18px; height: 18px; fill: currentColor; }
+.grip:hover, .grip:focus-visible { opacity: 1; color: var(--text-strong); }
+.grip:active { cursor: grabbing; }
+
+.is-sorting > * { transition: transform 0.22s ease; }
+.is-sorting > .is-dragging {
+  transition: none;
+  z-index: 10;
+  box-shadow: var(--shadow-lift);
+  border-radius: var(--radius);
+}
+.is-sorting .project-card:hover { transform: none; box-shadow: none; }
+
+body.is-grabbing { cursor: grabbing; user-select: none; -webkit-user-select: none; }
+body.is-grabbing * { cursor: grabbing; }
+
+/* h2 with an icon button beside it */
+.h2-row { display: flex; align-items: center; gap: var(--sp-3); }
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-muted);
+  transition: color 0.18s ease, background-color 0.18s ease;
+}
+.icon-btn:hover, .icon-btn:focus-visible { color: var(--text-strong); background: var(--surface-alt); }
+.icon-btn[hidden] { display: none; }   /* the author display would otherwise beat the hidden attribute */
+.icon-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media print { .grip, .icon-btn { display: none; } }
+
+
+/* --- 7.19 Easter-egg mode --------------------------------------------------
+   The ⋮⋮ grips never show: they exist for keyboard and screen-reader users
+   only. The title keeps its selection frame at rest — it is the brand device
+   from the cover slide — and its handles stay hidden until someone hovers,
+   tabs to them, or taps. While another block is being dragged, the title
+   yields the selection: only one thing is ever selected at a time. */
+
+.grip { opacity: 0; pointer-events: none; }
+.grip:focus { opacity: 1; pointer-events: auto; }   /* :focus, not :focus-visible — a grip
+     can only ever be reached with Tab, since it takes no pointer events at rest */
+
+/* The frame. A border on a pseudo-element, not an outline: an outline would
+   follow the card's rounded corners, and a selection frame is square.
+
+   It appears on hover — the only hint the page gives that a block can be
+   moved — and stays on while the block is in flight. Hover only where there
+   is a real pointer: on a touch screen :hover sticks after a tap and would
+   strand a frame on the last block touched. No handles here; those belong to
+   the name on the cover, which is presented as a selected object. */
+[data-sortable] > .is-dragging { overflow: visible; }
+
+[data-sortable] > .is-dragging::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border: 2px solid var(--select);
+  border-radius: 0;
+}
+
+/* The same frame at rest, on hover. Separate block, not a second selector on
+   the rule above: the media query has to wrap the hover half only. */
+@media (hover: hover) {
+  [data-sortable] > *:hover { overflow: visible; }
+
+  [data-sortable] > *:hover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    border: 2px solid var(--select);
+    border-radius: 0;
+  }
+}
+
+[data-sortable] > .is-dragging::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  z-index: 3;
+  pointer-events: none;
+  background-image:
+    /* inner white fill */
+    linear-gradient(var(--sel-handle), var(--sel-handle)),
+    linear-gradient(var(--sel-handle), var(--sel-handle)),
+    linear-gradient(var(--sel-handle), var(--sel-handle)),
+    linear-gradient(var(--sel-handle), var(--sel-handle)),
+    /* outer 2px frame */
+    linear-gradient(var(--select), var(--select)),
+    linear-gradient(var(--select), var(--select)),
+    linear-gradient(var(--select), var(--select)),
+    linear-gradient(var(--select), var(--select));
+  background-size: 6px 6px, 6px 6px, 6px 6px, 6px 6px, 10px 10px, 10px 10px, 10px 10px, 10px 10px;
+  background-repeat: no-repeat;
+  background-position:
+    left 2px top 2px, right 2px top 2px, left 2px bottom 2px, right 2px bottom 2px,
+    left top, right top, left bottom, right bottom;
+}
+
+/* the title: frame always, handles on demand */
+.selbox { transition: outline-color 0.2s ease; }
+/* The title's handles are always on — the name is presented as a selected
+   object, the way it is on the cover slide. They only step back while another
+   block is being dragged (see body.is-grabbing below), so that just one thing
+   ever reads as selected. */
+.selbox__handle { opacity: 1; pointer-events: auto; transition: opacity 0.2s ease; }
+
+/* something else is selected — the title steps back */
+body.is-grabbing .selbox { outline-color: transparent; }
+body.is-grabbing .selbox__handle { opacity: 0; pointer-events: none; }
+
+
+/* --- 7.20 Screenshot stack ------------------------------------------------
+   Three product windows overlapping in one frame, echoing the Final Design
+   slide. Below 48rem the overlap is dropped entirely — three layered
+   screenshots on a phone would be unreadable — and it becomes a plain
+   vertical stack with captions.
+
+   ┌──────────────────────────────────────────────────────────────────────┐
+   │  TO PLAY WITH THE LAYOUT, EDIT ONLY THE BLOCK MARKED "composition".   │
+   │  Nine numbers: x (from the left edge), y (from the top) and w (width) │
+   │  for each window, all percentages of the frame. --shots-ratio sets    │
+   │  the frame's own proportions. Everything else follows.                │
+   │                                                                       │
+   │  Fastest way to dial it in: open the page, right-click the stack →    │
+   │  Inspect, select the .shots element, and drag the numbers in the      │
+   │  Styles panel — the windows move live. Then copy the values here.     │
+   │  (Remember ⌘⇧R after editing the file: the CSS caches hard.)          │
+   └──────────────────────────────────────────────────────────────────────┘ */
+
+.shots { display: flex; flex-direction: column; gap: var(--sp-3); }
+
+.shots__item { margin: 0; }
+.shots__item img { width: 100%; border-radius: var(--radius-sm); }
+.shots__caption { display: block; padding-top: var(--sp-2); }
+
+@media (min-width: 48rem) {
+  .shots {
+    /* ── composition ─────────────────────────────────────────────────── */
+    --shots-ratio: 940 / 887;   /* the frame's proportions */
+
+    --dashboard-x:  0%;   --dashboard-y: 32.1%;  --dashboard-w: 62.4%;
+    --home-x:    16.8%;   --home-y:          0;  --home-w:      80.2%;
+    --editor-x:  42.6%;   --editor-y:    50.6%;  --editor-w:    74.7%;
+    /* ─────────────────────────────────────────────────────────────────── */
+
+    display: block;
+    position: relative;
+    aspect-ratio: var(--shots-ratio);
+    overflow: hidden;    /* clips the last window, as the slide edge does */
+  }
+
+  .shots__item {
+    position: absolute;
+    margin: 0;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+
+    /* A hairline ring plus one tight drop. Three wide, soft shadows stacked
+       on top of each other pooled into a dark smudge where the windows
+       overlap; a ring separates the layers without accumulating. */
+    box-shadow: 0 0 0 1px rgb(10 8 5 / 10%), 0 6px 14px -8px rgb(10 8 5 / 32%);
+  }
+  .shots__item img { display: block; border-radius: 0; }
+
+  .shots__item--dashboard { left: var(--dashboard-x); top: var(--dashboard-y); width: var(--dashboard-w); z-index: 1; }
+  .shots__item--home      { left: var(--home-x);      top: var(--home-y);      width: var(--home-w);      z-index: 2; }
+  .shots__item--editor    { left: var(--editor-x);    top: var(--editor-y);    width: var(--editor-w);    z-index: 3; }
+
+  .shots__caption { display: none; }   /* the windows speak for themselves once composed */
+}
+
+
+/* --- 7.21 Polaroid wall ---------------------------------------------------
+   The CIID slides tell their story with instant photos scattered across the
+   canvas: white border, a handwritten caption, every one tilted a little.
+   Here they keep the tilt and the caption, but sit on a grid — a scatter
+   that overlaps cannot survive a 375px phone, and the tilt alone carries
+   the feeling.
+
+   ┌──────────────────────────────────────────────────────────────────────┐
+   │  TO RE-TILT A PHOTO, EDIT ITS --rot IN THE HTML, not this file:       │
+   │      <figure class="polaroid" style="--rot:-2.5deg">                  │
+   │  Small numbers only. Past about 4deg the grid starts to look untidy   │
+   │  rather than casual, and the corners eat into the neighbour.          │
+   └──────────────────────────────────────────────────────────────────────┘ */
+
+.wall {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+  align-items: start;
+  padding-inline: var(--sp-2);   /* room for the tilted corners */
+}
+
+/* The six AI tools scattered around the Outcome slide. They are supporting
+   evidence, not hero images, and the exports are only 240px wide — the cap
+   keeps each card near its natural size instead of upscaling it to mush. */
+.wall--tools { gap: var(--sp-3); }
+@media (min-width: 40rem) {
+  .wall--tools { grid-template-columns: repeat(3, 1fr); max-width: 48rem; }
+}
+
+/* one photo on its own, at the size of the column it is given */
+.wall--single { grid-template-columns: 1fr; }
+
+.polaroid {
+  margin: 0;
+  padding: var(--sp-2);
+  background: var(--surface-alt);
+  border-radius: var(--radius-sm);
+  rotate: var(--rot, 0deg);
+
+  /* a hairline ring plus one tight drop — the same pair as .shots__item, so
+     tilted cards that touch never pool their shadows into a smudge */
+  box-shadow: 0 0 0 1px rgb(10 8 5 / 8%), 0 8px 18px -10px rgb(10 8 5 / 32%);
+}
+
+.polaroid img {
+  display: block;
+  width: 100%;
+  border-radius: 2px;
+  background: var(--surface);   /* the frame while the photo loads */
+}
+
+.polaroid__caption {
+  display: block;
+  padding-top: var(--sp-2);
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* the deck's pencilled asides — "the office ↗", 'some of the "objects" ↗' */
+.wall__note { display: block; margin-top: var(--sp-3); }
+.wall__note--end   { text-align: right; }
+.wall__note--above { margin: var(--sp-6) 0 var(--sp-3); }
+
+/* --- 7.22 Numbered bullets ------------------------------------------------
+   .bullets with a counter instead of the dash, for the interaction loop. */
+
+.bullets--num { counter-reset: step; }
+.bullets--num li { padding-left: 1.9em; }
+.bullets--num li::before {
+  counter-increment: step;
+  content: counter(step) '.';
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  color: var(--text-muted);
+  top: 0.25em;
+}
