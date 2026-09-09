@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Bio &amp; CV — Francesco Lauriola</title>
+<meta name="description" content="Francesco Lauriola — UX Designer in Turin. Five years at Arduino, now Qualcomm, leading design for Arduino Cloud. Experience, education, skills and downloadable CV.">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Bio &amp; CV — Francesco Lauriola">
+<meta property="og:description" content="UX Designer. Five years at Arduino, now Qualcomm, leading design for Arduino Cloud.">
+<meta property="og:image" content="assets/img/portrait.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F8F3E8">
+<meta name="theme-color" content="#0A0805" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+
+<!-- shared header + footer, defined once in assets/js/components.js.
+     Not deferred: the custom elements must exist before the parser reaches them. -->
+<script src="assets/js/site.config.js"></script>
+<script src="assets/js/components.js"></script>
+</head>
+
+<body data-page="bio">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="arrow" viewBox="0 0 12 12">
+    <path d="M3 9 9 3M4.5 3H9v4.5" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<site-header></site-header>
+
+<!-- Same three links for browsers with JavaScript off, where <site-header>
+     stays empty. Keep in sync with the NAV array in assets/js/components.js —
+     the only thing on the site that is still duplicated per page. -->
+<noscript>
+  <nav class="nav nav--fallback" aria-label="Main">
+    <a class="nav__link" data-page="home"      href="index.html">home</a>
+    <a class="nav__link" data-page="portfolio" href="portfolio.html">portfolio</a>
+    <a class="nav__link" data-page="bio"       href="bio.html">bio / cv</a>
+  </nav>
+</noscript>
+
+<main id="main">
+
+  <!-- Bio --------------------------------------------------------------- -->
+  <section class="page-head">
+    <div class="container">
+      <div class="meta meta--reverse">
+        <span class="mono meta__label">
+          page title <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </span>
+        <h1 class="h2">Bio &amp; CV</h1>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;border-top:0">
+    <div class="container split split--even">
+
+      <figure class="portrait">
+        <img src="assets/img/portrait.jpg" width="1600" height="1067"
+             alt="Backlit profile portrait of Francesco Lauriola in silhouette against a warm amber background.">
+      </figure>
+
+      <!-- First-person draft, written from the facts in the CV. Edit freely —
+           this is the one place on the site that should sound like you. -->
+      <div class="prose">
+        <p>
+          I'm Francesco, a UX designer based in Turin. I've spent five years at Arduino — now part of Qualcomm — going from intern to the reference designer
+          of <strong>Arduino Cloud</strong>, designing across desktop, mobile and the tools
+          that sit next to the hardware.
+        </p>
+        <p>
+          I like complex ecosystems: products where hardware, software and a community of makers
+          meet, and where a small design team has to make choices that scale. Lately that has
+          meant bringing AI into the workflow — prototypes built in hours with Bolt and Claude
+          Code, so decisions get tested instead of debated.
+        </p>
+        <p>
+          Before product design I studied digital communication design at IAAD, and I still
+          enjoy teaching: for a year I was a UI teaching assistant at Boolean, reviewing student
+          work and running critiques.
+        </p>
+
+        <!-- CV DOWNLOAD — commented out, not deleted: the PDF is not in this repository.
+             Drop a copy you are happy to publish at
+             assets/docs/Francesco-Lauriola-CV-2026.pdf and uncomment this block.
+        <div class="contact-list">
+          <a class="btn" href="assets/docs/Francesco-Lauriola-CV-2026.pdf" download>
+            download the CV (PDF) <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg>
+          </a>
+        </div>
+        -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- verbatim:start ----------------------------------------------------
+       Everything down to verbatim:end is HISTORY: job titles as they were held,
+       employers, dates and places. The sync helper skips this block, so a
+       change to the current role or city in site.config.js can never rewrite the
+       past. Edit it by hand, or not at all. -->
+  <!-- Experience -------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">
+            2021 – present <!-- <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg> -->
+          </span>
+          <h2 class="h2">Experience</h2>
+        </div>
+      </div>
+
+      <article class="cv-entry">
+        <div class="cv-entry__when">Nov 2025 — present<br>Remote</div>
+        <div>
+          <h3 class="h3">UX/UI Designer</h3>
+          <p class="small">Qualcomm (Arduino)</p>
+          <ul class="cv-entry__list">
+            <li>Reference designer of the Arduino Cloud application, desktop and mobile.</li>
+            <li>Design, coordinate delivery and facilitate stakeholder alignment across a three-designer team.</li>
+            <li>Integrating Claude Code via the Figma MCP to improve the design workflow in exploration and prototyping.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="cv-entry">
+        <div class="cv-entry__when">Apr 2025 — Oct 2025<br>Turin, hybrid</div>
+        <div>
+          <h3 class="h3">Product Designer</h3>
+          <p class="small">Arduino</p>
+          <ul class="cv-entry__list">
+            <li>Integrated AI into the design workflow for rapid prototyping: built a working feature prototype in two hours, accelerating approval.</li>
+            <li>Redesigned the Arduino Cloud Thing page — the core of the platform — and ran testing sessions to validate it.</li>
+            <li>Designed cross-platform experiences across Arduino Cloud, Arduino IoT Remote and App Lab.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="cv-entry">
+        <div class="cv-entry__when">Jan 2024 — Mar 2025<br>Turin, hybrid</div>
+        <div>
+          <h3 class="h3">Associate Product Designer</h3>
+          <p class="small">Arduino</p>
+          <ul class="cv-entry__list">
+            <li>Redesigned the Arduino Cloud Dashboards section. Research across ~700k Hotjar sessions, desk research, benchmarking and forum shadowing.</li>
+            <li>Validated through a post-launch survey: 62% CSAT.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="cv-entry">
+        <div class="cv-entry__when">Apr 2022 — Dec 2023<br>Turin, hybrid</div>
+        <div>
+          <h3 class="h3">Jr. Product Designer</h3>
+          <p class="small">Arduino</p>
+          <ul class="cv-entry__list">
+            <li>Designed the Arduino R4 LED Matrix tool, contributing to its HTML &amp; CSS implementation.</li>
+            <li>Designed cross-platform (web + mobile) experiences on the former Arduino IoT Cloud app.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="cv-entry">
+        <div class="cv-entry__when">Sep 2021 — Mar 2022<br>Turin, hybrid</div>
+        <div>
+          <h3 class="h3">UX Design Intern</h3>
+          <p class="small">Arduino</p>
+        </div>
+      </article>
+
+      <article class="cv-entry">
+        <div class="cv-entry__when">Jun 2024 — Jul 2025<br>Remote</div>
+        <div>
+          <h3 class="h3">UI Teaching Assistant</h3>
+          <p class="small">Boolean</p>
+          <ul class="cv-entry__list">
+            <li>Supported UX/UI students in developing a design-thinking method and technical skills, through lectures, critiques and project reviews.</li>
+          </ul>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- Education --------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">
+            2018 – 2022 <!-- <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg> -->
+          </span>
+          <h2 class="h2">Education</h2>
+        </div>
+      </div>
+
+      <article class="cv-entry">
+        <div class="cv-entry__when">Oct 2022<br>Como, Italy</div>
+        <div>
+          <h3 class="h3">"AI in everyday objects" workshop</h3>
+          <p class="small">Copenhagen Institute of Interaction Design (CIID)</p>
+        </div>
+      </article>
+
+      <article class="cv-entry">
+        <div class="cv-entry__when">Oct 2018 — Jul 2021<br>Turin, Italy</div>
+        <div>
+          <h3 class="h3">Bachelor in Digital Communication Design</h3>
+          <p class="small">IAAD — final grade 110/110</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- verbatim:end -->
+
+  <!-- Skills ------------------------------------------------------------ -->
+  <section class="section">
+    <div class="container reveal">
+
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">
+            what I work with <!-- <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg> -->
+          </span>
+          <h2 class="h2">Skills</h2>
+        </div>
+      </div>
+
+      <div class="skill-cols">
+        <div>
+          <span class="mono meta__label">main skills <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <ul class="skill-list">
+            <li>UX &amp; Interaction Design</li>
+            <li>UX Research &amp; Testing</li>
+            <li>Prototyping</li>
+            <li>AI-assisted Design &amp; Prototyping</li>
+            <li>Design Systems</li>
+            <li>Presentation</li>
+            <li>Communication with developers &amp; stakeholders</li>
+          </ul>
+        </div>
+        <div>
+          <span class="mono meta__label">other skills <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <ul class="skill-list">
+            <li>Marketing</li>
+            <li>Art Direction</li>
+            <li>HTML &amp; CSS</li>
+            <li>Arduino Prototyping</li>
+            <li>Sound Design</li>
+          </ul>
+        </div>
+        <div>
+          <span class="mono meta__label">software <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <ul class="skill-list">
+            <li>Figma (incl. Make &amp; Slides)</li>
+            <li>Claude / Claude Code (Figma MCP)</li>
+            <li>Bolt.ai</li>
+            <li>Hotjar, Clarity</li>
+            <li>Usertesting.com, Useberry</li>
+            <li>Adobe suite, Google suite</li>
+            <li>Reaper, Blender</li>
+          </ul>
+        </div>
+        <div>
+          <span class="mono meta__label">languages <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <ul class="skill-list">
+            <li>Italian — native</li>
+            <li>English — IELTS 7.5, C1</li>
+            <li>Spanish — basic understanding</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact ----------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <!-- <span class="mono meta__label">
+            contacts <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+          </span> -->
+          <h2 class="h2">Get in touch</h2>
+        </div>
+      </div>
+
+      <div class="contact-list">
+        <a class="out" href="mailto:mail@francescolauriola.com">
+          mail@francescolauriola.com <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </a>
+        <a class="out" href="https://www.linkedin.com/in/francesco-lauriola/" target="_blank" rel="noopener">
+          linkedin <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<site-footer></site-footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

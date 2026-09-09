@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Arduino LED Matrix Editor — Francesco Lauriola</title>
+<meta name="description" content="Case study: designing the Arduino LED Matrix Editor for the UNO R4 WiFi in a few days — from lightweight interviews to a live preview that streams every edit to the board.">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Arduino LED Matrix Editor — case study">
+<meta property="og:description" content="A drawing tool for the UNO R4's LED matrix, shipped in days, with a live preview across the software/hardware boundary.">
+<meta property="og:image" content="assets/img/projects/led-matrix-editor.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F8F3E8">
+<meta name="theme-color" content="#0A0805" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+
+<!-- shared header + footer, defined once in assets/js/components.js.
+     Not deferred: the custom elements must exist before the parser reaches them. -->
+<script src="assets/js/site.config.js"></script>
+<script src="assets/js/components.js"></script>
+</head>
+
+<body data-page="portfolio">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="arrow" viewBox="0 0 12 12">
+    <path d="M3 9 9 3M4.5 3H9v4.5" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<site-header></site-header>
+
+<!-- Same three links for browsers with JavaScript off, where <site-header>
+     stays empty. Keep in sync with the NAV array in assets/js/components.js —
+     the only thing on the site that is still duplicated per page. -->
+<noscript>
+  <nav class="nav nav--fallback" aria-label="Main">
+    <a class="nav__link" data-page="home"      href="index.html">home</a>
+    <a class="nav__link" data-page="portfolio" href="portfolio.html">portfolio</a>
+    <a class="nav__link" data-page="bio"       href="bio.html">bio / cv</a>
+  </nav>
+</noscript>
+
+<main id="main">
+
+  <!-- Cover ------------------------------------------------------------ -->
+  <section class="case-head">
+    <div class="container">
+      <div class="meta meta--reverse">
+        <span class="mono meta__label">
+          project 01 of 04 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </span>
+        <h1 class="display case-head__title">Led Matrix Editor</h1>
+      </div>
+      <p class="case-head__sub">Arduino Labs</p>
+
+      <div class="case-meta">
+        <div class="meta">
+          <span class="mono meta__label">company <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">Arduino</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">date <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">Jun 2023</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">team <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">1 Des + 1 Dev</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">ownership <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">UX, UI, IxD</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">helped with <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">HTML &amp; CSS</span>
+        </div>
+      </div>
+
+      <div class="case-head__actions">
+        <a class="btn" href="https://ledmatrix-editor.arduino.cc/" target="_blank" rel="noopener">
+          try the editor <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;border-top:0;">
+    <div class="container">
+      <figure class="figure figure--inset reveal">
+        <img src="assets/img/projects/led-matrix/LED-matrix-ui.gif" width="960" height="548"
+             alt="The LED Matrix Editor: a 12×8 grid with brush, eraser, undo and redo tools on the left, and a frame timeline at the bottom.">
+      </figure>
+    </div>
+  </section>
+
+  <!-- Goal -------------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">01 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Goal</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            With the new Arduino <strong>UNO R4 WiFi</strong>, users can treat the built-in
+            <strong>LED Matrix</strong> as an extra interaction point, but code arrays are
+            intimidating for beginners. My goal was to build a tool that lets users design
+            animations naturally, by <strong>drawing</strong> on an 8×12 matrix, then
+            <strong>exporting the code</strong> ready to be uploaded to the board.
+          </p>
+          <p>
+            It needed to be both easy to use and <strong>easy to build</strong>: the R4 launch
+            was right around the corner, and the time and effort we could allocate were really small.
+          </p>
+          <p>
+            So, within a few days of work, we shipped the <strong>LED Matrix Editor</strong>.
+            My part: taking a <strong>raw technical tool</strong>, and turning it into a
+            <strong>real product</strong>.
+          </p>
+        </div>
+        <figure class="figure figure--inset">
+          <video class="video" controls preload="none" playsinline width="720" height="1280"
+                 poster="assets/img/projects/led-matrix/live-preview-poster.jpg"
+                 style="max-height:28rem;margin-inline:auto;width:auto">
+            <source src="assets/img/projects/led-matrix/Live-preview-no-audio.MP4" type="video/mp4">
+            Your browser can't play this video.
+            <a href="assets/img/projects/led-matrix/Live-preview.MP4">Download it</a> instead.
+          </video>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Desk research ----------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">02 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Desk Research</h2>
+        </div>
+      </div>
+      <div class="prose">
+        <p>
+          Formal research didn't fit the timeline, but, since good designs require data and
+          knowledge, I ran <strong>lightweight interviews</strong> with colleagues who matched our
+          <strong>user archetypes</strong>.
+        </p>
+        <p>Talking with them I've learned:</p>
+        <ul class="bullets">
+          <li>What similar <strong>software</strong> they've used (to then conduct some benchmarking)</li>
+          <li>The main problems they were facing during the <strong>design</strong> of the animation</li>
+          <li>Their main problems with the <strong>coding</strong> phase</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Design & Development ---------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">03 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Design &amp; Development</h2>
+        </div>
+      </div>
+      <div class="prose">
+        <p>
+          Once we agreed on the core features, I started structuring the IA, then refined it into a
+          high-fidelity wireframe. Since design and development were running in
+          <strong>parallel</strong>, we made adjustments along the way,
+          <strong>collaboratively</strong> addressing front-end issues.
+        </p>
+      </div>
+      <figure class="figure figure--inset" style="margin-top:var(--sp-5)">
+        <img src="assets/img/projects/led-matrix/design-process.png" width="1570" height="680" loading="lazy"
+             alt="From a pen sketch of the layout, to a grey-box wireframe with toolbar, matrix, actions and timeline, to the high-fidelity screen with real-time code generation.">
+        <span class="mono figure__caption">sketch → wireframe → hi-fi, in the same week</span>
+      </figure>
+      <div class="prose" style="margin-top:var(--sp-5)">
+        <p>
+          Given the extremely close deadline, I also wrote the <strong>HTML &amp; CSS</strong> for
+          the documentation drawer. A small feature that I considered important, since we had to make
+          some <strong>trade off</strong> to <strong>streamline development</strong>, and we had lost
+          <strong>affordance</strong> on some features.
+        </p>
+      </div>
+      <figure class="figure figure--inset" style="margin-top:var(--sp-5)">
+        <img src="assets/img/projects/led-matrix/docs-drawer.png" width="964" height="555" loading="lazy"
+             alt="The editor with its documentation drawer open on the right, listing project, canvas and timeline shortcuts; the browser devtools show the drawer's CSS.">
+        <span class="mono figure__caption">the documentation drawer, and its CSS</span>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Beyond the screen ------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">04 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Beyond the screen</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            The digital canvas is good, but ultimately the most important UI for our users
+            <strong>was on the hardware</strong>.
+          </p>
+          <p>
+            A very crucial feature was the <strong>live preview</strong>: connect the UNO R4 over
+            USB, upload a simple sketch, and the editor <strong>streams every edit</strong> to the
+            physical board — what you draw in the browser lights up on the LED matrix,
+            <strong>as you draw it</strong>.
+          </p>
+          <p>
+            No compile-and-upload loop — <strong>immediate, real feedback</strong> across the
+            software/hardware boundary.
+          </p>
+        </div>
+        <div class="figure-grid">
+          <figure class="figure figure--inset">
+            <video class="video" controls preload="none" playsinline width="360" height="640"
+                   poster="assets/img/projects/led-matrix/live-1-poster.jpg">
+              <source src="assets/video/led-matrix-live-1.mp4" type="video/mp4">
+              Your browser can't play this video. <a href="assets/video/led-matrix-live-1.mp4">Download it</a> instead.
+            </video>
+            <span class="mono figure__caption">drawing in the browser…</span>
+          </figure>
+          <figure class="figure figure--inset">
+            <video class="video" controls preload="none" playsinline width="360" height="640"
+                   poster="assets/img/projects/led-matrix/live-2-poster.jpg">
+              <source src="assets/video/led-matrix-live-2.mp4" type="video/mp4">
+              Your browser can't play this video. <a href="assets/video/led-matrix-live-2.mp4">Download it</a> instead.
+            </video>
+            <span class="mono figure__caption">…lights up on the board</span>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- After launch ------------------------------------------------------ -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">05 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">After Launch</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            Since launch, makers have built <strong>tutorials</strong> and <strong>custom tools</strong>
+            referencing this editor.
+          </p>
+          <p>With more time on the project, I would definitely:</p>
+          <ul class="bullets">
+            <li>Better consider the "Maker" archetype in the research — some decisions leaned too much toward users skilled with graphic tools.</li>
+            <li>Enhance the <strong>affordance</strong> of shortcuts and other useful features.</li>
+            <li>Bring all interactions to <strong>tablet</strong> devices — only explored as a <strong>concept</strong>.</li>
+          </ul>
+          <p>If I could work on <strong>phase 2</strong>, I would:</p>
+          <ul class="bullets">
+            <li>Add Selection &amp; Text input tools</li>
+            <li>Add a setting to customize canvas size</li>
+            <li>Create a simplified widget for <strong>Arduino Cloud</strong></li>
+          </ul>
+        </div>
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/led-matrix/next-concepts.png" width="680" height="870" loading="lazy"
+               alt="Four concept screens of the editor: move-pixel arrows, a play menu with loop, frame duration applied to all frames, and a larger canvas.">
+          <span class="mono figure__caption">phase-2 concepts</span>
+        </figure>
+      </div>
+
+      <span class="mono runfoot">Arduino Labs | LED Matrix Editor</span>
+    </div>
+  </section>
+
+  <!-- Prev / next ------------------------------------------------------- -->
+  <div class="container">
+    <nav class="case-nav" aria-label="Other projects">
+      <a class="out" href="portfolio.html">
+        <svg class="arrow" aria-hidden="true" style="transform:scaleX(-1)"><use href="#arrow"/></svg> all projects
+      </a>
+      <a class="out" href="dashboards-redesign.html">
+        next: Arduino Cloud — Dashboards Redesign <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+      </a>
+    </nav>
+  </div>
+
+</main>
+
+<site-footer></site-footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

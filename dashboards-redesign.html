@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Arduino Cloud — Dashboards Redesign — Francesco Lauriola</title>
+<meta name="description" content="Case study: redesigning Arduino Cloud Dashboards. Research across ~700k Hotjar sessions, four modalities reduced to two, and the first structured satisfaction measurement for the product.">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Arduino Cloud — Dashboards Redesign — case study">
+<meta property="og:description" content="Separating building from interacting: four modalities down to two, validated with the product's first CSAT baseline.">
+<meta property="og:image" content="assets/img/projects/dashboards-redesign.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F8F3E8">
+<meta name="theme-color" content="#0A0805" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+
+<!-- shared header + footer, defined once in assets/js/components.js.
+     Not deferred: the custom elements must exist before the parser reaches them. -->
+<script src="assets/js/site.config.js"></script>
+<script src="assets/js/components.js"></script>
+</head>
+
+<body data-page="portfolio">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="arrow" viewBox="0 0 12 12">
+    <path d="M3 9 9 3M4.5 3H9v4.5" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<site-header></site-header>
+
+<!-- Same three links for browsers with JavaScript off, where <site-header>
+     stays empty. Keep in sync with the NAV array in assets/js/components.js —
+     the only thing on the site that is still duplicated per page. -->
+<noscript>
+  <nav class="nav nav--fallback" aria-label="Main">
+    <a class="nav__link" data-page="home"      href="index.html">home</a>
+    <a class="nav__link" data-page="portfolio" href="portfolio.html">portfolio</a>
+    <a class="nav__link" data-page="bio"       href="bio.html">bio / cv</a>
+  </nav>
+</noscript>
+
+<main id="main">
+
+  <!-- Cover ------------------------------------------------------------ -->
+  <section class="case-head">
+    <div class="container">
+      <div class="meta meta--reverse">
+        <span class="mono meta__label">
+          project 02 of 04 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </span>
+        <h1 class="display case-head__title">Dashboards Redesign</h1>
+      </div>
+      <p class="case-head__sub">Arduino Cloud</p>
+
+      <div class="case-meta">
+        <div class="meta">
+          <span class="mono meta__label">company <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">Arduino</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">date <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">2024</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">team <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">2 Des + 4 Dev</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">ownership <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">UX &amp; UI</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Context ----------------------------------------------------------- -->
+  <section class="section" style="padding-top:0;border-top:0">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">01 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Context</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            <strong>Arduino Cloud</strong> is a powerful platform that enables users to connect,
+            program, and monitor their IoT projects effortlessly.
+          </p>
+          <p>
+            <strong>Dashboards</strong> are the face of Arduino Cloud, the primary interface users
+            interact with.
+          </p>
+          <p>
+            Yet, while the platform itself has evolved, the UX/UI of Dashboards had remained
+            unchanged for years.
+          </p>
+          <p>It was time to finally give them some well-deserved love.</p>
+        </div>
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/dashboards-redesign/context-before-redesign.png" width="952" height="616" loading="lazy"
+               alt="The old Dashboards page: four small widgets — status, percentage, switch and pushbutton — beside a yellow sticky note explaining markdown formatting.">
+          <span class="mono figure__caption">before redesign</span>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Goal -------------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">02 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Goal</h2>
+        </div>
+      </div>
+      <div class="prose">
+        <p>
+          We needed to <strong>simplify</strong> the existing interface, reduce the complexity shown
+          to users, while, at the same time, set a strong <strong>baseline</strong> for
+          <strong>future scalability</strong> and evolution of the product.
+        </p>
+      </div>
+      <div class="figure-grid" style="margin-top:var(--sp-5)">
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/dashboards-redesign/goal-analysis-hotjar.png" width="1125" height="622" loading="lazy"
+               alt="Hotjar session feedback collected on the Dashboards area, shown as annotated comment cards.">
+          <span class="mono figure__caption">recordings &amp; in-product feedback</span>
+        </figure>
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/dashboards-redesign/goal-analysis-forum.png" width="1049" height="698" loading="lazy"
+               alt="Arduino forum threads about Dashboards and widgets, with user complaints highlighted.">
+          <span class="mono figure__caption">forum shadowing</span>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Before / after ---------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">03 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Before &amp; after</h2>
+        </div>
+      </div>
+      <figure class="figure figure--inset">
+        <img src="assets/img/projects/dashboards-redesign/redesign-old.png" width="1660" height="1040" loading="lazy"
+             alt="The old Dashboards UI: a teal top bar, an edit toolbar, and four widgets on a large empty canvas.">
+        <span class="mono figure__caption">old UI</span>
+      </figure>
+      <figure class="figure figure--inset" style="margin-top:var(--sp-5)">
+        <img src="assets/img/projects/dashboards-redesign/redesign-new.png" width="1920" height="1080" loading="lazy"
+             alt="The redesigned Dashboards UI: a dense grid of value, switch, gauge and chart widgets with a floating selection toolbar and a warehouse floor plan.">
+        <span class="mono figure__caption">new UI</span>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Research ---------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">04 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Research</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            To reach our goal the first step has been to understand what could be improved and why.
+          </p>
+          <p>Research was conducted on both new and recurring users, globally, on various levels:</p>
+          <ul class="bullets">
+            <li>Desk Research on previous <strong>Usability Reports</strong></li>
+            <li><strong>Task Analysis</strong> during on-going user testing</li>
+            <li><strong>Hotjar</strong> Recordings and Heat maps analysis (≈700k sessions over the previous 6 months)</li>
+            <li><strong>1 Expert review</strong> of the whole UJ (internal)</li>
+            <li><strong>Benchmark</strong> on 4 main competitors</li>
+            <li>Shadowing on Arduino <strong>Forum</strong> (conversations about Dashboards or widgets)</li>
+          </ul>
+        </div>
+        <div class="figure-grid" style="grid-template-columns:1fr">
+          <figure class="figure figure--inset">
+            <img src="assets/img/projects/dashboards-redesign/research-1.png" width="839" height="386" loading="lazy"
+                 alt="The research toolkit: Hotjar, Usertesting.com, the Arduino forum, Google Analytics, Chorus and Backend BI.">
+          </figure>
+          <figure class="figure figure--inset">
+            <img src="assets/img/projects/dashboards-redesign/research-2.png" width="958" height="287" loading="lazy"
+                 alt="A spreadsheet of Hotjar recordings tagged and scored during task analysis.">
+          </figure>
+          <figure class="figure figure--inset">
+            <img src="assets/img/projects/dashboards-redesign/research-3.1.png" width="973" height="217" loading="lazy"
+                 alt="A heat map over the Dashboards top bar showing where users click most.">
+          </figure>
+          <figure class="figure figure--inset">
+            <img src="assets/img/projects/dashboards-redesign/research-3.2.png" width="989" height="235" loading="lazy"
+                 alt="A second heat map of the same bar after the layout change, with clicks concentrated on fewer controls.">
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Evolution --------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">05 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Evolution</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            After the research, we decided to focus on separating the <strong>2 core moments</strong>
+            of the user journey: <strong>building</strong> and <strong>interacting</strong>.
+          </p>
+          <p>
+            We <strong>reduced modalities</strong> from 4 to 2, also redesigning the switch
+            interaction to improve its <strong>clarity</strong> &amp; <strong>predictability</strong>.
+          </p>
+          <p>Finally, we opted for a <strong>progressive disclosure</strong> approach:</p>
+          <ul class="bullets">
+            <li>In View mode, only widgets are visible</li>
+            <li>In Edit mode, a toolbar with two states was designed to be <strong>future-proof</strong>. Ready to be the home of more advanced actions as the product evolves.</li>
+          </ul>
+        </div>
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/dashboards-redesign/Evolution.png" width="926" height="975" loading="lazy"
+               alt="Edit mode with the widget picker open, above View mode showing only the widgets on a clean canvas.">
+          <span class="mono figure__caption">edit mode, then view mode</span>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Validation -------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">06 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Validation</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            Our goal was to minimize distractions and deliver a quick, effective UX, while improving
+            coherence with the new Cloud ecosystem.
+          </p>
+          <p>
+            Validation ran in two ways: an <strong>internal testing session</strong>, and a Hotjar
+            survey using the <strong>CSAT framework</strong> with open-ended questions, to spot
+            issues and collect <strong>real user feedback</strong> directly in the product.
+          </p>
+          <p>
+            This was the <strong>first structured satisfaction measurement</strong> for our product —
+            it now serves as the <strong>baseline</strong> to track every future iteration against.
+          </p>
+        </div>
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/dashboards-redesign/validation.png" width="914" height="863" loading="lazy"
+               alt="The CSAT survey result: an average score of 3.9 out of 5, surrounded by tagged positive open-ended answers and a distribution bar chart.">
+          <span class="mono figure__caption">average score 3.9 / 5</span>
+        </figure>
+      </div>
+
+      <span class="mono runfoot">Arduino Cloud | Dashboards Redesign</span>
+    </div>
+  </section>
+
+  <!-- Prev / next ------------------------------------------------------- -->
+  <div class="container">
+    <nav class="case-nav" aria-label="Other projects">
+      <a class="out" href="portfolio.html">
+        <svg class="arrow" aria-hidden="true" style="transform:scaleX(-1)"><use href="#arrow"/></svg> all projects
+      </a>
+      <a class="out" href="ciid.html">
+        next: CIID — AI for everyday life <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+      </a>
+    </nav>
+  </div>
+
+</main>
+
+<site-footer></site-footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

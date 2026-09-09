@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Arduino Cloud — Dark mode UI — Francesco Lauriola</title>
+<meta name="description" content="Case study: the Arduino Cloud dark mode. Not inverting colours — standardising surfaces, bringing contrast up to guideline compliance, and building a system maintainable without a dedicated design-system team.">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Arduino Cloud — Dark mode UI — case study">
+<meta property="og:description" content="Standardised surfaces, contrast compliance, and a system that scales without a design-system team.">
+<meta property="og:image" content="assets/img/projects/dark-mode.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F8F3E8">
+<meta name="theme-color" content="#0A0805" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+
+<!-- shared header + footer, defined once in assets/js/components.js.
+     Not deferred: the custom elements must exist before the parser reaches them. -->
+<script src="assets/js/site.config.js"></script>
+<script src="assets/js/components.js"></script>
+</head>
+
+<body data-page="portfolio">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="arrow" viewBox="0 0 12 12">
+    <path d="M3 9 9 3M4.5 3H9v4.5" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<site-header></site-header>
+
+<!-- Same three links for browsers with JavaScript off, where <site-header>
+     stays empty. Keep in sync with the NAV array in assets/js/components.js —
+     the only thing on the site that is still duplicated per page. -->
+<noscript>
+  <nav class="nav nav--fallback" aria-label="Main">
+    <a class="nav__link" data-page="home"      href="index.html">home</a>
+    <a class="nav__link" data-page="portfolio" href="portfolio.html">portfolio</a>
+    <a class="nav__link" data-page="bio"       href="bio.html">bio / cv</a>
+  </nav>
+</noscript>
+
+<main id="main">
+
+  <!-- Cover ------------------------------------------------------------ -->
+  <section class="case-head">
+    <div class="container">
+      <div class="meta meta--reverse">
+        <span class="mono meta__label">
+          project 04 of 04 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </span>
+        <h1 class="display case-head__title">Dark mode UI</h1>
+      </div>
+      <p class="case-head__sub">Arduino Cloud</p>
+
+      <div class="case-meta">
+        <div class="meta">
+          <span class="mono meta__label">company <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">Arduino</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">date <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">2023</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">team <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">2 Des + 3 Devs</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">ownership <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">UX, UI</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Context ----------------------------------------------------------- -->
+  <section class="section" style="padding-top:0;border-top:0">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">01 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Context</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            <strong>Arduino Cloud</strong> is a powerful platform that enables users to connect,
+            program, and monitor their IoT devices effortlessly.
+          </p>
+          <p>
+            However, the existing UI lacked a <strong>Dark mode</strong> — a feature that's become a
+            standard in the 2020s. This was especially important for our dedicated users who spend
+            long hours in front of the screen, immersed in their projects.
+          </p>
+        </div>
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/dark-mode/context.png" width="952" height="868" loading="lazy"
+               alt="The Arduino Cloud home in its light UI: recent files, a getting-started row and the documentation section.">
+          <span class="mono figure__caption">before — light only</span>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Goal -------------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">02 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Goal</h2>
+        </div>
+      </div>
+      <div class="prose">
+        <p>
+          This project wasn't just about inverting colors; for me, it was an opportunity to refine the
+          <strong>overall UI coherence</strong>, <strong>improve accessibility</strong>, and build a
+          <strong>scalable design solution</strong> that would minimize maintenance efforts in a
+          team-constrained environment.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final design ------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">03 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Final Design</h2>
+        </div>
+      </div>
+      <div class="prose">
+        <ul class="bullets">
+          <li><strong>More Consistent UI</strong> across different sections of the platform, with the number of colors reduced to the essential.</li>
+          <li><strong>Improved Accessibility</strong>, ensuring compliance with contrast guidelines.</li>
+          <li><strong>Better usage of accent color</strong> for hover &amp; selection to <strong>characterize</strong> more the <strong>UI</strong>.</li>
+          <li><strong>Easy Maintenance</strong>, reducing the effort needed to scale or modify the system in the future (considering the absence of a dedicated design system team).</li>
+        </ul>
+      </div>
+
+      <!-- One block, three overlapping windows — the composition from the slide.
+           Order in the DOM is the paint order: dashboard behind, then home,
+           then the editor on top. Positions live in site.css § 7.20. -->
+      <!-- plain .figure, not .figure--inset: the composition runs to the frame's
+           edges, so the last window is clipped by the border, not by padding -->
+      <div class="figure" style="margin-top:var(--sp-5)">
+        <div class="shots">
+          <figure class="shots__item shots__item--dashboard">
+            <img src="assets/img/projects/dark-mode/example-2-dashboard.png" width="587" height="367" loading="lazy"
+                 alt="A dashboard in dark mode: value, switch, gauge and chart widgets with the teal accent on active controls.">
+            <span class="mono shots__caption">dashboard</span>
+          </figure>
+          <figure class="shots__item shots__item--home">
+            <img src="assets/img/projects/dark-mode/example-1-home.png" width="754" height="694" loading="lazy"
+                 alt="The Arduino Cloud home in dark mode: recent files, getting started and documentation on layered dark surfaces.">
+            <span class="mono shots__caption">home</span>
+          </figure>
+          <figure class="shots__item shots__item--editor">
+            <img src="assets/img/projects/dark-mode/example-3-editor.png" width="540" height="438" loading="lazy"
+                 alt="The Cloud editor in dark mode: library list on the left, sketch code on the right, console below.">
+            <span class="mono shots__caption">editor</span>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- "As is" analysis --------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">04 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">&ldquo;As is&rdquo; analysis</h2>
+        </div>
+      </div>
+      <div class="prose">
+        <p>
+          We were already using the concept of <strong>surfaces</strong> in our UIs, but this was not
+          standardized, so the first step was to analyze the current state.
+        </p>
+        <p>
+          And the same thing was done for texts, icons, and hover &amp; selected states.
+        </p>
+        <p>With <strong>accessibility</strong> always in mind.</p>
+      </div>
+      <div class="figure-grid" style="margin-top:var(--sp-5)">
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/dark-mode/analysis-surfaces.png" width="871" height="434" loading="lazy"
+               alt="The surface elevation scale, from level 0 to level 4, mapped as stacked planes.">
+          <span class="mono figure__caption">surfaces, standardised</span>
+        </figure>
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/dark-mode/analysis-accessibility.png" width="967" height="467" loading="lazy"
+               alt="Contrast ratios measured between adjacent surface levels: 1.06:1, 1.08:1, 1.15:1, 1.32:1.">
+          <span class="mono figure__caption">every step measured</span>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Iteration and validation ------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">05 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Iteration and validation</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            Once we defined surfaces and color contrasts, we started applying these ideas to the
+            numerous sections of the app, and iterating multiple times, in order to respond to every
+            case.
+          </p>
+          <p>
+            This included multiple <strong>syncs with FE devs</strong>, in order to set up tokens.
+          </p>
+          <p>
+            We ended up with 2 versions, which we validated using an
+            <strong>internal A/B test</strong>.
+          </p>
+        </div>
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/dark-mode/iterations.png" width="940" height="467" loading="lazy"
+               alt="A Figma board of dark-mode iterations across Home, Cloud, Templates, Resources, Devices, Tablet and Components.">
+          <span class="mono figure__caption">every section, several passes</span>
+        </figure>
+      </div>
+
+      <span class="mono runfoot">Arduino Cloud | Dark mode UI</span>
+    </div>
+  </section>
+
+  <!-- Prev / next ------------------------------------------------------- -->
+  <div class="container">
+    <nav class="case-nav" aria-label="Other projects">
+      <a class="out" href="portfolio.html">
+        <svg class="arrow" aria-hidden="true" style="transform:scaleX(-1)"><use href="#arrow"/></svg> all projects
+      </a>
+      <a class="out" href="led-matrix-editor.html">
+        next: Arduino LED Matrix Editor <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+      </a>
+    </nav>
+  </div>
+
+</main>
+
+<site-footer></site-footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

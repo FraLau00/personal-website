@@ -1,11 +1,307 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Francesco Lauriola</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Francesco Lauriola — UX Designer</title>
+<meta name="description" content="UX Designer with five years designing complex product ecosystems in tech and IoT. Currently leading design for Arduino Cloud at Qualcomm.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Francesco Lauriola — UX Designer">
+<meta property="og:description" content="Five years designing complex product ecosystems in tech and IoT. Currently leading design for Arduino Cloud.">
+<meta property="og:image" content="assets/img/portrait.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F8F3E8">
+<meta name="theme-color" content="#0A0805" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+
+<!-- shared header + footer, defined once in assets/js/components.js.
+     Not deferred: the custom elements must exist before the parser reaches them. -->
+<script src="assets/js/site.config.js"></script>
+<script src="assets/js/components.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Francesco Lauriola",
+  "jobTitle": "UX Designer",
+  "email": "mailto:mail@francescolauriola.com",
+  "address": { "@type": "PostalAddress", "addressLocality": "Turin", "addressCountry": "IT" },
+  "worksFor": { "@type": "Organization", "name": "Qualcomm (Arduino)" },
+  "sameAs": [
+    "https://www.linkedin.com/in/francesco-lauriola/"
+  ]
+}
+</script>
 </head>
-<body>
-  <h1>Coming soon</h1>
+
+<body data-page="home">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- One arrow, defined once, referenced everywhere. ↗ and ↘ are not in Inter's
+     latin subset, so drawing them keeps weight and baseline consistent. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="arrow" viewBox="0 0 12 12">
+    <path d="M3 9 9 3M4.5 3H9v4.5" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <!-- Lucide icons (MIT) — https://lucide.dev -->
+  <symbol id="i-grip" viewBox="0 0 24 24">
+    <circle cx="9" cy="5" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="9" cy="19" r="1.6"/>
+    <circle cx="15" cy="5" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="15" cy="19" r="1.6"/>
+  </symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24">
+    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>
+  </symbol>
+</svg>
+
+<!-- announcements for assistive tech when blocks are reordered -->
+<div class="sr-only" aria-live="polite" data-announce></div>
+
+<site-header></site-header>
+
+<!-- Same three links for browsers with JavaScript off, where <site-header>
+     stays empty. Keep in sync with the NAV array in assets/js/components.js —
+     the only thing on the site that is still duplicated per page. -->
+<noscript>
+  <nav class="nav nav--fallback" aria-label="Main">
+    <a class="nav__link" data-page="home"      href="index.html">home</a>
+    <a class="nav__link" data-page="portfolio" href="portfolio.html">portfolio</a>
+    <a class="nav__link" data-page="bio"       href="bio.html">bio / cv</a>
+  </nav>
+</noscript>
+
+<main id="main">
+
+  <!-- Hero ------------------------------------------------------------- -->
+  <section class="hero">
+    <div class="container">
+
+      <!-- The name in a selection box, as on the cover slide of the portfolio.
+           Drag any handle to resize it: the name scales to fit and the page
+           reflows underneath (site.js). The wrapper — not the <h1> — carries
+           the handles, so the heading's accessible name stays clean. -->
+      <div class="selbox hero__name" data-selbox>
+        <h1 class="display">Francesco Lauriola</h1>
+        <span class="selbox__handle selbox__handle--nw" data-side="-1" aria-hidden="true"></span>
+        <span class="selbox__handle selbox__handle--ne" data-side="1"  aria-hidden="true"></span>
+        <span class="selbox__handle selbox__handle--sw" data-side="-1" aria-hidden="true"></span>
+        <button class="selbox__handle selbox__handle--se" data-side="1" type="button"
+                role="slider" aria-label="Resize the name" aria-orientation="horizontal"
+                aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"></button>
+      </div>
+
+      <div class="meta meta--reverse">
+        <span class="mono meta__label">
+          job title <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </span>
+        <p class="hero__role">UX Designer</p>
+      </div>
+
+      <p class="lead hero__intro">
+        Five years designing complex product ecosystems in tech and IoT.
+        Currently leading design for <strong>Arduino Cloud</strong>, Arduino's
+        connected-device platform.
+      </p>
+    </div>
+  </section>
+
+  <!-- Portrait + facts ------------------------------------------------- -->
+  <section class="section">
+    <!-- Drag the portrait or the facts chip onto the other one to swap them. -->
+    <div class="container split reveal" data-sortable="split">
+
+      <figure class="portrait">
+        <!-- draggable="false" + pointer-events:none in site.css § 7.6: macOS and iOS
+             answer a press-and-hold on an <img> themselves (drag out, subject lift,
+             save-image), which fought the reorder. The events land on the <figure>. -->
+        <img src="assets/img/portrait.jpg" width="1600" height="1067" draggable="false"
+             alt="Backlit profile portrait of Francesco Lauriola in silhouette against a warm amber background.">
+        <button class="grip" type="button" aria-label="Move the portrait (drag, or use the arrow keys)">
+          <svg aria-hidden="true"><use href="#i-grip"/></svg>
+        </button>
+      </figure>
+
+      <div class="facts">
+        <button class="grip" type="button" aria-label="Move the facts (drag, or use the arrow keys)">
+          <svg aria-hidden="true"><use href="#i-grip"/></svg>
+        </button>
+        <div class="meta">
+          <span class="mono meta__label">
+            company <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg>
+          </span>
+          <span class="meta__value">Qualcomm (Arduino)</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">
+            based in <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg>
+          </span>
+          <span class="meta__value">Turin, Italy</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">
+            focus <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg>
+          </span>
+          <span class="meta__value">UX, UI, IxD</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">
+            also <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg>
+          </span>
+          <span class="meta__value">AI prototyping, Arduino prototyping, Sound Design</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Selected work ---------------------------------------------------- -->
+  <section class="section">
+    <div class="container">
+
+      <div class="section-head reveal">
+        <div class="meta meta--reverse">
+<!--        <span class="mono meta__label">
+            selected work <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+            </span> -->
+          <div class="h2-row">
+            <h2 class="h2">Recent projects</h2>
+            <button class="icon-btn" type="button" data-reset-order hidden
+                    aria-label="Reset the original order" title="Reset order">
+              <svg aria-hidden="true"><use href="#i-reset"/></svg>
+            </button>
+          </div>
+        </div>
+        <a class="out" href="portfolio.html">
+          see all <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </a>
+      </div>
+
+      <!-- Drag cards to reorder them; the reset button appears beside the title. -->
+      <div class="projects reveal" data-sortable="cards">
+
+        <!-- CARD TEMPLATE — duplicate this <article> to add a project -->
+        <article class="project-card">
+          <button class="grip" type="button" aria-label="Move this project (drag, or use the arrow keys)">
+            <svg aria-hidden="true"><use href="#i-grip"/></svg>
+          </button>
+          <div class="project-card__cover">
+            <img src="assets/img/projects/led-matrix-editor.jpg" width="1400" height="900" loading="lazy"
+                 alt="Project cover: Arduino LED Matrix Editor.">
+          </div>
+          <div class="project-card__body">
+            <h3 class="h3 project-card__title">
+              <a class="project-card__link" href="led-matrix-editor.html" draggable="false">Arduino LED Matrix Editor</a>
+            </h3>
+            <p class="project-card__desc">
+              A drawing tool for the UNO R4's built-in LED matrix that exports ready-to-upload
+              code. Shipped in days — I also wrote the HTML and CSS for the documentation drawer.
+            </p>
+            <div class="project-card__foot">
+              <div class="meta-row">
+                <span class="mono">Arduino</span>
+                <span class="mono">Jun 2023</span>
+                <span class="mono">UX, UI, IxD</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <button class="grip" type="button" aria-label="Move this project (drag, or use the arrow keys)">
+            <svg aria-hidden="true"><use href="#i-grip"/></svg>
+          </button>
+          <div class="project-card__cover">
+            <img src="assets/img/projects/dashboards-redesign.jpg" width="1400" height="875" loading="lazy"
+                 alt="Project cover: Arduino Cloud Dashboards redesign.">
+          </div>
+          <div class="project-card__body">
+            <h3 class="h3 project-card__title">
+              <a class="project-card__link" href="dashboards-redesign.html" draggable="false">Arduino Cloud — Dashboards Redesign</a>
+            </h3>
+            <p class="project-card__desc">
+              Research across ~700k Hotjar sessions, four competitors and the Arduino forum.
+              Interaction modes cut from four to two, validated at 62% CSAT after launch.
+            </p>
+            <div class="project-card__foot">
+              <div class="meta-row">
+                <span class="mono">Arduino</span>
+                <span class="mono">2024</span>
+                <span class="mono">UX &amp; UI</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <button class="grip" type="button" aria-label="Move this project (drag, or use the arrow keys)">
+            <svg aria-hidden="true"><use href="#i-grip"/></svg>
+          </button>
+          <div class="project-card__cover">
+            <img src="assets/img/projects/ciid-ai-everyday-life.jpg" width="1400" height="1074" loading="lazy"
+                 alt="Project cover: AI for everyday life, öiō × CIID workshop on Lake Como.">
+          </div>
+          <div class="project-card__body">
+            <h3 class="h3 project-card__title">
+              <a class="project-card__link" href="ciid.html" draggable="false">CIID — AI for everyday life</a>
+            </h3>
+            <p class="project-card__desc">
+              A marble bust of Ugo Foscolo given PTSD: planes and traffic trigger it, a servo-driven
+              arm covers its face, and machine learning running in the browser ends the performance
+              when someone hugs it.
+            </p>
+            <div class="project-card__foot">
+              <div class="meta-row">
+                <span class="mono">öiō × CIID</span>
+                <span class="mono">Oct 2023</span>
+                <span class="mono">IxD, AI, coding, physical prototype</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact ---------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <!-- <span class="mono meta__label">
+            contacts <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+          </span> -->
+          <h2 class="h2">Get in touch</h2>
+        </div>
+      </div>
+
+      <p class="prose">
+        Happy to talk about product design, design systems, or how AI is changing the
+        way we prototype. The fastest way to reach me is email.
+      </p>
+
+      <div class="contact-list">
+        <a class="out" href="mailto:mail@francescolauriola.com">
+          mail@francescolauriola.com <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </a>
+        <a class="out" href="https://www.linkedin.com/in/francesco-lauriola/" target="_blank" rel="noopener">
+          linkedin <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<site-footer></site-footer>
+
+<script src="assets/js/site.js"></script>
 </body>
 </html>

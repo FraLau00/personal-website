@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Privacy — Francesco Lauriola</title>
+<meta name="description" content="No cookies, no analytics, no third-party requests. What the host records, and how to reach me about it.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Privacy — Francesco Lauriola">
+<meta property="og:description" content="No cookies, no analytics, no third-party requests.">
+<meta property="og:image" content="assets/img/portrait.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F8F3E8">
+<meta name="theme-color" content="#0A0805" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+
+<!-- shared header + footer, defined once in assets/js/components.js.
+     Not deferred: the custom elements must exist before the parser reaches them. -->
+<script src="assets/js/site.config.js"></script>
+<script src="assets/js/components.js"></script>
+</head>
+
+<body data-page="privacy">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="arrow" viewBox="0 0 12 12">
+    <path d="M3 9 9 3M4.5 3H9v4.5" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<site-header></site-header>
+
+<!-- Same three links for browsers with JavaScript off, where <site-header>
+     stays empty. Keep in sync with the NAV array in assets/js/components.js —
+     the only thing on the site that is still duplicated per page. -->
+<noscript>
+  <nav class="nav nav--fallback" aria-label="Main">
+    <a class="nav__link" data-page="home"      href="index.html">home</a>
+    <a class="nav__link" data-page="portfolio" href="portfolio.html">portfolio</a>
+    <a class="nav__link" data-page="bio"       href="bio.html">bio / cv</a>
+  </nav>
+</noscript>
+
+<main id="main">
+
+  <section class="page-head">
+    <div class="container">
+      <div class="meta meta--reverse">
+        <span class="mono meta__label">
+          page title <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </span>
+        <h1 class="h2">Privacy</h1>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;border-top:0">
+    <div class="container reveal">
+      <div class="prose">
+        <p>
+          This site sets <strong>no cookies</strong>, stores nothing in your browser and runs no
+          analytics. Every file a page loads comes from this domain, so nothing is requested from a
+          third party while you read — which is why there is no banner to dismiss.
+        </p>
+        <p>
+          It is hosted on <strong>GitHub Pages</strong>. GitHub logs the visitor's IP address for
+          security, on its own infrastructure and under its own terms; I never see those logs.
+          <a class="link" href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
+             target="_blank" rel="noopener">GitHub's privacy statement</a> covers them.
+        </p>
+        <p>
+          There is no database here, and no list. The only thing I ever hold is a message you chose to
+          send me: if you email me it sits in my inbox, I use it to reply and for nothing else, and it
+          goes to no one.
+        </p>
+      </div>
+
+      <div class="case-meta" style="margin-top:var(--sp-6)">
+        <div class="meta">
+          <span class="mono meta__label">responsible <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">Francesco Lauriola</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">contact <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value"><a class="link" href="mailto:mail@francescolauriola.com">mail@francescolauriola.com</a></span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">last updated <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">September 2026</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<site-footer></site-footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

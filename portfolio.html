@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Portfolio — Francesco Lauriola</title>
+<meta name="description" content="Selected product design work by Francesco Lauriola: the Arduino Cloud dashboards redesign and dark mode UI, the Arduino LED Matrix Editor, and an AI workshop with öiō and CIID.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Portfolio — Francesco Lauriola">
+<meta property="og:description" content="Four product design projects across Arduino Cloud, Arduino Labs and CIID.">
+<meta property="og:image" content="assets/img/portrait.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F8F3E8">
+<meta name="theme-color" content="#0A0805" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+
+<!-- shared header + footer, defined once in assets/js/components.js.
+     Not deferred: the custom elements must exist before the parser reaches them. -->
+<script src="assets/js/site.config.js"></script>
+<script src="assets/js/components.js"></script>
+</head>
+
+<body data-page="portfolio">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="arrow" viewBox="0 0 12 12">
+    <path d="M3 9 9 3M4.5 3H9v4.5" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<site-header></site-header>
+
+<!-- Same three links for browsers with JavaScript off, where <site-header>
+     stays empty. Keep in sync with the NAV array in assets/js/components.js —
+     the only thing on the site that is still duplicated per page. -->
+<noscript>
+  <nav class="nav nav--fallback" aria-label="Main">
+    <a class="nav__link" data-page="home"      href="index.html">home</a>
+    <a class="nav__link" data-page="portfolio" href="portfolio.html">portfolio</a>
+    <a class="nav__link" data-page="bio"       href="bio.html">bio / cv</a>
+  </nav>
+</noscript>
+
+<main id="main">
+
+  <!-- Page head + index ------------------------------------------------ -->
+  <!-- <section class="page-head">
+    <div class="container">
+      <div class="meta meta--reverse">
+        <span class="mono meta__label">
+          page title <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </span>
+        <h1 class="h2">Projects Index</h1>
+      </div>
+
+      <p class="prose">
+        Four projects, all shipped or tested with real users. Each one links out to the full
+        case study.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;border-top:0">
+    <div class="container">
+      <nav class="index" aria-label="Projects on this page">
+        <a class="index__row" href="led-matrix-editor.html">
+          <span class="index__num">1 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="index__title">Arduino LED Matrix Editor</span>
+          <span class="index__meta">Arduino · 2023</span>
+        </a>
+        <a class="index__row" href="dashboards-redesign.html">
+          <span class="index__num">2 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="index__title">Arduino Cloud — Dashboards Redesign</span>
+          <span class="index__meta">Arduino · 2024</span>
+        </a>
+        <a class="index__row" href="ciid.html">
+          <span class="index__num">3 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="index__title">CIID — AI for everyday life</span>
+          <span class="index__meta">öiō × CIID · 2023</span>
+        </a>
+        <a class="index__row" href="dark-mode.html">
+          <span class="index__num">4 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="index__title">Arduino Cloud — Dark mode UI</span>
+          <span class="index__meta">Arduino · 2025</span>
+        </a>
+      </nav>
+    </div>
+  </section>  -->
+
+  <!-- Featured projects ------------------------------------------------ -->
+  <section class="section">
+    <div class="container">
+
+      <div class="section-head reveal">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">
+            page title <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+          </span>
+          <h2 class="h2">Selected projects</h2>
+        </div>
+      </div>
+
+      <div class="projects reveal">
+
+        <!-- CARD TEMPLATE — duplicate this <article> to add a project.
+             Give it an id and add a matching row to the index above. -->
+        <article class="project-card" id="led-matrix">
+          <div class="project-card__cover">
+            <img src="assets/img/projects/led-matrix-editor.jpg" width="1400" height="900" loading="lazy"
+                 alt="Project cover: Arduino LED Matrix Editor.">
+          </div>
+          <div class="project-card__body">
+            <h3 class="h3 project-card__title">
+              <a class="project-card__link" href="led-matrix-editor.html" draggable="false">Arduino LED Matrix Editor</a>
+            </h3>
+            <p class="project-card__desc">
+              The UNO R4 WiFi ships with a 12×8 LED matrix, but code arrays intimidate beginners.
+              A drawing tool that exports ready-to-upload code — built in a few days, with the
+              documentation drawer's HTML and CSS written by me.
+            </p>
+            <div class="project-card__foot">
+              <div class="meta-grid">
+                <div class="meta">
+                  <span class="mono meta__label">company <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">Arduino</span>
+                </div>
+                <div class="meta">
+                  <span class="mono meta__label">date <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">Jun 2023</span>
+                </div>
+                <div class="meta">
+                  <span class="mono meta__label">team <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">1 Des + 1 Dev</span>
+                </div>
+                <div class="meta">
+                  <span class="mono meta__label">ownership <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">UX, UI, IxD</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" id="dashboards">
+          <div class="project-card__cover">
+            <img src="assets/img/projects/dashboards-redesign.jpg" width="1400" height="875" loading="lazy"
+                 alt="Project cover: Arduino Cloud Dashboards redesign.">
+          </div>
+          <div class="project-card__body">
+            <h3 class="h3 project-card__title">
+              <a class="project-card__link" href="dashboards-redesign.html" draggable="false">Arduino Cloud — Dashboards Redesign</a>
+            </h3>
+            <p class="project-card__desc">
+              Research across ~700k Hotjar sessions, four competitors and the Arduino forum.
+              Building and interacting became two clear modes instead of four, with a toolbar
+              designed to grow. Validated after launch at 62% CSAT.
+            </p>
+            <div class="project-card__foot">
+              <div class="meta-grid">
+                <div class="meta">
+                  <span class="mono meta__label">company <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">Arduino</span>
+                </div>
+                <div class="meta">
+                  <span class="mono meta__label">date <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">2024</span>
+                </div>
+                <div class="meta">
+                  <span class="mono meta__label">team <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">2 Des + 4 Dev</span>
+                </div>
+                <div class="meta">
+                  <span class="mono meta__label">ownership <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">UX &amp; UI</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" id="ciid">
+          <div class="project-card__cover">
+            <img src="assets/img/projects/ciid-ai-everyday-life.jpg" width="1400" height="1074" loading="lazy"
+                 alt="Project cover: AI for everyday life, öiō × CIID workshop on Lake Como.">
+          </div>
+          <div class="project-card__body">
+            <h3 class="h3 project-card__title">
+              <a class="project-card__link" href="ciid.html" draggable="false">CIID — AI for everyday life</a>
+            </h3>
+            <p class="project-card__desc">
+              A statue of Ugo Foscolo with PTSD: aircraft and traffic noise trigger it, an
+              Arduino UNO R4 and a servo raise an arm to cover its face, a Bluetooth voice
+              recites his poems — and ML5.js ends the performance when someone hugs it.
+            </p>
+            <div class="project-card__foot">
+              <div class="meta-grid">
+                <div class="meta">
+                  <span class="mono meta__label">with <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">öiō × CIID</span>
+                </div>
+                <div class="meta">
+                  <span class="mono meta__label">date <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">Oct 2023</span>
+                </div>
+                <div class="meta">
+                  <span class="mono meta__label">team <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">2 Des</span>
+                </div>
+                <div class="meta">
+                  <span class="mono meta__label">ownership <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">IxD, AI, coding, physical prototype</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card" id="dark-mode">
+          <div class="project-card__cover">
+            <img src="assets/img/projects/dark-mode.jpg" width="1400" height="899" loading="lazy"
+                 alt="Project cover: Arduino Cloud dark mode UI.">
+          </div>
+          <div class="project-card__body">
+            <h3 class="h3 project-card__title">
+              <a class="project-card__link" href="dark-mode.html" draggable="false">Arduino Cloud — Dark mode UI</a>
+            </h3>
+            <p class="project-card__desc">
+              Not just inverting colours. The palette cut to the essential, contrast brought up to
+              guideline compliance, the accent reserved for hover and selection — and a system
+              that stays maintainable without a dedicated design-system team.
+            </p>
+            <div class="project-card__foot">
+              <div class="meta-grid">
+                <div class="meta">
+                  <span class="mono meta__label">company <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">Arduino</span>
+                </div>
+                <div class="meta">
+                  <span class="mono meta__label">date <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">2023</span>
+                </div>
+                <div class="meta">
+                  <span class="mono meta__label">team <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">2 Des + 3 Devs</span>
+                </div>
+                <div class="meta">
+                  <span class="mono meta__label">ownership <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+                  <span class="meta__value">UX, UI</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Other work ------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">
+            IAAD years, 2018 – 2021 <!-- <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg> -->
+          </span>
+          <h2 class="h2">Other work</h2>
+        </div>
+        <a class="out" href="https://www.behance.net/francescolauriola" target="_blank" rel="noopener">
+          everything on behance <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </a>
+      </div>
+
+      <div class="other">
+         <a class="other__item" href="https://www.behance.net/gallery/124132921/Noise-Pollution" target="_blank" rel="noopener">
+          <span class="other__name">Noise Pollution — Thesis Project</span>
+          <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </a>
+
+        <a class="other__item" href="https://www.behance.net/gallery/117588431/Odissea-Bianca-Podcast" target="_blank" rel="noopener">
+          <span class="other__name">Odissea Bianca — Podcast</span>
+          <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </a>
+
+        <a class="other__item" href="https://www.behance.net/gallery/121530307/Comune-Mobile-App" target="_blank" rel="noopener">
+          <span class="other__name">Comune — Mobile App</span>
+          <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </a>
+
+        <a class="other__item" href="https://www.behance.net/gallery/121529823/Goals-Mobile-App" target="_blank" rel="noopener">
+          <span class="other__name">Goals — Mobile App</span>
+          <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </a>
+
+        <a class="other__item" href="https://www.behance.net/gallery/121558605/Grocery-Shopping-Mobile-App" target="_blank" rel="noopener">
+          <span class="other__name">Grocery Shopping — Mobile App</span>
+          <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<site-footer></site-footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

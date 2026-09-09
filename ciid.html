@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>AI for everyday life — öiō × CIID — Francesco Lauriola</title>
+<meta name="description" content="Case study: a CIID workshop with öiō studio. A marble bust of Ugo Foscolo given PTSD — an Arduino UNO R4 raises an arm over its face when planes pass, a cloned voice recites his poems, and on-device ML ends the performance when someone hugs it.">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI for everyday life — öiō × CIID — case study">
+<meta property="og:description" content="A statue afraid of loud noises: a servo-driven arm, a cloned voice, and machine learning running in the browser.">
+<meta property="og:image" content="assets/img/portrait.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F8F3E8">
+<meta name="theme-color" content="#0A0805" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+
+<!-- shared header + footer, defined once in assets/js/components.js.
+     Not deferred: the custom elements must exist before the parser reaches them. -->
+<script src="assets/js/site.config.js"></script>
+<script src="assets/js/components.js"></script>
+</head>
+
+<body data-page="portfolio">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="arrow" viewBox="0 0 12 12">
+    <path d="M3 9 9 3M4.5 3H9v4.5" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<site-header></site-header>
+
+<!-- Same three links for browsers with JavaScript off, where <site-header>
+     stays empty. Keep in sync with the NAV array in assets/js/components.js —
+     the only thing on the site that is still duplicated per page. -->
+<noscript>
+  <nav class="nav nav--fallback" aria-label="Main">
+    <a class="nav__link" data-page="home"      href="index.html">home</a>
+    <a class="nav__link" data-page="portfolio" href="portfolio.html">portfolio</a>
+    <a class="nav__link" data-page="bio"       href="bio.html">bio / cv</a>
+  </nav>
+</noscript>
+
+<main id="main">
+
+  <!-- Cover ------------------------------------------------------------ -->
+  <section class="case-head">
+    <div class="container">
+      <div class="meta meta--reverse">
+        <span class="mono meta__label">
+          project 03 of 04 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </span>
+        <h1 class="display case-head__title">AI for everyday life</h1>
+      </div>
+      <p class="case-head__sub">öiō × CIID workshop</p>
+
+      <!-- The deck's cover carries three pairs, not four: the workshop, not a
+           company, is the context, and it is already in the line above. -->
+      <div class="case-meta">
+        <div class="meta">
+          <span class="mono meta__label">date <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">Oct 2023</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">team <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">2 Des</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">ownership <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">IxD, AI, coding, physical prototype</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Context ----------------------------------------------------------- -->
+  <section class="section" style="padding-top:0;border-top:0">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">01 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Context</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            This project was made during a <strong>CIID workshop</strong> with Matteo Loglio and
+            Bjørn Karmann from <strong>öiō studio</strong>.
+          </p>
+          <p>
+            The focus was working hands-on with <strong>AI &amp; ML</strong> to explore
+            <strong>Ambient Intelligence</strong>.
+          </p>
+          <p>
+            The main concept was: <strong>Thinking homes</strong>.
+          </p>
+          <p>
+            AI and ML can <strong>bring objects to life</strong>, making them react and adapt to
+            different stimuli from both the users and the environment.
+          </p>
+        </div>
+
+        <div>
+          <div class="wall">
+            <figure class="polaroid" style="--rot:-2.5deg">
+              <img src="assets/img/projects/CIID/context-villa-1.png" width="205" height="320" loading="lazy"
+                   alt="An open balcony door in the villa, framing Lake Como and the mountains beyond.">
+              <span class="mono polaroid__caption">villa 1</span>
+            </figure>
+            <figure class="polaroid" style="--rot:1.5deg">
+              <img src="assets/img/projects/CIID/context-concept.png" width="410" height="189" loading="lazy"
+                   alt="A projected slide: “Smart homes” struck through, an arrow pointing down to “Thinking homes”.">
+              <span class="mono polaroid__caption">concept</span>
+            </figure>
+            <figure class="polaroid" style="--rot:-1.5deg">
+              <img src="assets/img/projects/CIID/context-villa-2.png" width="237" height="320" loading="lazy"
+                   alt="The empty frescoed hall used as the workshop studio, with tall windows onto the garden.">
+              <span class="mono polaroid__caption">villa 2</span>
+            </figure>
+            <figure class="polaroid" style="--rot:2.5deg">
+              <img src="assets/img/projects/CIID/context-lunch-break.png" width="239" height="283" loading="lazy"
+                   alt="The group at café tables on the lakeside terrace during a break.">
+              <span class="mono polaroid__caption">lunch break</span>
+            </figure>
+          </div>
+          <span class="mono wall__note wall__note--end">
+            the “office” <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Goal -------------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">02 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Goal</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            Our first task was to look around the place, find some <strong>objects</strong>, give them
+            a name, write some background stories about them.
+          </p>
+          <p>
+            Then, my teammate and I chose one object, and got assigned a
+            <strong>random story</strong>.
+          </p>
+          <p>
+            Finally, our goal was to bring it to life with <strong>AI tools</strong>, and any material
+            we could get our hands on.
+          </p>
+        </div>
+
+        <div>
+          <div class="wall">
+            <figure class="polaroid" style="--rot:2deg">
+              <img src="assets/img/projects/CIID/goal-villa.png" width="208" height="320" loading="lazy"
+                   alt="The wrought-iron gate of Villa del Grumello in Como, with the villa's name on a sign.">
+              <span class="mono polaroid__caption">villa del Grumello, Como</span>
+            </figure>
+            <figure class="polaroid" style="--rot:-2deg">
+              <img src="assets/img/projects/CIID/goal-ania.png" width="270" height="320" loading="lazy"
+                   alt="A workshop participant leaning against a pine trunk with a small green lantern fixed to it.">
+              <span class="mono polaroid__caption">Ania &amp; what was that?</span>
+            </figure>
+            <figure class="polaroid" style="--rot:-3deg">
+              <img src="assets/img/projects/CIID/goal-paolo-e-tess.png" width="240" height="320" loading="lazy"
+                   alt="Two palm trees standing side by side in the villa garden, the lake behind them.">
+              <span class="mono polaroid__caption">Paolo &amp; Tess</span>
+            </figure>
+            <figure class="polaroid" style="--rot:2.5deg">
+              <img src="assets/img/projects/CIID/goal-natural-chair.png" width="253" height="320" loading="lazy"
+                   alt="A rock outcrop overgrown with ivy, its ledges shaped roughly like a seat.">
+              <span class="mono polaroid__caption">a natural chair… maybe?</span>
+            </figure>
+          </div>
+          <span class="mono wall__note wall__note--end">
+            some of the “objects” <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Outcome ----------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">03 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Outcome</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            My teammate and I ended up bringing to life a statue of <strong>Ugo Foscolo</strong> —
+            with <strong>PTSD</strong>.
+          </p>
+          <!-- the slide sets this as a mono aside under the name; sp-2 pulls it up
+               against the line it annotates instead of reading as a new paragraph -->
+          <p class="mono" style="margin-top:var(--sp-2)">
+            Ugo Foscolo, Italian poet <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+          </p>
+          <p>
+            A <strong>road</strong> was nearby, and many <strong>small planes</strong> were taking off
+            and landing on the lake; those noises became the PTSD <strong>triggers</strong>.
+          </p>
+          <p>
+            To visually express <strong>fear</strong>, we added one animated arm using an
+            <strong>Arduino UNO R4</strong> and a servo motor (leaving the statue untouched). Since he
+            was a poet, we also gave him a <strong>voice</strong> through a bluetooth speaker.
+          </p>
+          <p>
+            When noise levels were high, the statue covered its face and recited poems with a custom
+            voice. The performance ended, with the help of <strong>ML</strong> and a webcam, when
+            someone hugged the statue.
+          </p>
+        </div>
+
+        <!-- SWAP ME — outcome-project.png is a still of the moment the arm lifts.
+             When the GIF is ready, drop it in beside the PNG and change the src
+             (and width/height) here. Nothing else needs to move. -->
+        <div class="wall wall--single">
+          <figure class="polaroid" style="--rot:-1.5deg">
+            <img src="assets/img/projects/CIID/outcome-project.png" width="438" height="600" loading="lazy"
+                 alt="The marble bust of Ugo Foscolo in the garden, a pale cardboard arm raised across its face.">
+            <span class="mono polaroid__caption">Ugo Foscolo's statue</span>
+          </figure>
+        </div>
+      </div>
+
+      <span class="mono wall__note wall__note--above">
+        what it was built with <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg>
+      </span>
+      <div class="wall wall--tools">
+        <figure class="polaroid" style="--rot:-1.5deg">
+          <img src="assets/img/projects/CIID/outcome-uno-r4.png" width="240" height="320" loading="lazy"
+               alt="An Arduino UNO R4 WiFi wired to a 25 kg servo, a copper pipe-cleaner arm attached to the horn.">
+          <span class="mono polaroid__caption">Arduino UNO R4</span>
+        </figure>
+        <figure class="polaroid" style="--rot:1.5deg">
+          <img src="assets/img/projects/CIID/outcome-teachable-machine-google.png" width="240" height="320" loading="lazy"
+               alt="Google Teachable Machine: sample classes on the left, training in the middle, a live preview on the right.">
+          <span class="mono polaroid__caption">Teachable Machine</span>
+        </figure>
+        <figure class="polaroid" style="--rot:-1deg">
+          <img src="assets/img/projects/CIID/outcome-ml5js.png" width="240" height="320" loading="lazy"
+               alt="The ml5.js fast style transfer example, an input photo restyled by a model in the browser.">
+          <span class="mono polaroid__caption">ml5.js</span>
+        </figure>
+        <figure class="polaroid" style="--rot:2deg">
+          <img src="assets/img/projects/CIID/outcome-p5js.png" width="240" height="320" loading="lazy"
+               alt="The p5.js web editor: a short sketch on the left, its generated drawing on the right.">
+          <span class="mono polaroid__caption">p5.js</span>
+        </figure>
+        <figure class="polaroid" style="--rot:-2deg">
+          <img src="assets/img/projects/CIID/outcome-eleven-labs.png" width="240" height="320" loading="lazy"
+               alt="The ElevenLabs workspace: recorded takes above, voice waveforms below, a row of language flags.">
+          <span class="mono polaroid__caption">ElevenLabs</span>
+        </figure>
+        <figure class="polaroid" style="--rot:1deg">
+          <img src="assets/img/projects/CIID/outcome-cohere.png" width="240" height="320" loading="lazy"
+               alt="The Cohere playground, an empty chat waiting for a prompt.">
+          <span class="mono polaroid__caption">Cohere</span>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- The interaction loop ---------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">04 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">The interaction loop</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            The statue behaves like a small <strong>state machine</strong>, sensing through a laptop's
+            mic and webcam, with ML running <strong>locally in the browser</strong>
+            (Teachable Machine + p5.js):
+          </p>
+          <ol class="bullets bullets--num">
+            <li><strong>Listen</strong> — ambient noise is continuously classified on-device</li>
+            <li><strong>Trigger</strong> — loud noise (planes, traffic) wakes the statue</li>
+            <li><strong>Perform</strong> — a servo-driven arm covers its face (Arduino UNO R4, over WiFi) while it recites poems through a BT speaker</li>
+            <li><strong>Release</strong> — when the webcam recognizes a hug, the performance ends</li>
+          </ol>
+        </div>
+
+        <div>
+          <div class="wall wall--single">
+            <figure class="polaroid" style="--rot:1.5deg">
+              <img src="assets/img/projects/CIID/demo.png" width="416" height="570" loading="lazy"
+                   alt="The final demo at golden hour: the laptop driving the piece on a folding chair, the bust lit from behind.">
+              <span class="mono polaroid__caption">final demo</span>
+            </figure>
+          </div>
+          <a class="out" href="https://youtu.be/0w3elfQQxZA" target="_blank" rel="noopener">
+            full video <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conclusions -------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">05 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Conclusions</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <ul class="bullets">
+            <li>
+              AI can turn seemingly intricate interactions with objects into
+              <strong>natural experiences</strong> — the interface disappears into the environment.
+            </li>
+            <li>
+              <strong>On-device ML</strong> is far more accessible than expected: training and running
+              a model no longer requires a research team.
+            </li>
+            <li>
+              AI tools amplify a designer's reach, but only with a <strong>clear intent</strong>: they
+              execute, they don't decide.
+            </li>
+            <li>
+              Designing interactions that live in <strong>physical space</strong> — timing, sound,
+              movement — is a <strong>different craft</strong> than screen design, and I want to do
+              more of it.
+            </li>
+          </ul>
+        </div>
+
+        <div class="wall">
+          <figure class="polaroid" style="--rot:-3deg">
+            <img src="assets/img/projects/CIID/conclusions-ig.png" width="244" height="420" loading="lazy"
+                 alt="An Instagram story by öiō studio captioned “A statue afraid of loud noises”, the arm raised over the bust.">
+            <span class="mono polaroid__caption">öiō studio's story</span>
+          </figure>
+          <figure class="polaroid" style="--rot:2deg">
+            <img src="assets/img/projects/CIID/conclusions-photo.png" width="354" height="420" loading="lazy"
+                 alt="The two of us either side of the bust at the end of the workshop, its cardboard arms spread wide.">
+            <span class="mono polaroid__caption">the end</span>
+          </figure>
+        </div>
+      </div>
+
+      <span class="mono runfoot">öiō × CIID | AI for everyday life</span>
+    </div>
+  </section>
+
+  <!-- Prev / next ------------------------------------------------------- -->
+  <div class="container">
+    <nav class="case-nav" aria-label="Other projects">
+      <a class="out" href="portfolio.html">
+        <svg class="arrow" aria-hidden="true" style="transform:scaleX(-1)"><use href="#arrow"/></svg> all projects
+      </a>
+      <a class="out" href="dark-mode.html">
+        next: Arduino Cloud — Dark mode UI <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+      </a>
+    </nav>
+  </div>
+
+</main>
+
+<site-footer></site-footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>
