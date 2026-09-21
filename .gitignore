@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+._*
+
+# Claude Code session config — local paths, not site content
+.claude/
+
+# editors
+*.swp
+.idea/
+.vscode/
+
+# local prototypes — never part of the published site
+prototypes/
