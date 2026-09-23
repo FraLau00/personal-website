@@ -110,6 +110,12 @@
   --hairline:    1px solid var(--border);
   --shadow-lift: 0 2px 4px rgb(10 8 5 / 5%), 0 16px 40px -16px rgb(10 8 5 / 16%);
 
+  /* the band that sweeps a loading skeleton (7.23). It moves toward the text
+     in both themes: a shade here — a lighter sheen had no headroom on the
+     light ground, warm-100 to white is barely any contrast — and a sheen in
+     the dark theme, where lighter already means toward the text. */
+  --shimmer:     color-mix(in srgb, var(--warm-950) 8%, transparent);
+
   /* --- cursor: assets/cursor.svg, 29×33, tip at (5,2) --- */
   --cursor: url('../cursor.svg') 5 2, auto;
 
@@ -151,7 +157,8 @@
    :not([data-theme="light"]) matches everyone — dark becomes the default.
 
    What changes: background, surfaces, hairline, the three text levels,
-   on-strong (buttons and the brand mark invert), and the shadow.
+   on-strong (buttons and the brand mark invert), the shadow, and the
+   loading shimmer.
    What stays: --select (the brand blue reads 4.8:1 on warm-950) and
    --sel-handle (Figma's handles are white in dark mode too). */
 
@@ -167,6 +174,7 @@
   --text-strong: var(--warm-50);
   --on-strong:   var(--warm-950);   /* cream buttons, dark text */
   --shadow-lift: 0 2px 4px rgb(0 0 0 / 45%), 0 16px 40px -16px rgb(0 0 0 / 65%);
+  --shimmer:     color-mix(in srgb, var(--warm-800) 70%, transparent);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -182,6 +190,7 @@
     --text-strong: var(--warm-50);
     --on-strong:   var(--warm-950);
     --shadow-lift: 0 2px 4px rgb(0 0 0 / 45%), 0 16px 40px -16px rgb(0 0 0 / 65%);
+    --shimmer:     color-mix(in srgb, var(--warm-800) 70%, transparent);
   }
 }
 
@@ -485,8 +494,10 @@ site-header, site-footer { display: contents; }
   border: solid 1px var(--border-subtle);
 
   /* The bar follows the grid: same max-width as .container, and centred by the
-     auto margins — without them a max-width block just stays at the left. */
-  max-width: var(--container);
+     auto margins — without them a max-width block just stays at the left.
+     The min() keeps at least 8px from each page edge (same as `top`) once the
+     viewport is narrower than the container. */
+  max-width: min(var(--container), 100% - 16px);
   margin-inline: auto;
   /*background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(10px);
@@ -1283,7 +1294,7 @@ body.is-grabbing * { cursor: grabbing; }
   white-space: nowrap;
 }
 
-@media print { .grip, .icon-btn { display: none; } }
+@media print { .grip, .icon-btn, .lb-zoom { display: none; } }
 
 
 /* --- 7.19 Easter-egg mode --------------------------------------------------
@@ -1507,4 +1518,305 @@ body.is-grabbing .selbox__handle { opacity: 0; pointer-events: none; }
   font-size: var(--step-mono);
   color: var(--text-muted);
   top: 0.25em;
+}
+
+
+/* --- 7.23 Lightbox --------------------------------------------------------
+   Case-study pages only; the behaviour is assets/js/lightbox.js. Click an
+   image — or the ⤢ badge on a video — and it opens larger on the page's own
+   ground, with a properties panel beside it: caption, type, pixel size, alt
+   text. The rows are the .meta pairs from the case-study heads, so the panel
+   reads like those — and like the right rail of the tool the site's whole
+   visual language comes from. No black scrim: the overlay IS the page.
+
+       ┌──────────────────────────────────────────────────┐
+       │                                               ✕  │  bar
+       │  ┌───────────────────────────┐  ┌─────────────┐  │
+       │  │                           │  │ properties  │  │
+       │  │          media            │  │ caption     │  │  stage
+       │  │                           │  │ type · size │  │
+       │  └───────────────────────────┘  │ alt text    │  │
+       │                                 └─────────────┘  │
+       │                ‹   03 / 12   ›                   │  rail
+       └──────────────────────────────────────────────────┘
+
+   Under 56rem the panel drops below the media. Chosen from six prototyped
+   variants, where it was D. */
+
+/* The trigger on the page. The frame on hover would be the sortable-block
+   language; a lighter touch is enough here, since the ⤢ badge says the rest. */
+@media (hover: hover) {
+  .lb-thumb { transition: opacity 0.18s ease; }
+  .lb-thumb:hover { opacity: 0.92; }
+}
+.lb-thumb:focus-visible { outline: 2px solid var(--select); outline-offset: 3px; }
+
+/* :where() keeps this at zero specificity: .figure and .polaroid need a
+   positioning context for the badge, but .shots__item is already absolute
+   on wide screens, and a plain .lb-host here — later in the file, same
+   weight — would have pulled the three stacked windows back into the flow. */
+:where(.lb-host) { position: relative; }
+
+/* ⤢ — sits on the figure, so it works both for an image, which is clickable
+   whole, and a video, where it is the only way in.
+
+   A solid chip, deliberately NOT the frosted glass of .grip: this badge sits
+   on top of the media, and one of those is a 3 000px animated GIF. A
+   backdrop-filter has to re-blur whatever is under it every time that
+   changes — so hovering the GIF to open it made the browser blur a 5-megapixel
+   frame up to fifty times a second, and it kept going after the overlay
+   closed, with the pointer still resting there. */
+.lb-zoom {
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity 0.18s ease, color 0.18s ease;
+}
+.lb-zoom svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.lb-host:hover .lb-zoom, .lb-zoom:focus-visible { opacity: 1; }
+.lb-zoom:hover { color: var(--text-strong); }
+
+/* a finger gets no hover, so on a video the badge has to be there at rest */
+@media (hover: none) { .lb-host--video .lb-zoom { opacity: 0.9; } }
+
+/* The shell. <dialog> for the top layer, Esc and the focus trap. The dialog
+   fills the viewport and carries the page's own background; ::backdrop stays
+   transparent, since it does not reliably inherit custom properties. */
+.lb {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+}
+.lb::backdrop { background: transparent; }
+
+/* One row, exactly the dialog's height. With the default `auto` the row
+   grows to fit its content, .lb__inner's height:100% resolves against that,
+   and nothing is ever clipped. */
+.lb[open] {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  animation: lb-in 0.22s ease both;
+}
+
+.lb__inner {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;   /* bar / stage / rail */
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  padding: var(--sp-3) var(--gutter);
+  gap: var(--sp-3);
+}
+
+.lb__bar { display: flex; justify-content: flex-end; min-height: 36px; }
+
+.lb__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+}
+
+.lb__figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  max-width: 100%;
+  max-height: 100%;
+  min-height: 0;
+  animation: lb-swap 0.2s ease both;
+}
+
+.lb__frame {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  max-width: 100%;
+  border-radius: var(--radius);
+}
+
+/* No ground, ring or shadow behind the media. Many exports are PNGs with
+   transparent margins: a white fill turned those margins into a card around
+   the picture, and a ring or a shadow drew the edge of the file rather than
+   the edge of the picture — the same card, outlined. The page shows through.
+
+   11rem is the chrome: bar, rail, the gaps and the padding. A percentage
+   max-height inside an auto-height flex column resolves to nothing, so the
+   cap is written against the viewport. */
+.lb__frame img,
+.lb__frame video {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100dvh - 11rem);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: inherit;
+  background: none;
+  transition: opacity 0.25s ease;
+}
+
+/* Loading. lightbox.js holds the frame at the picture's expected size and
+   marks it .is-loading: the --surface chip every flat block on the site
+   uses, with a soft --shimmer band passing over it. The picture fades in
+   when it lands.
+
+   The band is a pseudo-element moved with transform, and it starts and ends
+   each pass entirely OUTSIDE the box — 80% of the box wide, from -125% (its
+   right edge 20% short of the left side) to 150% (its left edge 20% past the
+   right). The restart happens where nobody can see it, and the easing's slow
+   start and finish fall off-screen too, so the visible part of the move is
+   always the smooth middle. A repeating gradient slid with
+   background-position, the first try, ended each pass halfway across and
+   snapped back. Under prefers-reduced-motion § 8 cuts the animation to one
+   instant, which parks the band off-screen: a still chip. */
+.lb__frame.is-loading {
+  overflow: hidden;
+  background: var(--surface);
+}
+.lb__frame.is-loading img { opacity: 0; }
+.lb__frame.is-loading::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 80%;
+  background: linear-gradient(100deg, transparent, var(--shimmer) 50%, transparent);
+  transform: translateX(-125%);
+  animation: lb-sweep 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* The properties panel */
+.lb__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  align-self: center;
+  width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: var(--sp-4);
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+.lb__panel-head {
+  padding-bottom: var(--sp-3);
+  border-bottom: var(--hairline);
+}
+
+/* every value in the same mono, alt text included — the panel is metadata,
+   not prose */
+.lb__panel .meta__value {
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  line-height: 1.5;
+}
+.lb__panel-row--alt .meta__value { text-wrap: pretty; }
+
+.lb__rail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  min-height: 44px;
+}
+.lb__rail[hidden] { display: none; }   /* a lone item: the author display would beat the attribute */
+
+.lb__counter { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* .icon-btn, one size up for a 44px target */
+.lb__btn {
+  width: 44px;
+  height: 44px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-muted);
+  transition: color 0.18s ease, background-color 0.18s ease;
+}
+.lb__btn:hover { color: var(--text-strong); background: var(--surface-alt); }
+.lb__btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+
+html.lb-open { overflow: hidden; }
+
+/* While the overlay is open the page underneath is fully covered, so stop
+   painting it. Without this the page's own copy of the LED Matrix GIF kept
+   animating behind the dialog, and the browser was decoding and drawing that
+   5-megapixel file twice — once hidden, once in the overlay. visibility, not
+   display: the layout stays put, so closing does not reflow the article or
+   lose the scroll position. lightbox.js removes .lb-open before it hands
+   focus back to the image, which a hidden element could not take. */
+html.lb-open body > :not(.lb) { visibility: hidden; }
+
+@keyframes lb-in    { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes lb-swap  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes lb-sweep { from { transform: translateX(-125%); } to { transform: translateX(150%); } }
+
+/* Wide: media left, panel in a 17rem right rail */
+@media (min-width: 56rem) {
+  .lb__stage {
+    grid-template-columns: minmax(0, 1fr) 17rem;
+    align-items: center;
+    gap: var(--sp-6);
+  }
+  .lb__figure { justify-self: center; }
+}
+
+/* Narrow: the panel drops below the media and the alt text stays. Its length
+   changes from one image to the next, so no fixed number can say how much
+   room the media has left. Instead the figure becomes a size container
+   filling whatever the grid row leaves it, and the media is capped at 100cqh
+   of that: the panel takes what it needs, the picture takes the rest. */
+@media (max-width: 55.999rem) {
+  .lb__stage {
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: var(--sp-3);
+  }
+  .lb__figure {
+    container-type: size;
+    align-self: stretch;
+    justify-self: stretch;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  .lb__frame img,
+  .lb__frame video { max-height: 100cqh; }
+
+  /* caption, type and size share a line; the alt text takes the full width */
+  .lb__panel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--sp-3) var(--sp-5);
+    max-height: 45dvh;     /* a very long alt scrolls rather than squeezing the picture to nothing */
+  }
+  .lb__panel-head,
+  .lb__panel-row--alt { flex-basis: 100%; }
+}
+
+@media (max-width: 40rem) {
+  .lb__inner { padding-inline: var(--sp-3); }
 }
