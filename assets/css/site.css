@@ -1,0 +1,2315 @@
+/* =============================================================================
+   Francesco Lauriola — personal site
+   -----------------------------------------------------------------------------
+   Mobile first. Every rule is written for a narrow screen; the min-width
+   queries at the end of each component only ADD what a wider screen earns.
+
+   Contents
+     1. Fonts
+     2. Tokens            ← edit colours and type here
+     3. Dark theme        ← token overrides only, follows the OS
+     4. Reset + cursor
+     5. Typography
+     6. Layout
+     7. Components
+     8. Motion
+     9. Print
+   -----------------------------------------------------------------------------
+   RULE: components must only ever reference the SEMANTIC tokens (--bg, --text,
+   --border …), never the primitives (--warm-100 …). That single rule is what
+   makes the dark theme a block of token overrides instead of a rewrite.
+   ========================================================================== */
+
+
+/* 1. Fonts ================================================================= */
+/* Inter and Roboto Mono, both under the SIL Open Font License 1.1. The licence
+   travels with the files: assets/fonts/OFL-Inter.txt and OFL-Roboto-Mono.txt.
+   Keep them there — serving a woff2 counts as redistributing the font, and the
+   OFL asks for the notice to come along. */
+/* Self-hosted variable woff2 — one file per subset covers every weight.
+   Downloaded from Google Fonts (OFL). No third-party requests at runtime. */
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/inter-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/inter-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Roboto Mono';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url('../fonts/robotomono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Roboto Mono';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url('../fonts/robotomono-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+
+/* 2. Tokens ================================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* --- primitives: brand colours, extracted from the 2026 CV and the Figma portfolio --- */
+  --warm-50:  #FFFBF3;
+  --warm-75:  #F8F5EF;   /* the portfolio's secondary surface */
+  --warm-100: #F8F3E8;
+  --warm-200: #EFE7D8;
+  --warm-300: #C3B8A5;
+  --warm-600: #605746;
+  --warm-800: #38342D;
+  --warm-950: #0A0805;
+  /* dark-theme stops, same hue family; higher = darker, like the rest of the ramp */
+  --warm-400: #A99F91;   /* muted text on dark — 7.7:1 on warm-950 */
+  --warm-700: #4A443A;   /* hairline on dark  — 2.1:1 on warm-950 */
+  --warm-850: #1B1611;   /* surface on dark */
+  --warm-900: #120E0A;   /* dark background, gradient start */
+  --white:      #FFFFFF;
+  --select-500: #5B7FA6;
+  --red-700:    #B42318;   /* errors on light — 5.9:1 on warm-100, 6.6:1 on white */
+  --red-300:    #F28B82;   /* errors on dark  — 7.5:1 on warm-850, 5.2:1 on warm-800 */
+
+  /* --- semantic: the only colour tokens components may use --- */
+  /*   --bg:          linear-gradient(153deg, #FFF9EE 0%, #FFF 100%), #FFF; */
+  --bg:          var(--warm-50);    /*website bg*/  
+  --surface:     var(--warm-100);   /* cards, chips, facts — flat, no border */
+  --surface-alt: var(--white);      /* image grounds, placeholder */
+  --border:      var(--warm-300);   /* dividers only */
+  --border-subtle: var(--warm-200);
+  --text-muted:  var(--warm-600);   /* 6.4:1 on --bg — safe for body copy */
+  --text:        var(--warm-800);   /* 11.2:1 on --bg */
+  --text-strong: var(--warm-950);
+  --select:      var(--select-500); /* 3.8:1 — UI affordances only, never small text */
+  --error:       var(--red-700);    /* a wrong input: its border and its message */
+  --on-strong:   var(--warm-50);
+  --sel-handle:  var(--white);      /* Figma's handles are white in both themes */
+
+  --hairline:    1px solid var(--border);
+  --shadow-lift: 0 2px 4px rgb(10 8 5 / 5%), 0 16px 40px -16px rgb(10 8 5 / 16%);
+
+  /* the band that sweeps a loading skeleton (7.23). It moves toward the text
+     in both themes: a shade here — a lighter sheen had no headroom on the
+     light ground, warm-100 to white is barely any contrast — and a sheen in
+     the dark theme, where lighter already means toward the text. */
+  --shimmer:     color-mix(in srgb, var(--warm-950) 8%, transparent);
+
+  /* --- cursor: assets/cursor.svg, 29×33, tip at (5,2) --- */
+  --cursor: url('../cursor.svg') 5 2, auto;
+
+  /* --- type --- */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --step-display: clamp(2.75rem, 1.2rem + 7vw, 5.75rem);
+  --step-h2:      clamp(1.625rem, 1.1rem + 2.4vw, 2.625rem);
+  --step-h3:      clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --step-lead:    clamp(1.125rem, 1rem + 0.9vw, 1.5rem);
+  --step-body:    1.0625rem;
+  --step-small:   0.9375rem;
+  --step-mono:    0.75rem;
+
+  /* --- space --- */
+  --sp-1: 0.25rem;  --sp-2: 0.5rem;   --sp-3: 0.75rem;  --sp-4: 1rem;
+  --sp-5: 1.5rem;   --sp-6: 2rem;     --sp-7: 3rem;     --sp-8: 4rem;
+  --sp-9: 6rem;     --sp-10: 8rem;
+
+  --radius-sm: 4px;
+  --radius:    10px;
+  --radius-lg: 16px;
+
+  --container: 68rem;
+  --measure:   38rem;
+  --gutter:    var(--sp-4);   /* page side padding — grows on wider screens */
+}
+
+
+/* 3. Dark theme ============================================================ */
+/* Token overrides only — no component below knows the theme exists.
+
+   Two selectors, one block each, and the blocks must stay identical:
+     <html data-theme="dark">   → dark, whatever the OS says
+     <html data-theme="light">  → light, whatever the OS says
+     no attribute               → follows prefers-color-scheme
+   The media query wraps ONLY the second selector. Put it outside and
+   :not([data-theme="light"]) matches everyone — dark becomes the default.
+
+   What changes: background, surfaces, hairline, the three text levels,
+   on-strong (buttons and the brand mark invert), the shadow, the loading
+   shimmer, and the error red.
+   What stays: --select (the brand blue reads 4.8:1 on warm-950) and
+   --sel-handle (Figma's handles are white in dark mode too). */
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:          linear-gradient(153deg, var(--warm-900) 0%, var(--warm-950) 100%), var(--warm-950);
+  --surface:     var(--warm-850);
+  --surface-alt: var(--warm-800);
+  --border:      var(--warm-700);
+  --border-subtle: var(--warm-800);
+  --text-muted:  var(--warm-400);   /* 7.7:1 */
+  --text:        var(--warm-200);   /* 16:1 */
+  --text-strong: var(--warm-50);
+  --on-strong:   var(--warm-950);   /* cream buttons, dark text */
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / 45%), 0 16px 40px -16px rgb(0 0 0 / 65%);
+  --shimmer:     color-mix(in srgb, var(--warm-800) 70%, transparent);
+  --error:       var(--red-300);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg:          linear-gradient(153deg, var(--warm-900) 0%, var(--warm-950) 100%), var(--warm-950);
+    --surface:     var(--warm-850);
+    --surface-alt: var(--warm-800);
+    --border:      var(--warm-700);
+    --border-subtle: var(--warm-800);
+    --text-muted:  var(--warm-400);
+    --text:        var(--warm-200);
+    --text-strong: var(--warm-50);
+    --on-strong:   var(--warm-950);
+    --shadow-lift: 0 2px 4px rgb(0 0 0 / 45%), 0 16px 40px -16px rgb(0 0 0 / 65%);
+    --shimmer:     color-mix(in srgb, var(--warm-800) 70%, transparent);
+    --error:       var(--red-300);
+  }
+}
+
+
+/* 4. Reset + cursor ======================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; cursor: var(--cursor); }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--step-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;           /* belt and braces — nothing should overflow */
+}
+
+/* The custom arrow everywhere, links included; only the resize handles
+   keep a system cursor, because that cursor IS the affordance. */
+a, button, [role='button'], summary, label { cursor: var(--cursor); }
+
+img, svg, video { display: block; max-width: 100%; height: auto; }
+
+h1, h2, h3, h4, p, ul, ol, figure, blockquote { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+a { color: inherit; }
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--select);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+
+/* 5. Typography ============================================================ */
+
+.display {
+  font-size: var(--step-display);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  color: var(--text-strong);
+  text-wrap: balance;
+}
+
+.h2 {
+  font-size: var(--step-h2);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--text-strong);
+  text-wrap: balance;
+}
+
+.h3 {
+  font-size: var(--step-h3);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  color: var(--text-strong);
+}
+
+.lead {
+  font-size: var(--step-lead);
+  line-height: 1.45;
+  letter-spacing: -0.012em;
+  color: var(--text);
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+
+.prose { max-width: var(--measure); text-wrap: pretty; }
+.prose p + p { margin-top: var(--sp-4); }
+.prose strong { font-weight: 600; color: var(--text-strong); }
+
+.small { font-size: var(--step-small); color: var(--text-muted); }
+
+/* The mono label. His slides use it for every piece of metadata. */
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  font-feature-settings: 'zero' 1;
+}
+
+/* Inline link inside body copy */
+.link {
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.18s ease, color 0.18s ease;
+}
+.link:hover {
+  color: var(--text-strong);
+  text-decoration-color: var(--select);
+}
+
+
+/* 6. Layout ================================================================ */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section { padding-block: var(--sp-7); }
+.section + .section { border-top: var(--hairline); }
+
+/* Section heading with its mono label, mirroring the slides */
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--sp-4);
+  top: var(--sp-4);
+  z-index: 100;
+  padding: var(--sp-2) var(--sp-4);
+  background: var(--text-strong);
+  color: var(--on-strong);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; }
+
+@media (min-width: 40rem) {
+  :root { --gutter: var(--sp-5); }
+  .section { padding-block: var(--sp-8); }
+  .section-head {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--sp-3) var(--sp-5);
+    margin-bottom: var(--sp-6);
+  }
+}
+
+@media (min-width: 56rem) {
+  :root { --gutter: var(--sp-6); }
+}
+
+
+/* 7. Components ============================================================ */
+
+/* --- 7.1 Arrow -----------------------------------------------------------
+   ↗ and ↘ are NOT in Inter's latin subset — as text they fall back to a
+   system font with the wrong weight and baseline. Drawn as SVG instead.
+   .arrow--down flips the same path vertically. */
+
+.arrow {
+  width: 0.72em;
+  height: 0.72em;
+  flex: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+  vertical-align: baseline;
+  transition: transform 0.18s ease;
+}
+.arrow--down { transform: scaleY(-1); }
+
+
+/* --- 7.2 Metadata pair ---------------------------------------------------
+   label + value. The arrow points at the value: ↘ when the label sits above,
+   ↗ when it sits below. */
+
+.meta { display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-1); }
+
+.meta__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  white-space: nowrap;
+}
+
+.meta__value {
+  font-size: var(--step-small);
+  font-weight: 500;
+  color: var(--text-strong);
+  line-height: 1.3;
+}
+
+.meta--reverse { flex-direction: column-reverse; }
+
+/* A row of metadata pairs */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+}
+
+/* A 2×2 block of metadata pairs — the cover-slide layout, on a card */
+.meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3) var(--sp-4);
+}
+
+
+/* --- 7.2b Inner page head ------------------------------------------------
+   Home keeps the one display-size moment; inner pages open at h2 scale with
+   the same mono label underneath, like "Projects Index / page title ↗". */
+
+.page-head { padding-block: var(--sp-7) var(--sp-5); }
+.page-head .prose { margin-top: var(--sp-4); }
+
+@media (min-width: 40rem) {
+  .page-head { padding-block: var(--sp-8) var(--sp-6); }
+  .page-head .prose { margin-top: var(--sp-5); }
+}
+
+
+/* --- 7.3 Selection box ---------------------------------------------------
+   The name sits in a Figma-style selection box: a 2px frame with four corner
+   handles. With JS (site.js) the handles resize the box and the name scales
+   to fit — min font 20px, max width the grid — and everything below reflows.
+   Without JS it is a static frame and the name wraps as usual.
+
+   The box is a wrapper around the <h1>, not the <h1> itself, so the handle
+   button never becomes part of the heading's accessible name. */
+
+.selbox {
+  position: relative;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.04em 0.08em;
+  font-size: var(--step-display);
+  border-radius: 0;                   /* a selection frame is always square */
+  outline: 2px solid var(--select);   /* outline, not border: no effect on layout maths */
+  outline-offset: 0;
+}
+
+.selbox .display { font-size: inherit; }
+
+/* JS opts in to single-line scaling; without it the name wraps normally.
+   Both properties, on both elements: `text-wrap: balance` on .display is a
+   shorthand that would otherwise switch wrapping back on. */
+.selbox.is-ready, .selbox.is-ready .display { white-space: nowrap; text-wrap: nowrap; }
+
+.selbox__handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  margin: 0;
+  padding: 0;
+  background: var(--sel-handle);
+  border: 2px solid var(--select);
+  border-radius: 0;
+  transform: translate(-50%, -50%);
+  touch-action: none;
+  cursor: nwse-resize;
+}
+/* a 30px hit area around each 10px handle, for fingers */
+.selbox__handle::before { content: ''; position: absolute; inset: -10px; }
+
+.selbox__handle--nw { left: 0;    top: 0; }
+.selbox__handle--ne { left: 100%; top: 0;    cursor: nesw-resize; }
+.selbox__handle--sw { left: 0;    top: 100%; cursor: nesw-resize; }
+.selbox__handle--se { left: 100%; top: 100%; }
+
+.selbox__handle:focus-visible { outline: 2px solid var(--select); outline-offset: 3px; }
+
+body.is-resizing { user-select: none; -webkit-user-select: none; cursor: nwse-resize; }
+body.is-resizing * { cursor: inherit; }
+
+
+/* --- 7.4 Header ---------------------------------------------------------- */
+
+/* <site-header> / <site-footer> (assets/js/components.js) print the real
+   <header>/<footer> into their own light DOM. display:contents removes the
+   custom element's own box from the layout, so the header below still sticks
+   to the viewport and the footer still sits directly on <body>'s flow. */
+site-header, site-footer { display: contents; }
+
+.site-header {
+  position: sticky;
+  top: 8px;
+  z-index: 20;
+  background: var(--surface-alt);
+  border-radius: var(--radius-lg);
+  border: solid 1px var(--border-subtle);
+
+  /* The bar follows the grid: same max-width as .container, and centred by the
+     auto margins — without them a max-width block just stays at the left.
+     The min() keeps at least 8px from each page edge (same as `top`) once the
+     viewport is narrower than the container. */
+  max-width: min(var(--container), 100% - 16px);
+  margin-inline: auto;
+  /*background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: var(--hairline);*/
+}
+
+@supports not (backdrop-filter: blur(10px)) {
+  .site-header { background: var(--surface-alt); }
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  min-height: 3.25rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-sans);
+  font-size: var(--step-small);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  color: var(--text-strong);
+  white-space: nowrap;
+}
+
+.brand__mark { width: 22px; height: 22px; flex: none; }
+
+/* The full name where there is room, the initials on phones.
+   Nudged 1px down: the portrait's weight sits low, so a geometrically
+   centred name reads high next to it. */
+.brand__name { position: relative; top: 1px; }
+.brand__full { display: none; }
+
+.nav { display: flex; align-items: center; gap: 2px; }
+
+.nav__link {
+  display: block;
+  padding: var(--sp-2) var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: var(--radius-sm);
+  transition: color 0.18s ease, background-color 0.18s ease;
+}
+.nav__link:hover { color: var(--text-strong); background: var(--surface); }
+
+.nav__link[aria-current='page'] {
+  color: var(--on-strong);
+  background: var(--text-strong);   /* semantic, so it inverts with the theme — a primitive here was black-on-black in dark */
+}
+
+/* --- 7.4b Nav fallback, for <noscript> ------------------------------------
+   The browser parses the contents of <noscript> only when scripting is off, so
+   with JS on this element never exists and these rules cost nothing. It is a
+   plain row of links rather than the sticky bar: without JS the job is reaching
+   the other pages, not reproducing the chrome. */
+
+.nav--fallback {
+  max-width: var(--container);
+  margin-inline: auto;
+  flex-wrap: wrap;
+  padding: var(--sp-3) var(--gutter);
+}
+
+/* The active pill without JS. site.js normally sets aria-current, but
+   <body data-page> is already in the static HTML — CSS can do the same job. */
+body[data-page='home']      .nav--fallback [data-page='home'],
+body[data-page='portfolio'] .nav--fallback [data-page='portfolio'],
+body[data-page='bio']       .nav--fallback [data-page='bio'] {
+  color: var(--on-strong);
+  background: var(--text-strong);
+}
+
+@media (min-width: 40rem) {
+  .site-header__inner { min-height: 3.75rem; gap: var(--sp-4); }
+  .brand__full { display: inline; }
+  .brand__initials { display: none; }
+  .nav { gap: var(--sp-1); }
+  .nav__link { padding: var(--sp-2) var(--sp-3); }
+}
+
+/* --- 7.4c Brand dock, home only -------------------------------------------
+   On the home the brand is not in the bar to begin with: the page's own name
+   and portrait are. components.js adds .has-name once the <h1> has scrolled
+   completely under the bar, .has-mark once the portrait has.
+
+   Both rise in from the bar's bottom edge — the edge the originals just
+   slipped under — so they read as the same objects arriving, not as new ones
+   fading in. The bar clips them on the way.
+
+   The name comes first, flush left, with no slot kept for the mark. When the
+   mark arrives its slot opens, pushing the name right, and 0.075s later
+   the mark rises into it. Leaving mirrors it with the same lag: the mark
+   drops, then the slot closes. The delays below are what order those steps; each
+   state carries the delays of the transition INTO it.
+
+   Before anything arrives, .brand__label — "brand mark ↘", a meta label like
+   the facts' — keeps the bar from looking empty and points down at the
+   originals. The arriving name pushes it out through the top of the bar: the
+   value takes the place of its label. */
+
+/* The case-study header (§ 7.4d) moves the same way, so it shares these. */
+.site-header--dock,
+.site-header--case {
+  --dock-rise: 2.75rem;                      /* centre of the bar → below its bottom edge */
+  --dock-scale: 1.3;
+  --dock-scale-mark: 2;                      /* the mark comes from the large portrait: more to shed */
+  --dock-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  overflow: hidden;
+  overflow: clip;                            /* clip, where supported, makes no scroll container */
+}
+
+/* They also start a little oversized and settle to size as they rise, as if
+   shrinking from the page's scale into the bar's. Both scale from their
+   left edge, so each stays put against whatever is on its left. */
+.site-header--dock .brand__name,
+.site-header--dock .brand__mark {
+  opacity: 0;
+  transform: translateY(var(--dock-rise)) scale(var(--dock-scale));
+}
+.site-header--dock .brand__name,
+.site-header--dock .brand__mark { transform-origin: left center; }
+.site-header--dock .brand__mark { transform: translateY(var(--dock-rise)) scale(var(--dock-scale-mark)); }
+
+.site-header--dock .brand__name {
+  transition: opacity 0.25s ease, transform 0.5s var(--dock-ease);
+}
+
+/* The mark's slot: a negative margin that swallows the mark and the gap, so
+   the name sits flush left. The mark keeps its 22px throughout — animating
+   its width instead squashed the image while the slot opened. */
+.site-header--dock .brand__mark {
+  margin-right: calc(-22px - var(--sp-2));
+  transition: margin-right 0.35s var(--dock-ease) 0.075s, opacity 0.2s ease, transform 0.4s var(--dock-ease);
+}
+
+/* Out of flow, so it takes no width or gap from the brand. */
+.site-header--dock .brand { position: relative; }
+.brand__label {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  translate: 0 -50%;
+  pointer-events: none;
+  transition: opacity 0.25s ease 0.1s, transform 0.45s var(--dock-ease) 0.1s;
+}
+.site-header--dock.has-name .brand__label,
+.site-header--dock .brand:focus-visible .brand__label {
+  opacity: 0;
+  transform: translateY(calc(var(--dock-rise) * -1));
+  transition-delay: 0s;
+}
+/* Below ~360px "brand mark" would run under the nav: it shortens to "brand". */
+@media (max-width: 22.4rem) {
+  .brand__label-more { display: none; }
+}
+
+/* Nothing on show yet: no invisible link to click. Still reachable by Tab —
+   and focusing it brings the whole brand in, see below. */
+.site-header--dock:not(.has-name):not(.has-mark) .brand { pointer-events: none; }
+
+.site-header--dock.has-name .brand__name,
+.site-header--dock.has-mark .brand__mark,
+.site-header--dock .brand:focus-visible .brand__name,
+.site-header--dock .brand:focus-visible .brand__mark {
+  opacity: 1;
+  transform: none;
+}
+
+.site-header--dock.has-mark .brand__mark,
+.site-header--dock .brand:focus-visible .brand__mark {
+  margin-right: 0;
+  transition-delay: 0s, 0.075s, 0.075s;      /* slot, opacity, transform */
+}
+
+
+/* --- 7.4d Case title, case studies only -----------------------------------
+   Inside a case study the nav marks nothing — you are on none of its pages.
+   Instead the bar names the project: once the <h1> has scrolled completely
+   under it, components.js adds .has-title, the name folds to "FL" and the
+   title rises in after it — "FL — AI for everyday life".
+
+   The fold: the letters after each initial sit in a .brand__fold, an
+   inline grid whose one column goes from 1fr (its text's width) to 0fr. The
+   bar clips them as they shrink, so they read as retracting into the
+   initials. Phones show "FL" anyway (§ 7.4), so there only the title moves.
+
+   The title rises from the bar's bottom edge, like the brand on the home: it
+   is the <h1> that just slipped under it. Order, both ways: the name makes
+   room, then the title enters; the title leaves, then the name unfolds. As in
+   § 7.4c, each state carries the delays of the transition into it.
+
+   Its type is the brand's, one step quieter: same sans and size, regular
+   weight, muted. A heading's tone, so it can't pass for one of the mono nav
+   links on the right — and it is plain text, not a link.
+
+   Phones skip it: at 375px the nav leaves the title about 27px, which is
+   "N…". It appears from 40rem, where the full name does (§ 7.4). */
+
+.site-header__lead {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-width: 0;                              /* lets a long title shrink, not the nav */
+}
+
+.brand__fold {
+  display: inline-grid;
+  grid-template-columns: 1fr;
+  transition: grid-template-columns 0.4s var(--dock-ease) 0.15s, opacity 0.25s ease 0.15s;
+}
+.brand__fold > span { min-width: 0; overflow: hidden; }
+
+.site-header--case.has-title .brand__fold {
+  grid-template-columns: 0fr;
+  opacity: 0;
+  transition-delay: 0s;
+}
+
+.case-title {
+  display: none;
+  gap: var(--sp-2);
+  min-width: 0;
+  position: relative;
+  top: 1px;                                  /* the same optical nudge as .brand__name */
+  font-family: var(--font-sans);
+  font-size: var(--step-small);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(var(--dock-rise)) scale(var(--dock-scale));
+  transform-origin: left center;
+  transition: opacity 0.25s ease, transform 0.5s var(--dock-ease);
+}
+.case-title__text { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+
+.site-header--case.has-title .case-title {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.15s;
+}
+
+@media (min-width: 40rem) {
+  .case-title { display: flex; }
+}
+
+/* --- 7.5 Hero ------------------------------------------------------------ */
+
+.hero { padding-block: var(--sp-7) var(--sp-6); }
+
+.hero__name { margin-bottom: var(--sp-5); }
+
+.hero__role {
+  font-size: var(--step-h2);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text-strong);
+}
+
+.hero__intro { margin-top: var(--sp-5); }
+
+@media (min-width: 40rem) {
+  .hero { padding-block: var(--sp-8) var(--sp-7); }
+  .hero__name { margin-bottom: var(--sp-6); }
+  .hero__intro { margin-top: var(--sp-6); }
+}
+
+@media (min-width: 56rem) {
+  .hero { padding-block: var(--sp-9) var(--sp-8); }
+}
+
+
+/* --- 7.6 Portrait -------------------------------------------------------- */
+/* The silhouette is backlit on warm amber — it sits on --surface-alt so the
+   photo's own glow blends into the page rather than fighting a hard edge. */
+
+.portrait {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--surface-alt);
+
+  /* macOS and iOS claim a press-and-hold on a photo for themselves — drag the
+     image out, lift the subject off the background, the save/copy callout —
+     and every one of those fought the reorder drag. The <figure> takes the
+     pointer instead, so the OS never sees an image being held. */
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.portrait img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 50% 42%;
+  border-radius: inherit;   /* .is-dragging lifts the figure's overflow clip */
+
+  /* the half that does the work — paired with draggable="false" in index.html.
+     site.js resolves the drag with closest('[data-sortable] > *'), and that is
+     the <figure>, so nothing about the reorder depends on the <img>. */
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+@media (min-width: 56rem) {
+  .portrait img { aspect-ratio: 3 / 2; }
+
+  /* --fill: the photo takes the full height of its column instead of a fixed
+     ratio, so the text beside it sets the height and the two halves end level.
+     Width is untouched — the column still comes from .split. The crop does the
+     work: object-fit stays `cover`, so the frame changes and the subject never
+     stretches. Two columns only; below 56rem the split stacks and there is no
+     column height to fill, so the 4/3 ratio above still governs. */
+  .portrait--fill { align-self: stretch; }
+  .portrait--fill img { height: 100%; aspect-ratio: auto; }
+}
+
+
+/* --- 7.7 Facts strip ----------------------------------------------------- */
+
+.facts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  background: var(--surface);
+  border-radius: var(--radius);
+  align-content: start;
+}
+
+@media (min-width: 30rem) {
+  .facts { grid-template-columns: 1fr 1fr; gap: var(--sp-5); padding: var(--sp-5); }
+}
+
+
+/* --- 7.8 Project index --------------------------------------------------- */
+/* The numbered list from slide 2 of the portfolio. */
+
+.index { border-top: var(--hairline); }
+
+.index__row {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  align-items: baseline;
+  gap: var(--sp-1) var(--sp-3);
+  padding-block: var(--sp-4);
+  border-bottom: var(--hairline);
+  text-decoration: none;
+  transition: background-color 0.18s ease;
+}
+.index__row:hover { background: var(--surface); }
+
+.index__num {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  color: var(--text-muted);
+}
+
+.index__title {
+  font-size: var(--step-h3);
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  color: var(--text-strong);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.18s ease;
+}
+.index__row:hover .index__title { text-decoration-color: var(--select); }
+
+.index__meta {
+  grid-column: 2;
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  color: var(--text-muted);
+}
+
+@media (min-width: 40rem) {
+  .index__row { grid-template-columns: 2rem 1fr auto; }
+  .index__meta { grid-column: auto; }
+}
+
+
+/* --- 7.9 Project cards --------------------------------------------------- */
+/* Flat, borderless chips on the secondary surface — the way text sits in
+   boxes on the portfolio slides. The lift on hover is the only depth. */
+
+.projects {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-5);
+}
+
+@media (min-width: 40rem) {
+  .projects { grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: var(--sp-6); }
+}
+
+/* Home: four cards in one row on wide screens, 2×2 below that — never the
+   3 + 1 orphan the auto-fit grid above would leave. */
+@media (min-width: 40rem) {
+  .projects--four { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 64rem) {
+  .projects--four { grid-template-columns: repeat(4, 1fr); }
+}
+
+.project-card {
+  position: relative;          /* the stretched link below anchors to this */
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: box-shadow 0.22s ease, transform 0.22s ease;
+}
+.project-card:hover { box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+
+/* THE WHOLE CARD IS THE LINK. One anchor, sitting on the title, stretched
+   over the card by a pseudo-element. Not an <a> wrapping the card: on the
+   home page each card also holds a ⋮⋮ grip <button>, and a button inside an
+   anchor is invalid and unusable. This way the accessibility tree still gets
+   one link with the project's name as its text, and nothing else inside the
+   card competes for the click.
+
+   Two things depend on it and will break if you touch it:
+   • .grip is z-index 2 — above the overlay, so the grip stays pressable;
+   • site.js § 4 excludes .project-card__link from its "interactive" test, or
+     dragging a card on the home page would never start. */
+.project-card__link { text-decoration: none; }
+.project-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+/* The ring belongs around the card, not around the title's text box. Guarded:
+   where :has() is missing the link keeps the default ring, so a keyboard user
+   is never left without one. */
+@supports selector(:has(a)) {
+  .project-card__link:focus-visible { outline: 0; }
+  .project-card:has(.project-card__link:focus-visible) {
+    outline: 2px solid var(--select);
+    outline-offset: 3px;
+  }
+}
+
+/* The covers are Francesco's own Behance artwork on a cool grey. Inset on
+   the warm chip they read as artwork in a frame rather than a temperature
+   clash against the cream page. */
+.project-card__cover {
+  margin: var(--sp-3) var(--sp-3) 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+
+.project-card__cover img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+/* The same cover put inline by covers.js, so a shake can move its parts.
+   Same box as the <img> it stands in for. isolation: the exports' blend modes
+   must mix with the cover itself, not with the card behind it. */
+.project-card__cover > svg {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  isolation: isolate;
+}
+
+/* "wanna see a magic trick?" under the projects heading, iPhone only (covers.js).
+   A mono label that happens to be a button: no chrome, same muted ink, the
+   arrow pointing down at the covers that will do the trick. */
+.trick {
+  padding: var(--sp-1) 0;      /* a taller tap target, same look */
+  border: 0;
+  background: none;
+  font-family: var(--font-mono);
+  transition: opacity 0.4s ease;
+}
+.trick[hidden] { display: none; }   /* the author display would otherwise beat the hidden attribute */
+.trick:disabled { color: var(--text-muted); }
+.trick.is-done { opacity: 0; }
+
+/* Placeholder for a cover that has not been exported yet. Styled as a title
+   card in the same language as the real covers, so it reads as intended.
+   To swap in the real image, replace the whole
+   <div class="project-card__cover project-card__cover--placeholder">…</div>
+   with the same markup used by the other cards. */
+.project-card__cover--placeholder {
+  display: grid;
+  place-content: center;
+  gap: var(--sp-1);
+  aspect-ratio: 16 / 10;
+  text-align: center;
+  padding: var(--sp-5);
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 10px,
+      color-mix(in srgb, var(--border) 28%, transparent) 10px 11px
+    ),
+    var(--surface-alt);
+}
+
+.project-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  flex: 1;
+}
+
+@media (min-width: 40rem) {
+  .project-card__body { padding: var(--sp-5); }
+}
+
+.project-card__desc { color: var(--text-muted); font-size: var(--step-small); text-wrap: pretty; }
+
+/* The details — company, date, team, ownership — sit under the paragraph and
+   are pushed to the bottom edge, so cards of different text lengths still
+   line their spec block up across a row. */
+.project-card__foot {
+  margin-top: auto;
+  padding-top: var(--sp-3);
+  border-top: var(--hairline);
+}
+
+
+/* --- 7.10 Outbound link -------------------------------------------------- */
+
+.out {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-height: 44px;                 /* comfortable touch target */
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  letter-spacing: 0.02em;
+  color: var(--text-strong);
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-underline-offset: 0.28em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.18s ease;
+}
+.out:hover { text-decoration-color: var(--select); }
+.out:hover .arrow { transform: translate(1px, -1px); }
+.out:hover .arrow--down { transform: scaleY(-1) translate(1px, -1px); }
+
+/* Inside a card foot the 44px box would add dead space; the card is the target */
+.project-card__foot .out, .site-footer .out { min-height: 0; }
+
+
+/* --- 7.11 Earlier work list ---------------------------------------------- */
+
+.other {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-3);
+}
+
+@media (min-width: 40rem) {
+  .other { grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+}
+
+.other__item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+.other__item:hover { box-shadow: var(--shadow-lift); transform: translateY(-1px); }
+
+.other__name { font-size: var(--step-small); font-weight: 500; color: var(--text-strong); }
+
+
+/* --- 7.12 CV blocks ------------------------------------------------------
+   Grouped by organisation, following the 2026 CV: an organisation line
+   (name + `// place`), then every role held there hanging off a single
+   hairline, dates on the role line.
+
+       Arduino            // Turin, hybrid
+       │ Product Designer // Apr 2025 — Dec 2025
+       │ – bullet
+
+   No horizontal rule between organisations — the whitespace and the name do
+   that work. The one exception is a block marked [data-rule-before], which
+   says "different kind of experience", not merely "next employer". Boolean is
+   the only one today: teaching, not product work, and it ran in parallel with
+   the Arduino years rather than after them. Mark another block the same way
+   if a new entry earns it; the rule follows the marker, not the position.
+   ------------------------------------------------------------------------ */
+
+.cv-org { padding-block: var(--sp-6) 0; }
+.cv-org:first-of-type { padding-top: 0; }
+
+.cv-org[data-rule-before] {
+  border-top: var(--hairline);
+  margin-top: var(--sp-6);   /* same above as below, so the rule sits */
+  padding-top: var(--sp-6);  /* centred in the gap, not against the name */
+}
+
+.cv-org__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-1) var(--sp-3);
+}
+
+.cv-org__name {
+  font-size: var(--step-h3);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--text-strong);
+}
+
+/* `//` is decoration, not content: it is drawn, so screen readers and
+   copy-paste get the plain place name. */
+.cv-org__where,
+.cv-role__when {
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  color: var(--text-muted);
+}
+.cv-org__where::before,
+.cv-role__when::before { content: '// '; color: var(--border); }
+
+/* every role at one organisation hangs off a single hairline */
+.cv-org__roles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  margin-top: var(--sp-3);
+  padding-left: var(--sp-4);
+  border-left: var(--hairline);
+}
+
+.cv-role__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-1) var(--sp-2);
+}
+
+.cv-role__title {
+  font-size: var(--step-body);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+.cv-role__list { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-2); }
+
+.cv-role__list li {
+  position: relative;
+  padding-left: 1.1em;
+  font-size: var(--step-small);
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+.cv-role__list li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--border);
+}
+
+@media (min-width: 40rem) {
+  .cv-org { padding-block: var(--sp-7) 0; }
+  .cv-org:first-of-type { padding-top: 0; }
+  .cv-org[data-rule-before] { margin-top: var(--sp-7); padding-top: var(--sp-7); }
+  .cv-org__roles { gap: var(--sp-5); padding-left: var(--sp-5); }
+}
+
+
+.skill-cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-6);
+}
+
+.skill-cols span {
+    color: var(--text-strong);
+}
+
+@media (min-width: 40rem) {
+  .skill-cols { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+}
+
+  .skill-list { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-4);}
+  .skill-list li { font-size: var(--step-small); color: var(--text-muted); }
+
+
+/* --- 7.13 Button --------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 44px;
+  padding: var(--sp-3) var(--sp-5);
+  background: var(--text-strong);
+  color: var(--on-strong);
+  border: 1px solid var(--text-strong);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+.btn:hover { background: transparent; color: var(--text-strong); }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-strong);
+  border-color: var(--border);
+}
+.btn--ghost:hover { border-color: var(--text-strong); background: var(--surface); }
+
+
+/* --- 7.14 Contact -------------------------------------------------------- */
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin-top: var(--sp-4);
+}
+
+@media (min-width: 40rem) {
+  .contact-list { flex-direction: row; flex-wrap: wrap; gap: var(--sp-3) var(--sp-6); margin-top: var(--sp-5); }
+}
+
+
+/* --- 7.15 Footer rail ---------------------------------------------------- */
+/* Mono, low, quiet — the running foot from the portfolio slides. */
+
+.site-footer {
+  border-top: var(--hairline);
+  margin-top: var(--sp-7);
+  padding-block: var(--sp-5);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/* the running credit and the privacy link travel together, so the rail keeps
+   its two ends: who made this on the left, when it last changed on the right */
+.site-footer__left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-4);
+}
+
+@media (min-width: 40rem) {
+  .site-footer { margin-top: var(--sp-8); }
+  .site-footer__inner {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-3) var(--sp-5);
+  }
+
+  /* privacy is a destination, not part of the credit: a hairline and air
+     keep it from reading as the tail of "UX Designer" */
+  .site-footer__left { align-items: center; gap: var(--sp-2) var(--sp-5); }
+  .site-footer__left .out {
+    padding-left: var(--sp-5);
+    border-left: var(--hairline);
+  }
+
+  /* last edit sits beside its date, so the arrow turns to point across at it */
+  .site-footer .meta {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--sp-3);
+  }
+  .site-footer .meta__label .arrow { transform: rotate(45deg); }
+}
+
+
+/* --- 7.16 Two-column split ----------------------------------------------- */
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-5);
+}
+
+@media (min-width: 56rem) {
+  .split { grid-template-columns: 1.15fr 1fr; gap: var(--sp-7); align-items: start; }
+  .split--even { grid-template-columns: 1fr 1fr; }
+
+  /* The one split whose halves swap places (the home's portrait and facts)
+     gets equal columns. With 1.15fr / 1fr the portrait was genuinely a
+     different width in each slot, so the swap read as a resize rather than a
+     move — and FLIP animates transforms, which cannot smooth a size change. */
+  .split[data-sortable] { grid-template-columns: 1fr 1fr; }
+}
+
+
+/* 8. Motion ================================================================ */
+
+/* Content is visible by default. JS opts in by putting .js-reveal on <html>,
+   so a script error or blocked JS can never leave the page blank. */
+.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.js-reveal .reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js-reveal .reveal { opacity: 1; transform: none; }
+}
+
+
+/* 9. Print ================================================================= */
+/* Mostly for bio.html — a recruiter printing the CV should get something clean. */
+
+@media print {
+  .site-header, .site-footer, .skip-link, .btn, .portrait, .selbox__handle { display: none; }
+  body { background: #fff; color: #000; font-size: 10.5pt; }
+  .section { padding-block: 0.6cm; border: 0; }
+  .cv-org, .cv-role__head + .cv-role__list { break-inside: avoid; }
+  .display { font-size: 24pt; }
+  .h2 { font-size: 14pt; }
+  .selbox { outline: 0; padding: 0; font-size: 24pt; width: auto; white-space: normal; }
+  a { text-decoration: none; }
+  .out::after { content: ' (' attr(href) ')'; font-size: 8pt; color: #555; }
+  .js-reveal .reveal { opacity: 1; transform: none; }
+}
+
+
+/* --- 7.17 Case study ------------------------------------------------------
+   One project, told in the order of its portfolio slides: cover, then a
+   section per slide. Figures are flat chips like everything else. */
+
+.case-head { padding-block: var(--sp-7) var(--sp-5); }
+.case-head__title { margin-bottom: var(--sp-3); }
+.case-head__sub {
+  font-size: var(--step-h3);
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: var(--sp-5);
+}
+.case-head__actions { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); margin-top: var(--sp-5); align-items: center; }
+
+/* The cover slide's row of label ↘ value pairs. Each pair is its own chip —
+   the slides set them as separate boxes, not as one slab with the pairs
+   ruled off inside it. The container only does the spacing. */
+.case-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+
+.case-meta > .meta {
+  padding: var(--sp-4);
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+@media (min-width: 40rem) {
+  .case-head { padding-block: var(--sp-8) var(--sp-6); }
+  .case-meta { grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: var(--sp-4); }
+  .case-meta > .meta { padding: var(--sp-4) var(--sp-5); }
+}
+
+.figure { margin: 0; background: var(--surface); border-radius: var(--radius); overflow: hidden; }
+.figure img, .figure video { width: 100%; display: block; }
+.figure--inset { padding: var(--sp-3); }
+.figure--inset img, .figure--inset video { border-radius: var(--radius); }
+.figure__caption { display: block; padding: var(--sp-3) var(--sp-1) var(--sp-1); }
+
+.figure-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-4); }
+@media (min-width: 40rem) { .figure-grid { grid-template-columns: 1fr 1fr; gap: var(--sp-5); } }
+/* three portrait clips in a row — tall phone videos would be twice as tall in two columns */
+@media (min-width: 40rem) { .figure-grid--3 { grid-template-columns: repeat(3, 1fr); } }
+
+/* portrait phone videos: keep their ratio, never autoplay, load on demand */
+.video { aspect-ratio: 9 / 16; object-fit: cover; background: var(--surface-alt); }
+.video--wide { aspect-ratio: 16 / 9; }   /* a landscape clip, cropped from a phone video */
+
+.bullets { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-3); }
+.bullets li { position: relative; padding-left: 1.1em; text-wrap: pretty; }
+.bullets li::before { content: '–'; position: absolute; left: 0; color: var(--border); }
+.prose .bullets + p { margin-top: var(--sp-4); }
+
+.case-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding-block: var(--sp-6);
+  border-top: var(--hairline);
+}
+@media (min-width: 40rem) {
+  .case-nav { flex-direction: row; justify-content: space-between; align-items: baseline; }
+}
+
+/* the running foot from the slides: "Arduino Labs | LED Matrix Editor" */
+.runfoot { display: block; margin-top: var(--sp-6); }
+
+
+/* --- 7.18 Sortable blocks ------------------------------------------------
+   Home only. Cards can be dragged into a new order; the portrait and the
+   facts chip can swap places. Mouse: drag from anywhere on the block.
+   Touch: long-press anywhere, or drag the ⋮⋮ grip straight away — so a
+   normal tap still scrolls the page. Icons are Lucide (MIT), inlined. */
+
+[data-sortable] > * { position: relative; }
+
+.grip {
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  color: var(--text-muted);
+  opacity: 0.85;
+  cursor: grab;                 /* the one place a system cursor is the affordance */
+  touch-action: none;           /* a finger on the grip never scrolls */
+  transition: opacity 0.18s ease, color 0.18s ease;
+}
+.grip svg { width: 18px; height: 18px; fill: currentColor; }
+.grip:hover, .grip:focus-visible { opacity: 1; color: var(--text-strong); }
+.grip:active { cursor: grabbing; }
+
+.is-sorting > * { transition: transform 0.22s ease; }
+.is-sorting > .is-dragging {
+  transition: none;
+  z-index: 10;
+  box-shadow: var(--shadow-lift);
+  border-radius: var(--radius);
+}
+.is-sorting .project-card:hover { transform: none; box-shadow: none; }
+
+body.is-grabbing { cursor: grabbing; user-select: none; -webkit-user-select: none; }
+body.is-grabbing * { cursor: grabbing; }
+
+/* h2 with an icon button beside it */
+.h2-row { display: flex; align-items: center; gap: var(--sp-3); }
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-muted);
+  transition: color 0.18s ease, background-color 0.18s ease;
+}
+.icon-btn:hover, .icon-btn:focus-visible { color: var(--text-strong); background: var(--surface-alt); }
+.icon-btn[hidden] { display: none; }   /* the author display would otherwise beat the hidden attribute */
+.icon-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media print { .grip, .icon-btn, .lb-zoom { display: none; } }
+
+
+/* --- 7.19 Easter-egg mode --------------------------------------------------
+   The ⋮⋮ grips never show: they exist for keyboard and screen-reader users
+   only. The title keeps its selection frame at rest — it is the brand device
+   from the cover slide — and its handles stay hidden until someone hovers,
+   tabs to them, or taps. While another block is being dragged, the title
+   yields the selection: only one thing is ever selected at a time. */
+
+.grip { opacity: 0; pointer-events: none; }
+.grip:focus { opacity: 1; pointer-events: auto; }   /* :focus, not :focus-visible — a grip
+     can only ever be reached with Tab, since it takes no pointer events at rest */
+
+/* The frame. A border on a pseudo-element, not an outline: an outline would
+   follow the card's rounded corners, and a selection frame is square.
+
+   It appears on hover — the only hint the page gives that a block can be
+   moved — and stays on while the block is in flight. Hover only where there
+   is a real pointer: on a touch screen :hover sticks after a tap and would
+   strand a frame on the last block touched. No handles here; those belong to
+   the name on the cover, which is presented as a selected object. */
+[data-sortable] > .is-dragging { overflow: visible; }
+
+[data-sortable] > .is-dragging::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border: 2px solid var(--select);
+  border-radius: 0;
+}
+
+/* The same frame at rest, on hover. Separate block, not a second selector on
+   the rule above: the media query has to wrap the hover half only. */
+@media (hover: hover) {
+  [data-sortable] > *:hover { overflow: visible; }
+
+  [data-sortable] > *:hover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    border: 2px solid var(--select);
+    border-radius: 0;
+  }
+}
+
+[data-sortable] > .is-dragging::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  z-index: 3;
+  pointer-events: none;
+  background-image:
+    /* inner white fill */
+    linear-gradient(var(--sel-handle), var(--sel-handle)),
+    linear-gradient(var(--sel-handle), var(--sel-handle)),
+    linear-gradient(var(--sel-handle), var(--sel-handle)),
+    linear-gradient(var(--sel-handle), var(--sel-handle)),
+    /* outer 2px frame */
+    linear-gradient(var(--select), var(--select)),
+    linear-gradient(var(--select), var(--select)),
+    linear-gradient(var(--select), var(--select)),
+    linear-gradient(var(--select), var(--select));
+  background-size: 6px 6px, 6px 6px, 6px 6px, 6px 6px, 10px 10px, 10px 10px, 10px 10px, 10px 10px;
+  background-repeat: no-repeat;
+  background-position:
+    left 2px top 2px, right 2px top 2px, left 2px bottom 2px, right 2px bottom 2px,
+    left top, right top, left bottom, right bottom;
+}
+
+/* the title: frame always, handles on demand */
+.selbox { transition: outline-color 0.2s ease; }
+/* The title's handles are always on — the name is presented as a selected
+   object, the way it is on the cover slide. They only step back while another
+   block is being dragged (see body.is-grabbing below), so that just one thing
+   ever reads as selected. */
+.selbox__handle { opacity: 1; pointer-events: auto; transition: opacity 0.2s ease; }
+
+/* something else is selected — the title steps back */
+body.is-grabbing .selbox { outline-color: transparent; }
+body.is-grabbing .selbox__handle { opacity: 0; pointer-events: none; }
+
+
+/* --- 7.20 Screenshot stack ------------------------------------------------
+   Three product windows overlapping in one frame, echoing the Final Design
+   slide. Below 48rem the overlap is dropped entirely — three layered
+   screenshots on a phone would be unreadable — and it becomes a plain
+   vertical stack with captions.
+
+   ┌──────────────────────────────────────────────────────────────────────┐
+   │  TO PLAY WITH THE LAYOUT, EDIT ONLY THE BLOCK MARKED "composition".   │
+   │  Nine numbers: x (from the left edge), y (from the top) and w (width) │
+   │  for each window, all percentages of the frame. --shots-ratio sets    │
+   │  the frame's own proportions. Everything else follows.                │
+   │                                                                       │
+   │  Fastest way to dial it in: open the page, right-click the stack →    │
+   │  Inspect, select the .shots element, and drag the numbers in the      │
+   │  Styles panel — the windows move live. Then copy the values here.     │
+   │  (Remember ⌘⇧R after editing the file: the CSS caches hard.)          │
+   └──────────────────────────────────────────────────────────────────────┘ */
+
+.shots { display: flex; flex-direction: column; gap: var(--sp-3); }
+
+.shots__item { margin: 0; }
+.shots__item img { width: 100%; border-radius: var(--radius-sm); }
+.shots__caption { display: block; padding-top: var(--sp-2); }
+
+@media (min-width: 48rem) {
+  .shots {
+    /* ── composition ─────────────────────────────────────────────────── */
+    --shots-ratio: 940 / 887;   /* the frame's proportions */
+
+    --dashboard-x:  0%;   --dashboard-y: 32.1%;  --dashboard-w: 62.4%;
+    --home-x:    16.8%;   --home-y:          0;  --home-w:      80.2%;
+    --editor-x:  42.6%;   --editor-y:    50.6%;  --editor-w:    74.7%;
+    /* ─────────────────────────────────────────────────────────────────── */
+
+    display: block;
+    position: relative;
+    aspect-ratio: var(--shots-ratio);
+    overflow: hidden;    /* clips the last window, as the slide edge does */
+  }
+
+  .shots__item {
+    position: absolute;
+    margin: 0;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+
+    /* A hairline ring plus one tight drop. Three wide, soft shadows stacked
+       on top of each other pooled into a dark smudge where the windows
+       overlap; a ring separates the layers without accumulating. */
+    box-shadow: 0 0 0 1px rgb(10 8 5 / 10%), 0 6px 14px -8px rgb(10 8 5 / 32%);
+  }
+  .shots__item img { display: block; border-radius: 0; }
+
+  .shots__item--dashboard { left: var(--dashboard-x); top: var(--dashboard-y); width: var(--dashboard-w); z-index: 1; }
+  .shots__item--home      { left: var(--home-x);      top: var(--home-y);      width: var(--home-w);      z-index: 2; }
+  .shots__item--editor    { left: var(--editor-x);    top: var(--editor-y);    width: var(--editor-w);    z-index: 3; }
+
+  .shots__caption { display: none; }   /* the windows speak for themselves once composed */
+}
+
+
+/* --- 7.21 Small-photo masonry --------------------------------------------
+   The CIID page has many photos, all small exports of mixed shapes. They use
+   the same .figure cards as every other case study; only the layout around
+   them differs. A grid lined them up in rows, so a short photo left a hole
+   under it; columns stack each card straight under the one above, and the
+   space between any two cards is the same --gap both ways.
+   - two columns even on a phone, since one per row would upscale 200px
+     exports to mush and make the page endless;
+   - the order runs down the first column, then the second. */
+
+.figure-masonry {
+  --gap: var(--sp-4);
+  columns: 2;
+  column-gap: var(--gap);
+  margin-bottom: calc(-1 * var(--gap));   /* cancel the last card's margin */
+}
+.figure-masonry > .figure {
+  break-inside: avoid;
+  margin-bottom: var(--gap);
+}
+/* only bites where the page sets an aspect-ratio to even out the columns */
+.figure-masonry img { object-fit: cover; }
+
+/* The six AI tools on the Outcome slide, across the full container. All
+   the same shape, so columns buy nothing and would scramble the reading
+   order; a grid with the same --gap looks identical and keeps it. The
+   exports are only 240px wide: six in a row on desktop keeps each card near
+   that size instead of upscaling it — three wide would blow them up 1.6×. */
+.figure-masonry--tools {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+  margin-bottom: 0;
+}
+.figure-masonry--tools > .figure { margin-bottom: 0; }
+@media (min-width: 40rem) { .figure-masonry--tools { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 56rem) { .figure-masonry--tools { grid-template-columns: repeat(6, 1fr); } }
+
+/* The deck's pencilled asides — "the office ↗", 'some of the "objects" ↗'.
+   Flex like .meta__label: svg is display:block site-wide, so in a plain
+   block the arrow dropped onto a line of its own. */
+.figure-note {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  margin-top: var(--sp-3);
+}
+.figure-note--end   { justify-content: flex-end; }
+.figure-note--above { margin: var(--sp-6) 0 var(--sp-3); }
+
+/* --- 7.22 Numbered bullets ------------------------------------------------
+   .bullets with a counter instead of the dash, for the interaction loop. */
+
+.bullets--num { counter-reset: step; }
+.bullets--num li { padding-left: 1.9em; }
+.bullets--num li::before {
+  counter-increment: step;
+  content: counter(step) '.';
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  color: var(--text-muted);
+  top: 0.25em;
+}
+
+
+/* --- 7.23 Lightbox --------------------------------------------------------
+   Case-study pages only; the behaviour is assets/js/lightbox.js. Click an
+   image — or the ⤢ badge on a video — and it opens larger on the page's own
+   ground, with a properties panel beside it: caption, type, pixel size, alt
+   text. The rows are the .meta pairs from the case-study heads, so the panel
+   reads like those — and like the right rail of the tool the site's whole
+   visual language comes from. No black scrim: the overlay IS the page.
+
+       ┌──────────────────────────────────────────────────┐
+       │                                               ✕  │  bar
+       │  ┌───────────────────────────┐  ┌─────────────┐  │
+       │  │                           │  │ properties  │  │
+       │  │          media            │  │ caption     │  │  stage
+       │  │                           │  │ type · size │  │
+       │  └───────────────────────────┘  │ alt text    │  │
+       │                                 └─────────────┘  │
+       │                ‹   03 / 12   ›                   │  rail
+       └──────────────────────────────────────────────────┘
+
+   Under 56rem the panel drops below the media. Chosen from six prototyped
+   variants, where it was D. */
+
+/* The trigger on the page. The frame on hover would be the sortable-block
+   language; a lighter touch is enough here, since the ⤢ badge says the rest. */
+@media (hover: hover) {
+  .lb-thumb { transition: opacity 0.18s ease; }
+  .lb-thumb:hover { opacity: 0.92; }
+}
+.lb-thumb:focus-visible { outline: 2px solid var(--select); outline-offset: 3px; }
+
+/* :where() keeps this at zero specificity: .figure needs a
+   positioning context for the badge, but .shots__item is already absolute
+   on wide screens, and a plain .lb-host here — later in the file, same
+   weight — would have pulled the three stacked windows back into the flow. */
+:where(.lb-host) { position: relative; }
+
+/* ⤢ — sits on the figure, so it works both for an image, which is clickable
+   whole, and a video, where it is the only way in.
+
+   A solid chip, deliberately NOT the frosted glass of .grip: this badge sits
+   on top of the media, and one of those is a 3 000px animated GIF. A
+   backdrop-filter has to re-blur whatever is under it every time that
+   changes — so hovering the GIF to open it made the browser blur a 5-megapixel
+   frame up to fifty times a second, and it kept going after the overlay
+   closed, with the pointer still resting there. */
+.lb-zoom {
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity 0.18s ease, color 0.18s ease;
+}
+.lb-zoom svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.lb-host:hover .lb-zoom, .lb-zoom:focus-visible { opacity: 1; }
+.lb-zoom:hover { color: var(--text-strong); }
+
+/* a finger gets no hover, so on a video the badge has to be there at rest */
+@media (hover: none) { .lb-host--video .lb-zoom { opacity: 0.9; } }
+
+/* The shell. <dialog> for the top layer, Esc and the focus trap. The dialog
+   fills the viewport and carries the page's own background; ::backdrop stays
+   transparent, since it does not reliably inherit custom properties. */
+.lb {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+}
+.lb::backdrop { background: transparent; }
+
+/* One row, exactly the dialog's height. With the default `auto` the row
+   grows to fit its content, .lb__inner's height:100% resolves against that,
+   and nothing is ever clipped. */
+.lb[open] {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  animation: lb-in 0.22s ease both;
+}
+
+.lb__inner {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;   /* bar / stage / rail */
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  padding: var(--sp-3) var(--gutter);
+  gap: var(--sp-3);
+}
+
+.lb__bar { display: flex; justify-content: flex-end; min-height: 36px; }
+
+.lb__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+}
+
+.lb__figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  max-width: 100%;
+  max-height: 100%;
+  min-height: 0;
+  animation: lb-swap 0.2s ease both;
+}
+
+.lb__frame {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  max-width: 100%;
+  border-radius: var(--radius);
+}
+
+/* No ground, ring or shadow behind the media. Many exports are PNGs with
+   transparent margins: a white fill turned those margins into a card around
+   the picture, and a ring or a shadow drew the edge of the file rather than
+   the edge of the picture — the same card, outlined. The page shows through.
+
+   11rem is the chrome: bar, rail, the gaps and the padding. A percentage
+   max-height inside an auto-height flex column resolves to nothing, so the
+   cap is written against the viewport. */
+.lb__frame img,
+.lb__frame video {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100dvh - 11rem);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: inherit;
+  background: none;
+  transition: opacity 0.25s ease;
+}
+
+/* Loading. lightbox.js holds the frame at the picture's expected size and
+   marks it .is-loading: the --surface chip every flat block on the site
+   uses, with a soft --shimmer band passing over it. The picture fades in
+   when it lands.
+
+   The band is a pseudo-element moved with transform, and it starts and ends
+   each pass entirely OUTSIDE the box — 80% of the box wide, from -125% (its
+   right edge 20% short of the left side) to 150% (its left edge 20% past the
+   right). The restart happens where nobody can see it, and the easing's slow
+   start and finish fall off-screen too, so the visible part of the move is
+   always the smooth middle. A repeating gradient slid with
+   background-position, the first try, ended each pass halfway across and
+   snapped back. Under prefers-reduced-motion § 8 cuts the animation to one
+   instant, which parks the band off-screen: a still chip. */
+.lb__frame.is-loading {
+  overflow: hidden;
+  background: var(--surface);
+}
+.lb__frame.is-loading img { opacity: 0; }
+.lb__frame.is-loading::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 80%;
+  background: linear-gradient(100deg, transparent, var(--shimmer) 50%, transparent);
+  transform: translateX(-125%);
+  animation: lb-sweep 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* The properties panel */
+.lb__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  align-self: center;
+  width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: var(--sp-4);
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+.lb__panel-head {
+  padding-bottom: var(--sp-3);
+  border-bottom: var(--hairline);
+}
+
+/* every value in the same mono, alt text included — the panel is metadata,
+   not prose */
+.lb__panel .meta__value {
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  line-height: 1.5;
+}
+.lb__panel-row--alt .meta__value { text-wrap: pretty; }
+
+.lb__rail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  min-height: 44px;
+}
+.lb__rail[hidden] { display: none; }   /* a lone item: the author display would beat the attribute */
+
+.lb__counter { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* .icon-btn, one size up for a 44px target */
+.lb__btn {
+  width: 44px;
+  height: 44px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-muted);
+  transition: color 0.18s ease, background-color 0.18s ease;
+}
+.lb__btn:hover { color: var(--text-strong); background: var(--surface-alt); }
+.lb__btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+
+html.lb-open { overflow: hidden; }
+
+/* While the overlay is open the page underneath is fully covered, so stop
+   painting it. Without this the page's own copy of the LED Matrix GIF kept
+   animating behind the dialog, and the browser was decoding and drawing that
+   5-megapixel file twice — once hidden, once in the overlay. visibility, not
+   display: the layout stays put, so closing does not reflow the article or
+   lose the scroll position. lightbox.js removes .lb-open before it hands
+   focus back to the image, which a hidden element could not take. */
+html.lb-open body > :not(.lb) { visibility: hidden; }
+
+@keyframes lb-in    { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes lb-swap  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes lb-sweep { from { transform: translateX(-125%); } to { transform: translateX(150%); } }
+
+/* Wide: media left, panel in a 17rem right rail */
+@media (min-width: 56rem) {
+  .lb__stage {
+    grid-template-columns: minmax(0, 1fr) 17rem;
+    align-items: center;
+    gap: var(--sp-6);
+  }
+  .lb__figure { justify-self: center; }
+}
+
+/* Narrow: the panel drops below the media and the alt text stays. Its length
+   changes from one image to the next, so no fixed number can say how much
+   room the media has left. Instead the figure becomes a size container
+   filling whatever the grid row leaves it, and the media is capped at 100cqh
+   of that: the panel takes what it needs, the picture takes the rest. */
+@media (max-width: 55.999rem) {
+  .lb__stage {
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: var(--sp-3);
+  }
+  .lb__figure {
+    container-type: size;
+    align-self: stretch;
+    justify-self: stretch;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  .lb__frame img,
+  .lb__frame video { max-height: 100cqh; }
+
+  /* caption, type and size share a line; the alt text takes the full width */
+  .lb__panel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--sp-3) var(--sp-5);
+    max-height: 45dvh;     /* a very long alt scrolls rather than squeezing the picture to nothing */
+  }
+  .lb__panel-head,
+  .lb__panel-row--alt { flex-basis: 100%; }
+}
+
+@media (max-width: 40rem) {
+  .lb__inner { padding-inline: var(--sp-3); }
+}
+
+
+/* --- 7.24 Image placeholder -----------------------------------------------
+   Holds the place of a picture that has not been shot or exported yet, on a
+   case-study page. It says what goes there and the file to save it as — in
+   Italian, because it is a note to the author, never copy for the reader.
+   Same diagonal hatch as the cover placeholder (7.9), plus a dashed edge so
+   it cannot pass for a finished figure.
+
+   ┌──────────────────────────────────────────────────────────────────────┐
+   │  TO SWAP IN THE REAL IMAGE, replace the whole                         │
+   │      <div class="ph" …>…</div>                                         │
+   │  with an <img> (or <video>) carrying width, height and alt. Keep the  │
+   │  <figure> and its caption around it: the lightbox finds it by itself. │
+   │  A page that still holds a .ph is not ready to publish.               │
+   └──────────────────────────────────────────────────────────────────────┘
+
+   The box takes the ratio of the picture it stands for, from --ph-ratio in
+   the HTML, so the layout already sits the way it will with the real file.
+   A long note on a phone grows the box rather than spilling out of it. */
+
+.ph {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--sp-2);
+  aspect-ratio: var(--ph-ratio, 4 / 3);
+  padding: var(--sp-4);
+  border-radius: var(--radius);
+  outline: 1px dashed var(--border);
+  outline-offset: -1px;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 10px,
+      color-mix(in srgb, var(--border) 28%, transparent) 10px 11px
+    ),
+    var(--surface-alt);
+  color: var(--text-muted);
+  font-size: var(--step-small);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.ph__tag  { color: var(--text-strong); }
+.ph__file { overflow-wrap: anywhere; }
+
+@media (min-width: 40rem) {
+  .ph { padding: var(--sp-5); }
+}
+
+
+/* --- 7.25 Status tag ------------------------------------------------------
+   A small solid chip for a project's status — "work in progress" — on the
+   case head, and shortened to "WIP" on the card's cover. Text only, no icon.
+   Square-ish corners, the grip's, rather than a full pill.
+   Block-level but only as wide as its text: under the title in a card's
+   flex column, under the subtitle on the case head. */
+
+.tag {
+  display: block;
+  width: fit-content;
+  padding: 0.3em 0.8em;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-strong);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* On the case head it belongs to the subtitle, so the subtitle gives up most
+   of its gap to it and the tag takes that gap on to the meta chips. Where
+   :has() is missing the subtitle keeps its full gap — a little looser, never
+   broken. */
+/* On a card: "WIP" on the cover's top-left corner, opposite the grip, with
+   the full words in a tooltip on hover (screen readers get them from the
+   .sr-only span). Solid, not frosted — the covers animate under it, see
+   .lb-zoom. z-index 2 lifts it over the card's stretched link so it can be
+   hovered; like the grip, a click on it doesn't open the project. */
+.tag--cover {
+  position: absolute;
+  top: calc(var(--sp-3) + var(--sp-1));
+  left: calc(var(--sp-3) + var(--sp-1));
+  z-index: 2;
+  cursor: default;
+}
+.tag--cover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + var(--sp-1));
+  left: 0;
+  padding: 0.3em 0.6em;
+  border-radius: var(--radius-sm);
+  background: var(--text-strong);
+  color: var(--surface);
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  pointer-events: none;
+}
+.tag--cover:hover::after { opacity: 1; transform: none; }
+
+.case-head__tag { margin-bottom: var(--sp-5); }
+.case-head__sub:has(+ .case-head__tag) { margin-bottom: var(--sp-3); }
+
+
+/* --- 7.26 Inline diagram --------------------------------------------------
+   A diagram drawn as inline SVG instead of exported as a picture, so it uses
+   the page's fonts and follows its theme: every colour here is a semantic
+   token, and the dark theme needs no rule of its own. The one exception is
+   the drawing of the board itself, which keeps the literal colours of its
+   cover — a black object is black in both themes.
+
+   Text sizes are in the drawing's own units. It is 360 wide, so on a phone
+   it shrinks only a little (11 → ~10px for the mono); the cap stops it from
+   growing past ~1.1× on wide screens, where the labels would start to shout.
+
+   Line weight carries meaning: a thick solid arrow is what a channel is for,
+   a thin dashed one the little that comes back the other way. */
+
+.diagram {
+  display: block;
+  width: 100%;
+  max-width: 25rem;
+  height: auto;
+  margin-inline: auto;
+}
+
+.diagram text {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  fill: var(--text-strong);
+}
+
+.diagram .dg-title { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+.diagram .dg-head  { font-weight: 600; }
+.diagram .dg-value { font-weight: 500; }
+.diagram .dg-back  { fill: var(--text-muted); }
+
+.diagram .dg-mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  font-feature-settings: 'zero' 1;
+  fill: var(--text-muted);
+}
+
+.diagram .dg-box  { fill: var(--surface-alt); }
+.diagram .dg-rule { fill: none; stroke: var(--border); stroke-width: 1; }
+
+.diagram .dg-flow {
+  fill: none;
+  stroke: var(--text-strong);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.diagram .dg-flow--back { stroke: var(--text-muted); stroke-width: 1.25; }
+.diagram .dg-dash       { stroke-dasharray: 3 4; stroke-linecap: butt; }
+.diagram .dg-arrow      { color: var(--text-muted); }
+
+
+/* --- 7.27 Password gate ---------------------------------------------------
+   A case study of work that isn't public is published encrypted, and this
+   box stands in for the whole page until the password opens it — see
+   assets/js/gate.js. While it is there, the case head and the prev/next row
+   step aside and the box sits alone in the middle of the screen, under the
+   header. Once unlocked the gate is gone, and with it every rule below.
+
+   Locked is detected twice: :has() needs no script and so never flashes the
+   case head; .is-gated (set by gate.js) covers browsers without :has(). Two
+   rules, not one list — an unknown selector would void the whole list.
+
+   A wrong password turns the field's border and the message --error red.
+   Not colour alone: the message says it in words, and the field carries
+   aria-invalid + aria-describedby, so a screen reader announces both.
+
+   The eye inside the field shows / hides what was typed (aria-pressed). */
+
+body:has([data-gate]) .case-head,
+body:has([data-gate]) .case-nav { display: none; }
+.is-gated .case-head,
+.is-gated .case-nav { display: none; }
+
+.gate__stage {
+  display: grid;
+  place-items: center;
+  min-height: calc(100svh - 5rem);    /* the viewport minus the sticky header */
+  padding: var(--sp-6) var(--gutter);
+}
+
+.gate__box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  width: 100%;
+  max-width: 26rem;
+  padding: var(--sp-5);
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+.gate__title { margin-top: var(--sp-1); text-wrap: balance; }
+.gate__text  { text-wrap: pretty; }
+
+.gate__form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  width: 100%;
+  margin-top: var(--sp-2);
+}
+
+.gate__field { position: relative; flex: 1 1 10rem; min-width: 0; }
+
+.gate__input {
+  width: 100%;
+  min-height: 44px;
+  padding: var(--sp-2) 44px var(--sp-2) var(--sp-4);   /* room on the right for the eye */
+  background: var(--surface-alt);
+  color: var(--text-strong);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: var(--step-body);   /* 16px or more: iOS Safari won't zoom in on focus */
+}
+.gate__input::placeholder { color: var(--text-muted); font-family: var(--font-mono); font-size: var(--step-mono); }
+.gate__input:focus-visible { outline: 2px solid var(--select); outline-offset: 1px; }
+.gate__input[aria-invalid='true'] { border-color: var(--error); box-shadow: inset 0 0 0 1px var(--error); }
+.gate__input[aria-invalid='true']:focus-visible { outline-color: var(--error); }
+
+.gate__eye {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition: color 0.18s ease;
+}
+.gate__eye:hover { color: var(--text-strong); }
+.gate__eye:focus-visible { outline-offset: -4px; }
+.gate__eye svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.gate__eye .gate__eye-off,
+.gate__eye[aria-pressed='true'] .gate__eye-on { display: none; }
+.gate__eye[aria-pressed='true'] .gate__eye-off { display: block; }
+
+.gate__msg:empty { display: none; }
+.gate__msg.is-error { color: var(--error); }
+
+.gate__back { margin-top: var(--sp-2); min-height: 0; }
+
+.gate.is-busy .gate__form { opacity: 0.6; }
+.btn:disabled { cursor: progress; }
+
+img[data-locked-src] { width: 100%; background: var(--surface-alt); }
+
+/* where focus lands after unlocking: a heading, not a control — no ring */
+.gate-landing:focus { outline: none; }
+
+@media (min-width: 40rem) {
+  .gate__box { padding: var(--sp-6); }
+}
+
+@media print { .gate { display: none; } }

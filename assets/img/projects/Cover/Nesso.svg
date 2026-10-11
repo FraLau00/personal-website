@@ -1,0 +1,21 @@
+<svg width="296" height="185" viewBox="0 0 296 185" fill="none" xmlns="http://www.w3.org/2000/svg">
+<style>
+/* Stessi tempi e forme di NessoFaceV2.ino (battito 90-150 ms, occhiata andata 100-175 ms,
+   sosta 150-300 ms, 13 px di corsa, schiacciamento a meta' movimento), in un ciclo di 44 s
+   con pause lunghe: un easter egg, non un'animazione. */
+.eye{transform-box:fill-box;transform-origin:center;animation:look 44s infinite,open 44s infinite}
+.lid{animation:shut 44s infinite}
+@keyframes look{0%{transform:translateX(0.000px) scale(1.0000,1.0000);animation-timing-function:linear} 36.364%{transform:translateX(0.000px) scale(1.0000,1.0000);animation-timing-function:cubic-bezier(.42,0,1,1)} 36.523%{transform:translateX(2.476px) scale(1.0417,0.8333);animation-timing-function:cubic-bezier(0,0,.58,1)} 36.682%{transform:translateX(4.951px) scale(0.9167,1.0000);animation-timing-function:linear} 37.182%{transform:translateX(4.951px) scale(0.9167,1.0000);animation-timing-function:cubic-bezier(.42,0,1,1)} 37.438%{transform:translateX(0.000px) scale(1.0833,0.8333);animation-timing-function:cubic-bezier(0,0,.58,1)} 37.693%{transform:translateX(-4.951px) scale(0.9167,1.0000);animation-timing-function:linear} 38.261%{transform:translateX(-4.951px) scale(0.9167,1.0000);animation-timing-function:cubic-bezier(.42,0,1,1)} 38.432%{transform:translateX(-2.476px) scale(1.0417,0.8333);animation-timing-function:cubic-bezier(0,0,.58,1)} 38.602%{transform:translateX(0.000px) scale(1.0000,1.0000);animation-timing-function:linear} 70.455%{transform:translateX(0.000px) scale(1.0000,1.0000);animation-timing-function:cubic-bezier(.42,0,1,1)} 70.625%{transform:translateX(-2.476px) scale(1.0417,0.8333);animation-timing-function:cubic-bezier(0,0,.58,1)} 70.795%{transform:translateX(-4.951px) scale(0.9167,1.0000);animation-timing-function:linear} 71.341%{transform:translateX(-4.951px) scale(0.9167,1.0000);animation-timing-function:cubic-bezier(.42,0,1,1)} 71.511%{transform:translateX(-2.476px) scale(1.0417,0.8333);animation-timing-function:cubic-bezier(0,0,.58,1)} 71.682%{transform:translateX(0.000px) scale(1.0000,1.0000);animation-timing-function:linear} 100%{transform:translateX(0.000px) scale(1.0000,1.0000)}}
+@keyframes open{0%{opacity:1} 14.545%{opacity:1} 14.547%{opacity:0} 14.841%{opacity:0} 14.842%{opacity:1} 56.364%{opacity:1} 56.365%{opacity:0} 56.614%{opacity:0} 56.615%{opacity:1} 88.182%{opacity:1} 88.183%{opacity:0} 88.500%{opacity:0} 88.501%{opacity:1} 100%{opacity:1}}
+@keyframes shut{0%{opacity:0} 14.545%{opacity:0} 14.547%{opacity:1} 14.841%{opacity:1} 14.842%{opacity:0} 56.364%{opacity:0} 56.365%{opacity:1} 56.614%{opacity:1} 56.615%{opacity:0} 88.182%{opacity:0} 88.183%{opacity:1} 88.500%{opacity:1} 88.501%{opacity:0} 100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.eye,.lid{animation:none}}
+</style>
+<rect x="70.0529" y="54.8066" width="155.894" height="76.5995" rx="9.42542" fill="black"/>
+<rect x="70.0529" y="54.8066" width="155.894" height="76.5995" rx="9.42542" stroke="#6A6A6A" stroke-width="0.992149"/>
+<rect x="82.4548" y="67.2085" width="91.4044" height="51.7958" rx="2.97645" fill="#141414"/>
+<ellipse class="eye" cx="111.78" cy="87.7747" rx="9.52129" ry="10.6638" fill="#FFF5E1"/>
+<ellipse class="eye" cx="143.772" cy="87.7747" rx="9.52129" ry="10.6638" fill="#FFF5E1"/>
+<rect class="lid" x="102.2587" y="86.6321" width="19.0426" height="2.2851" rx="1.1426" fill="#FFF5E1" opacity="0"/>
+<rect class="lid" x="134.2507" y="86.6321" width="19.0426" height="2.2851" rx="1.1426" fill="#FFF5E1" opacity="0"/>
+<path d="M194 75L194 111" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
+</svg>

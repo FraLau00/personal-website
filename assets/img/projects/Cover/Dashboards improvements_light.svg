@@ -1,0 +1,60 @@
+<svg width="296" height="185" viewBox="0 0 296 185" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="91" y="36" width="116" height="116" rx="8" fill="#DAE3E3"/>
+<circle cx="99.5" cy="44.5" r="0.5" fill="#4E5B61"/>
+<circle cx="116" cy="44.5" r="0.5" fill="#4E5B61"/>
+<circle cx="132.5" cy="44.5" r="0.5" fill="#4E5B61"/>
+<circle cx="149" cy="44.5" r="0.5" fill="#4E5B61"/>
+<circle cx="165.5" cy="44.5" r="0.5" fill="#4E5B61"/>
+<circle cx="182" cy="44.5" r="0.5" fill="#4E5B61"/>
+<circle cx="198.5" cy="44.5" r="0.5" fill="#4E5B61"/>
+<circle cx="99.5" cy="61" r="0.5" fill="#4E5B61"/>
+<circle cx="116" cy="61" r="0.5" fill="#4E5B61"/>
+<circle cx="132.5" cy="61" r="0.5" fill="#4E5B61"/>
+<circle cx="149" cy="61" r="0.5" fill="#4E5B61"/>
+<circle cx="165.5" cy="61" r="0.5" fill="#4E5B61"/>
+<circle cx="182" cy="61" r="0.5" fill="#4E5B61"/>
+<circle cx="198.5" cy="61" r="0.5" fill="#4E5B61"/>
+<circle cx="99.5" cy="77.5" r="0.5" fill="#4E5B61"/>
+<circle cx="116" cy="77.5" r="0.5" fill="#4E5B61"/>
+<circle cx="132.5" cy="77.5" r="0.5" fill="#4E5B61"/>
+<circle cx="149" cy="77.5" r="0.5" fill="#4E5B61"/>
+<circle cx="165.5" cy="77.5" r="0.5" fill="#4E5B61"/>
+<circle cx="182" cy="77.5" r="0.5" fill="#4E5B61"/>
+<circle cx="198.5" cy="77.5" r="0.5" fill="#4E5B61"/>
+<circle cx="99.5" cy="94" r="0.5" fill="#4E5B61"/>
+<circle cx="116" cy="94" r="0.5" fill="#4E5B61"/>
+<circle cx="132.5" cy="94" r="0.5" fill="#4E5B61"/>
+<circle cx="149" cy="94" r="0.5" fill="#4E5B61"/>
+<circle cx="165.5" cy="94" r="0.5" fill="#4E5B61"/>
+<circle cx="182" cy="94" r="0.5" fill="#4E5B61"/>
+<circle cx="198.5" cy="94" r="0.5" fill="#4E5B61"/>
+<circle cx="99.5" cy="110.5" r="0.5" fill="#4E5B61"/>
+<circle cx="116" cy="110.5" r="0.5" fill="#4E5B61"/>
+<circle cx="132.5" cy="110.5" r="0.5" fill="#4E5B61"/>
+<circle cx="149" cy="110.5" r="0.5" fill="#4E5B61"/>
+<circle cx="165.5" cy="110.5" r="0.5" fill="#4E5B61"/>
+<circle cx="182" cy="110.5" r="0.5" fill="#4E5B61"/>
+<circle cx="198.5" cy="110.5" r="0.5" fill="#4E5B61"/>
+<circle cx="99.5" cy="127" r="0.5" fill="#4E5B61"/>
+<circle cx="116" cy="127" r="0.5" fill="#4E5B61"/>
+<circle cx="132.5" cy="127" r="0.5" fill="#4E5B61"/>
+<circle cx="149" cy="127" r="0.5" fill="#4E5B61"/>
+<circle cx="165.5" cy="127" r="0.5" fill="#4E5B61"/>
+<circle cx="182" cy="127" r="0.5" fill="#4E5B61"/>
+<circle cx="198.5" cy="127" r="0.5" fill="#4E5B61"/>
+<circle cx="99.5" cy="143.5" r="0.5" fill="#4E5B61"/>
+<circle cx="116" cy="143.5" r="0.5" fill="#4E5B61"/>
+<circle cx="132.5" cy="143.5" r="0.5" fill="#4E5B61"/>
+<circle cx="149" cy="143.5" r="0.5" fill="#4E5B61"/>
+<circle cx="165.5" cy="143.5" r="0.5" fill="#4E5B61"/>
+<circle cx="182" cy="143.5" r="0.5" fill="#4E5B61"/>
+<circle cx="198.5" cy="143.5" r="0.5" fill="#4E5B61"/>
+<path d="M101.25 73L101.25 49C101.25 47.4812 102.481 46.25 104 46.25L161 46.25C162.519 46.25 163.75 47.4812 163.75 49L163.75 73C163.75 74.5188 162.519 75.75 161 75.75L104 75.75C102.481 75.75 101.25 74.5188 101.25 73Z" fill="white"/>
+<path d="M101.25 73L101.25 49C101.25 47.4812 102.481 46.25 104 46.25L161 46.25C162.519 46.25 163.75 47.4812 163.75 49L163.75 73C163.75 74.5188 162.519 75.75 161 75.75L104 75.75C102.481 75.75 101.25 74.5188 101.25 73Z" fill="#008184" fill-opacity="0.2"/>
+<path d="M101.25 73L101.25 49C101.25 47.4812 102.481 46.25 104 46.25L161 46.25C162.519 46.25 163.75 47.4812 163.75 49L163.75 73C163.75 74.5188 162.519 75.75 161 75.75L104 75.75C102.481 75.75 101.25 74.5188 101.25 73Z" stroke="#008184" stroke-width="0.499999"/>
+<rect x="167" y="46" width="30" height="63" rx="2.99999" fill="white"/>
+<rect x="101" y="142" width="63" height="30" rx="2.99999" transform="rotate(-90 101 142)" fill="white"/>
+<path d="M137 109C135.343 109 134 107.657 134 106L134 82C134 80.3431 135.343 79 137 79L161 79C162.657 79 164 80.3431 164 82L164 106C164 107.657 162.657 109 161 109L137 109Z" fill="white"/>
+<rect x="134" y="142" width="30" height="30" rx="2.99999" transform="rotate(-90 134 142)" fill="white"/>
+<rect x="167" y="142" width="30" height="30" rx="2.99999" transform="rotate(-90 167 142)" fill="white"/>
+</svg>

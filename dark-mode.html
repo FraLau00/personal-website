@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Arduino Cloud — Dark mode UI — Francesco Lauriola</title>
+<meta name="description" content="Case study: the Arduino Cloud dark mode. Not inverting colors — standardizing surfaces, bringing contrast up to guideline compliance, and building a system maintainable without a dedicated design-system team.">
+<link rel="canonical" href="https://francescolauriola.com/dark-mode">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://francescolauriola.com/dark-mode">
+<meta property="og:title" content="Arduino Cloud — Dark mode UI — case study">
+<meta property="og:description" content="Standardized surfaces, contrast compliance, and a system that scales without a design-system team.">
+<meta property="og:image" content="assets/img/projects/dark-mode.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F8F3E8">
+<meta name="theme-color" content="#0A0805" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/robotomono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+
+<!-- shared header + footer, defined once in assets/js/components.js.
+     Not deferred: the custom elements must exist before the parser reaches them. -->
+<script src="assets/js/site.config.js"></script>
+<script src="assets/js/components.js"></script>
+</head>
+
+<body data-page="project">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="arrow" viewBox="0 0 12 12">
+    <path d="M3 9 9 3M4.5 3H9v4.5" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<site-header></site-header>
+
+<!-- Same three links for browsers with JavaScript off, where <site-header>
+     stays empty. Keep in sync with the NAV array in assets/js/components.js —
+     the only thing on the site that is still duplicated per page. -->
+<noscript>
+  <nav class="nav nav--fallback" aria-label="Main">
+    <a class="nav__link" data-page="home"      href="/">home</a>
+    <a class="nav__link" data-page="portfolio" href="/portfolio">portfolio</a>
+    <a class="nav__link" data-page="bio"       href="/bio">bio &amp; cv</a>
+  </nav>
+</noscript>
+
+<main id="main">
+
+  <!-- Cover ------------------------------------------------------------ -->
+  <section class="case-head">
+    <div class="container">
+      <div class="meta meta--reverse">
+        <span class="mono meta__label">
+          project 06 of 06 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </span>
+        <h1 class="display case-head__title" data-dock="title">Dark mode UI</h1>
+      </div>
+      <p class="case-head__sub">Arduino Cloud</p>
+
+      <div class="case-meta">
+        <div class="meta">
+          <span class="mono meta__label">company <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">Arduino</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">date <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">2023</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">team <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">2 Des + 3 Devs</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">ownership <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">UX, UI</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Locked: on the published site everything from here to locked:end is
+       encrypted, images included — see assets/js/gate.js. Leave both
+       comments where they are. -->
+  <div class="gate" data-gate>
+    <noscript><div class="gate__stage"><div class="gate__box"><p class="gate__text">This case study requires a password, and JavaScript to open it.</p></div></div></noscript>
+  </div>
+  <script type="application/json" data-gate-payload>{"data":"VqJD3PEHjH8\/d+BCImHP6LSS1hCvtQcGdf\/nGCc+BIrQgDJR2vRe9GrJub04Zec3m3eaHHh1kGVzS\/YG0lLBE0a5DIH05TZiYDZTBC0gQVbLRzs7pI\/ecL6i8b9IQSZ7JPBgC8RcehWlIWSAZTjncTLRhyo1ql6cdhhElmmm3JxYxajbDKc2eDCrqVdqUb+v3MWn2qRwbd0TbDy\/kS5inMy14YLnKgwCSknAOl3mlmuPWFOwGtfXuDzOp7AjPlXt4N6T+M8+dBK1sXdRyKv4056lGBaETTzohX7ekEL\/GPZ2c1HERgA1uB2IrOuFof1f6Y1WAo\/T0tKBIDFUK7VAmTwBg\/AOKPZs097FN0+qZWh26w8VgGrX0rF82E9ci8RI51MXKwSKh+KC\/uM0TVhdV9HOf+84Gbs7eNORLjZa9NDgmPwiQ4IROnEvP5jH8uRx7KuZGYYcitP6TjbLDivN+Qf\/dROjmyr0nPpEdOQZwfMG6bq7yn8cWuAz9vRi6s8E+j5bPNvnfwqLxpGZCz8U7idoBP8mmC77pYBuB6aE0KVCg1Qgr+so14gkzxMISKvUhOEZDJoXwic3YkQNT6mSNoAew6d7cdSVl1aN7QaXLr2HaXLJXV\/sZzNclsaH6Z\/Mp0cmhNNVs6XFvPU1qUC0MkrP8kHXaTFP9\/7atpMNBRPqO6geMBPQJdnylZCxmSsnWoGtQj5SIv2l+yGUmlHlV7rcmOvScMzlR8i\/YH+qn5sL88g8vgUWLRkurQ0Ha6480kEDn6E7KONkcqDy122EqGDs23IlIIqoqyZMEXH8cNQl3B9pZcnWUTkIZP4149CgkPOhS4YTmls9HEN71zwna7OwNeETQEnuZohRfN5VREYRhLEppObxng6ejWFzmdJBW131K0Nh6DmzzXonWxsLNWeL9AIWF0aUFQTSrKwxLn0XWweDaxCNg0KaUN\/VT0a39gFnwQ7JMVdXSAd7dhENUmmWucqfcD8qm1ECSYYQLMCIlu0rCoQ\/gMm76ytL3+BUgVmaOT0Y+hDBN9Mne1KYqnGFz6266KFTyYcEtnc8UONC\/Ge2GVunK8YdiFOkzGgmolCvm\/Bqb\/AGVHO0fOfAhJirZS\/3EIp+3C39RLEzv6BpKyy+cRDMivE9bv\/GYy6xC6jYYu4rFVp1cnufmPufEkS5a\/vLwLp788HN\/6jqhjsgt0at1E6f9rFFWyzfiNBrqJg+pTrgdEF5jAsO8VIta0wV6hQIjh6wFtv1tY6FLvSwFi72hDxi3R4ukF5NHwmwM+RlYqWPp9qxwgqYWHpQNZRC51yH7WSat8+IXwWkMl5+3wLHJ45g\/6VristOU+NKNhUKt51hl8j\/+mTl+vdpw3TsnF+eHhgv+pqU\/Bby3F3CrM23bYTNR6D6eayDFfsunp4NkKFWQz3dQRMQhg3SMENlREwy3usfhwi2Sv9rsHLeHWXCoU9rKpf\/RbpTUCsjdoe6MtSLE9YNpE4CiYB4X2WsQ71aeSdTq0oIGepuYwVq2O7raLnYXpIDHp6zjcZkxCXyYfx0whE9QsQmC21iRzRpQozUIwsAuPRkbtUAwwf6yxO3nhFCuzJPnYBC7JVneHB2hMJd5dr3O5Foy\/Ja0+W75ov7PKO2YnUfzoGWBFXrdm\/B9Yd9NNlo0JI+Dwzc+zJ8Mu4HulBq5IHFClAFQOmt8\/Bg9tqtVH5l2Pm2VYRzDEx+1e6WpOPZUTKNdGx1c\/lb4PcuKjbAHAyDJABQ\/6SSSTuw7TIAM24LAcTQYkPvOI3KoRJpRR8TmqBZNpyUzEEc91qbcIv8vwofwLR3dKfm0L1EKaUDXHCYDXFhc5g46FkRl1y1Xs7y9a64yOOUfvLAnBA7\/5YxbDv+pgVQa6p6wJeN4BnZKafSMkR2rqKU3HXhUaodtZ9Ze1UaC7SXjg92Jmzto\/0ld1ZXjvshaNHnpSbIaQJ8NSKiSLI6KVM9pvIszXRAsA0LvZ8bH5z3o5jyrDSiaUQdK6RUiukzD6ko4QI183cp90Lfb6OrDCaVYKqDHFX22aQTvCCh4uXpjklt9Z9ycAqbWFBhIMXS5T1TWN+Ddf8ZBud71WHXGkLfwz7MFvUK\/aR+sUuiD5GZyY8RL2siqXTUISOiT\/XWGSyeR7yxaEjflyoR87NJcE1NnXqcmUfwYjn1piV+UbiKMEtQWJdcPizk0jY0armwo9ZPI0qxiS5tSzWIQ96R38YLS7Q0dDX\/4vK209WmpEeBd\/CrCLRnVmDTC87hvCTvJJcF2CIpodJIGMOAen7W8H8xFfDVzwO5myHIw1AXHrotx8fG\/V888Kuj8NkveOs+Pr5lvS8pfwfhzQz\/hKJcdTLlJItQsQlBKY0rpG3H0I4EE9tL3jR+MoyvtO31Itggn+nOtR8ztYmg4LXK7zAIimmmGLiOkD+e\/npY9NUzyDnclrGP\/dYYc2TotiARsk0lgEHNcEi+AM7Q0ApPCe3WpLgbu+rovw0wavvTMWyEPwtUqXzMY7pWgwznHpcCYv5a1igYGz8fuleKBPmrd16zmooz84\/9kn5j9BY5lKysNQs6VKSg9X1kUASEe2R0+R4KIUSPaI5jLPgu2HTcNBGlsextS1EpomWL2dV4Q0z7t2JTYoXpzvMlx8\/xmj1HAh7D74MW6AjZ06h7Lyu6KbI5itRXCp26Kd3hnelOXJ\/PCtevyo2Mak4zzAkSOGp5G1E6S0W1f6\/Ys3TRMyexoKWuD0++FKAaC0hOXqWQFVHrdt8+r\/12gR6vGL7de2g\/Jzd73Ls6aNszvXo0hD1ymUu5n7wVFtVSq19sSNKJSDEDkJcz3BLDO86crRktla+xMQ+M0d7pJ9AqH6fqFVcXiwpSZNT7MJTXxsrsxOer4xWrzBgUUxTAxUrDLFeqJrqBu2k3LkFeG+8UhwT7DC0g0Wqs1d+UCnPO+2PCxx+X\/9xILswzerDvn5QeayDQ0RHLdLwtfJz7pzVzUdPY12OZRYicip5ZyPUpSV2y\/4LNI6FrkmdLuXA3tgzE\/nsluwN6Ghfq2qgL+XfRYLCycQPIY7\/hnUlOB7IJ97x3mzeVmwbX6dgM7FrvlW\/BbeOQ69FU0k5lUZCcQhEQbcU9crg7EVeGyijwh\/vKqOPR3zGedOMliVUIAr7qHaQyjsopNRky2QhUgSb8880VlMdvYzyiZzT96YtspHNArNe\/BoTaH9a9Z08mHPj+Alc382ghPm7OAwoHoNFcUuXiHuTnhXjG1hfhEmYFsQviEepOv5CVabLDIAXbY9NeXi7i+yv+BI5u88mBa9P6rVs2FMQJwauka0GKDfIYYtbAWD6UFmpMyiNNhUk2P4MvNnPPRsBoZtltX+OJ8is5LC8UOEleLsu1S58uYUsmYvus3XaReiemYfSnZ3oupHT\/rrx7GFH86yhGP8IGNg1FmpkT4fk\/6i0ZDcQuqT33kGxFTbkXssSv3Fip5G5szbXdmJQjjIpE2L71WU545jPe9RHOoO4LmbJTjJtk3sXq5tFB5JhSPVIDopQASLNwK5rPPS0Kav\/b5\/IV1Fxrz25wEnoGxYxUcBUApsEdWOpXgEuxN9ydalEfUP6N3hpPgXZ2UwD1MfaRbPDCuLhEsoAeP9UAwccrNTiNmnI0WIHZ3gsD9Q2b2KyoqVFwEkJRwXB52KilKHEsgwoX+bb7H5SlirArs7prYhh\/Q5Bm0jqZe5Uq8pEfKLAUZSf8IDgQdLKyijYNPzIv\/9ib1fmCiRuWV2MUYSUuCIPXL0M+h0vlrdoghsksYZY5mERf4m2PtFMzHb9gkqwhejUCKfayf93XXBQZUbOS3UOVSH6ZW6\/qmx6\/knZIJsKE1gmfvmfQMqa8o6fae3BPloU\/sG1Xs2sOfwbiszyu2nYYZhh5n+INM0FYyrVtGB4poIO3l++NuI2HfIWT1wW03CPQqYL8zs79Rdmhj5V7M1\/DluO32trEJk+G2jSKX+PSaCy5r4KTzSYuE0QNh6l6xsjjYeY2nAgYbb6VLmy6vijYSM1TYET1B+dYh1X57SAl8ySqN9gCXG12PzmDt1RdLOAAYFQ1mHJwOcJZ4XzdRILGJLsrWWcYCRn94vXDCyIFCyWXm7hapAfX3aiYh\/kJBW+3e7Gz3jnDBwB6SQyDgaO\/+8qOcikfZtEIdYlchaLrSN4kPrbLknouzSVEAmy1PBkG7X3kFbEvQpJFgF1\/WafWhMh2IssYPoYhuHXYsFBy4Dd3rQBC9QfM6yG50WR6Go+xJ86VKTMh7Q2hL6Ah0QcoQTQpr3Ic9Gff8QtoOnPrV7nlei969W+1xDsLb3GWURybt7cV6OH00MkAtMgzyrpy6veqsPl\/ficJANUA6qYrin+zD1BN9czjcZdMV82nBXQiinkVmEJI9SOFx9QRRpSyxUBdVrZsN6raMX2m1FMLTDTIkLOG4J\/GjSEGlSurbHlJPguWomfzk8zXbKKHbqdsOv7sqtPpsfe\/\/8yKc2CIOJD+KvGhtPqsU1V3YD4jYD03CAw49HrQwd\/xT9hfzyME5BiCtzZXjrLBtKKu16DfgatEJd7wkduRURg1lIXFwTnsZVYss3UWr7cjtQT3moCpcEF5VqWtX478c+wa7SxbVQkZqJOJPqpQvuYpzl1Dp1gP9pekJByN5kixNB8hNyZicOsbD77m\/1saq5FzGPfVut2KGuL86WRRoNnw3gB2s2ujLns4PPFMA20TASnZ3ZbLIE+aT4S9HlhUODL7JWATQBz\/\/joA3NgAL75yqrtZIVVPKy+49IB7gVm8hXs5Ahn\/WJ\/vRFF3dIkposwXH8ehdutgEH0kPbCJawO2pai7chlIf2e193LwLxJdrTDmm9y7C0sj3CMrDIDm9R4s4LDwfbn3tGRSN7Z2e4DB0FUxsC4ihEkiEkUlXdp7IfXHVoyhGg5LIf+IU8XGMF\/34cjhGjHlsb8p3f2h9g2r9tZhgSKTFzmopZhCqW9i15DUESTAhV9GA9CftGV7UxD26tgUC+G4+CqCpX\/c+kNsVcJALL2y47xlO7VC6k9cwRVl3aa1TY8XvBKUINRNBHmH3coimmqPbwUAMz3YyXZMm1+jKKxXw07rwhufVU21ywoKPOdlNuDMRP3ZrWJzGRnxoyzVZw8r+Yt0cYtrfzxFDE8FcLsqSM1Fg9vw+IHp85n2gQXumnXGYoS6UEP582CD\/EyRji6wktL5x36hlGn4buRrLTmVyhseP9YhikAN14eduwjrHbiV4Vz7f\/BFg\/W9dzsIGbAURgKBMhOHgEDtAZ1Tzho\/9cDJQkk4CY5ngV2NoTngcPDn6RQgP4lxvulZS3mvuXWXpTNRi0cXVZe0NVIekL4JjO\/FeGek1ZMIYxd69xHcJuug3IDLaMaKN6VDop2FifVBGF4NdYIigqy2n9gL81uC1nUMIppzsVN6rSH5rUiICALVheS+3svJOflaOWTLlfdBwhVFYt6WbGQ6F2YY5P9cdBQrc4S5DMBMaU+qnGUbuCE4qGLKK426iresQbCF0Mzx5S4y04ctHfGlFPIdRTgbZapk8200whbNfgUpvf\/zaSwjpMcZQHaqWTIuzeiLLAIXCm5NxNeFhsz02L1weyEw0gMfqZYxMmWeAbCs5kW1JoU+5TIaMTvY9qZykVEIt1Fenm3Z8q5lLgTaBXlTVX1fWiDLttUf16Ld7i\/upSSY4bOvVsYnEhOuel6qE+HFdQJS\/zqNZ0DLl1YCmcCZo86WsZTImn\/MN0xiB5b9i1JwJBDU0c0utRSuN8bYtKo0iKT7o6XEd3Aq0bsKe8y6p4mP4ZH718d9zmuf0rfivjNURycpy3EHjlHYsodZtSLMifewS7xHsIz7npYK4ZLeBZ6wt35jQRUP1uNGXkAfMDJitYNeB4wTDmddQgn7eoPml0YpW6hfXMcXjF25HdVpbJuZ3jduVYyrMHXheJiaPjr2nVPDykCQIGmSHsJ2pxK9ehV5W058wHGTG6CdAJHKSjcK5A2vskWYKX3bYwf7FuxPFU0Jzey9jpNjhCaN5YHsBguFIRKeo5iI7TETgQjp5Z9Fcl9RhztMXsdlbb9BIm1FyqVOmvHoS8zSn\/oUSD7JBtAMuW+eT8N3qyy5+NUtfH+xaSRKVNftBRMRhXpY04Ww8dzG7RC1mWZqqu+ojg7nADCMYNs9SHCQnAcJP8pzO4cKfWKvwfZTPDAaeUScUUuUWwFmUI9rw8PdI3GomEW5eKIVWMKIoV4MCRKgzIPu8nn5PwQv0TqquDklmj5GM9NlzEUOb9990N219bmQoHB+TkVaB64VlAHLhQeMVDrDovYl6P78UVe2mi3fgDboAWeROFjzODtKKjiNpRt66u75pCT0uoOzIVQMJZodSgTwI13yAaWbO+XGSd3wo4cMcH4LGUur+Y+ozsS44Lphlr\/LoFP8FbNsKyxXFWNCU9IVjuy+ZF7cWNDs49M+1RE8bu0GIKDbqJOkOkLi+vU93m8R3tuDWN9dilJQTgaGxULj\/\/NdQEb8+jNXzDVzAka5dKcF9GGOvmfNPo81BPcLslEG6ZYnCjw7YihSt5gu03+GqJ15T0JNlszpcTKs7wPqfTC70D++igyw5qy3yqDl+MUHfmc4hXgCfUDtVj2RHUHqe0rc61a0cJrkomfw0krquWFkQB3a1mA87NAOeOJP58VQKYV2qooo9ado\/laxKOiC1TokNyRefjKO7RvjAZd0UzDaFOv91dQnL4RrnygqUgSm4paB2MRZgCcLItARk494GZEb1bXXLaALMh7tKY4P4pQL7gbENgadn4HJPd2oLv\/dgC2EoBn51a6uMifXLvYom3ZdMBY0eow+\/R6xDlv\/fkpleV4jMlC1c9LbtAwP825utk0gfOwySz4l66OldiYNZ4FrQmfcBe\/dZ\/rt3kX5JXkn8c9xyTRpRYG5TS0kuX8CDD\/jtJnGt9LzepEV4S2UtGuWi1Sr3wlCtX+D7NoFJk8qEqP36hYgVlzpYEIxcr2fAcjoMjH6PIOYnnK75fk0Ax5gCpzg4XNY+X2ZysiBrEAOSBcJnAXAIxf7zOYKUOyv5ZGgHSkcCsnLXbAazg06tWFQy8Ge+JEA6GT1fYqsWzToILsCrHD\/vfJvppdvJuI8rtmO4vRIyzD\/Rk0wipwpaK1U+xIT7LBdWo5SJhgD7ur2J4pdcZMhHeQ\/WZrobAh1KpTc3jnTWjMxhno3TD6vwLp5I17zs7Z3bX40IjOZJ7I073j1AOzgs6W0AUWDVZOU8uficY5gUqe1ZO84DpXIUWFhXUC8GoqDNrXbl271oyuTkt2Dk+eNVhrFnAJP90dVIuS7hHc6EjERABZU74BLxfqyrzBn9vVAaFIYVEBOT9LpCV\/\/q4eea2T2JQGdkZ2en7MhTOXh\/h1zSKTkDtwG9LPHz46njIiqcvJrQrvmQUAjheZR+GB8wMYZ4rHYIJJJlcXqY4YIl22OmXNYQQ\/dfX465t74viKO+wamTLwgsg48J3052cfh1u1kAMWojHBPAcGGXRDMFX\/OVV4jfLsecP5721553\/rZ4e0ZJh21dedEVmiBH5cg3\/TZyGQ5Afc+lhoCEYd5NUEWQQZC\/L0lueG7hOJA84lFsvg0J6mfHcRDKngKJB3ObGp+nvfUdvw2mJDIE+MXuWNrR6bV1fYsJFnlxRLcVG3S21L6XZe2c61i4+dTzQ35\/luc2CRRxCBhxtHzzTulzl9L66nnajuUd9faPoCHTRvTzl0NHeIkjoss3nsXA9R9SZqidbbJ2e+d8KfvonxQaYfvdrjK0MJYeRMKEAoo+SqySrbdaObAu7P6edNXBsiizqYIrsHhWKoIXNVnuuBAzkUoFSnJg2Oh\/TFrdG89BWbFiCWhSmh1vEGvybyq7fEeqtsE2KT+TFlnBSZBb01i5oAjhPfkuVutOlEUka6qPd9WkT6uIjXSc50BYAXb5IG7ORXbKGHwbe+WmNKkjB6BeLLtpPLXDzcxR4EC82kPx5QQ+ieCghtcs01ins5nNFbPIO+MwerNrIiWBeDrbso6lncm7ECemVLi7RD1oAmB\/Ha7Lhmi5eBflfs3ibR6+wuAdBL3Qa1tZO2+U3oMPs0XgPbijXtol0iGGuS9lU6T4UQ5FQ0mBa\/OCgfTWgwLzy6IeMOBjUaqIO+pwc2XixCEljXgzzTkNtPC904unQfHXY9CbKEBUZ+nBMpwumef+AxwoaHIN9y\/Mzp4Y5aQm++ENvDsw2jZhyp1XT24qbDWHgUuJzvvHvRij4hGaC4RzzlqpggUUVaY0ELh24ZjBuG5xpcMLbLVriIuxQ5fGMJc1qHcWHAoY8\/Dz6\/0nOE+HrJcJPghPK0bmpEROUozwhmw0ff7ksrbf97vMXL9ECJceLD6I5pu4zJFF9+M8fLY1su8SU1AXQoZnobm\/E3OpOe6LWsz7beVYmVmpX4scs4wM3hF4\/+PEr61790tVVISmxLnwxFmmYkxDQtgIhgC\/+S4N300GAYZOOdXHubvxqNFnXSZRbodFNidN1rdalHJwPJJprAOCC+YvAd8QbHiDrWXwFqWvBPK4N99qQ9vq011ChmcTn4nTiqqnzQHYhQcQdbjcNW82X3TIfYbib7imu0DhKcJFbMwMD82zzacyttC4ztEXcIs8Przs2qzKkai8RsdfRWQfRLzcOwnTcYe5HA76jDHqGPB+6J\/usPOGzLCSEn\/PRhObn2z8GFsdvmPj1vgI4ENOgj+4iDcVlJvg43EHwmJjJhBfoChD9hlQs2rKPSsPB8JnVyXUpRC0ORzcYaL25iYCj7Mn4y1Bf9wnvW5dxzq7omta3U6ziGTkwy9pDcodJ1Jdc14Bm\/0ONTqxkawaGkSjgtqEdwMJrJmVWJsFHmlReAmL2QeJjo5vOgAxYcJ0KOqGGv7O06Ie0bKW36akcKoZMZPztwczNFQ08rOYfAt+tL8fj0DiCjASn8UN7Nw0bum+nP0rZP\/nI4FlKnspk8KkswFeu27jWOzNr77i\/anqAGgVwT77XeOA0GRF71mEl1Z9CRAETPHABvpYXJ1mZw7oiG2IhVxxVqzkuZ1SQC9htSLOx2EzukO4islEkCsyNcFegfaVqa\/7w8Ll2aaXklPa2DMG89Lm8Mg3VxaUVUA9uN4aZrfL1z8sDo1tFadulpiU38qRfp3Dvv7JgYA3Qi8ppbH3eu3DFgf4xDiYmIuyLdzp74pQ5dSH2bvXo\/\/04558nb1pgtKz3ytndQILlMV7kTfGd6OT6O\/sU\/rZ5BHpgadC1vXK2Z9diqmSHR\/zOtsReXI2wZITZVrSfDPvnmf6wCqfS9c5uwOJVsLr+Ab3sAcc3+aDKjpEW9PWz88t3TVZ\/XIBhvoCVdgy+ooXXvnmk2bIUnnS2QoRRM\/PXsRdO++dbz+\/CPxE+AO97o9AdRV4NAmrp0xAxUA\/Qo15NY3ZCTNuJL2EH2EKwJy73uuRYDZLSAm7OnUVjCkERPuGSrpO8KdLPDAG49nT9iqZghwhQ\/HyamZ8MHpDo55UfiykA1Rn8tHklAIgIiQsXAKrrmOakQ4ZjApwJt8zYPXPJacwl01\/pAM3HFbn4sib\/12ebPupIEuBdLtD8aF+L4yxAScHVPDGWWlllkpCgjaKQqedFjK9r1IE80WrHjlE7Vrikabx83lylenpYvaAb2DshUar20FKhdeteVpXp8FEBY3Ok+qmWj6l6nRZII\/yil0Qq\/zFNnNUzBkORixN+E\/VRw8BZSYu0MtjMSLF7onGIc0eTC3090wG9NKKWwrh3\/PjJdVMhfcLyKqRkxZGn0\/3buFtHBnBIOtHMY0K5vkSO78h4emmn5ri5WIIaX+6Nd0mwqgi6i057wDU4Grh+NtlSBO\/HDbTgIbVKbSLqe\/kAvLE2oJlaKPT50MRwvG\/zUdIxlIFc6Yn0Qm5kwlV+oDKf2TKmWgcE+LI99rj8dczKIV\/P51gQBuGSEWNVlkVGxXkrgJqizrLaXqqcrOiKfI0PUiNm8HjzPJOVudYRsMWqA0b42y6Z9Q36tLj3Ctg9I6i083ktNG6x1XNcjsefUU3XQxnlLyy3gXk3e6iVsVbjnGeuiBmgybmuo730djXqqD9tCPhxTTdQFcjhd7UhIIy9i\/Vpn4b+o56NFP8ChzkprkM+xNtrkdFK27DbaFc2SEf5VCdCs3OBqOr+RjgRNcw2A0ix+rc7aET2j38XgywLcFKlgt20KcnjJkMJdCzLU+DupTrPwY+0WDWkXA9dq76a08kEdnKrVLHvYfYyTJ16NSbWT0GQQ4mmqRCA7\/DzeE5X\/G5xtX0DA9MLufZwu+wgywKD9kk4qSgsI2aZH22H6l2jBc5wNSrtw1688sSzqQZq1hC0vTgLkmjJgUFrbK54jumyKeKb61PD0j67z5b5HDg9goryrMGpP5VmNJySjF5qCKgUXAmiIXtk7Bsi5wAgk+JHkmPQ7qaipaThSBgGP9WEQAU5DvnGmOv9CQtYkjKth6scfkyeVWG4iUxHDtqkqs9dDonL9sS1eWt47+5Mnt7ury0tIf8nR81bkyJXAbCdxboCnGhkGgtLnLTqN\/7KuSdQgmeTsujFLac6PW7MlC8Ikm3FjOPcoG\/aNawtNURdDx\/7G7aAkPHhBh8LokBD7pGvCiT1PW9wGGUsoFeWGm+6zZ5ocmmrcQegs9dpChL+\/qOXUY0B3GMVs9J44\/mq1p88hijYZGq+X0OP3uwZBn5kf\/EGsUMgzF+Rp8DvdDqqxxk2\/PSsspNoJUtMg5++rMpdcncuV48NqM9Xs2uCA9aRXata0BJ+cpnfDrSZp9JrIM\/hvJPTYsnwp0qVmWli4TJaJqSO7QzJQi\/xHJclyGZMXd+SxbTQXXqmtSFGOURhBXEiTx+T5sqfohLImDuuAh5qGZyz+eGJ8+gm\/JQ\/dtRoGv6H8qw51wKctMs7AOmYrq\/LoZm8T3OGigJcyKv4dm9D\/RzYGExwpcBuJ2HYrPhpufWg2YbG07cvMFlN+YxPmp3tD2tOyzF7KjK7gqW87cg8razzcXJoj71jGk1zksGqxDKcFvLJcSopYEleo0NHOqRmIxUOUiRyzFBlpVsVvTbIz8Xd\/\/Ywo5qLe0RxUbDNekPzd0Q0PU83khemrCQ5f2M8VpGDggWPH5v\/5P4Caw5v72jtvR6hg2jl9s8W2CxSrr7K9kM5DAZpsN2ckFeyHeyAo+xT\/rJmeNVHPqj3oSwVE3PyoY","iter":600000,"salt":"AVIm4NpEVPacMAu\/HB+ccQ==","v":1}</script>
+
+
+  <!-- Prev / next ------------------------------------------------------- -->
+  <div class="container">
+    <nav class="case-nav" aria-label="Other projects">
+      <a class="out" href="/portfolio">
+        <svg class="arrow" aria-hidden="true" style="transform:scaleX(-1)"><use href="#arrow"/></svg> all projects
+      </a>
+      <a class="out" href="/nesso-desk-assistant">
+        next: Nesso desk assistant <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+      </a>
+    </nav>
+  </div>
+
+</main>
+
+<site-footer></site-footer>
+
+<script src="assets/js/gate.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/lightbox.js"></script>
+</body>
+</html>

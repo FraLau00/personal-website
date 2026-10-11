@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Nesso desk assistant — Francesco Lauriola</title>
+<meta name="description" content="Case study, work in progress: a desk assistant on the Arduino Nesso N1 that keeps distractions out of the dead time — waiting for AI, sitting in meetings — with a face instead of notifications, and no permissions on the computer.">
+<link rel="canonical" href="https://francescolauriola.com/nesso-desk-assistant">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://francescolauriola.com/nesso-desk-assistant">
+<meta property="og:title" content="Nesso desk assistant — case study">
+<meta property="og:description" content="A desk assistant with a face, to stay focused while waiting for AI or sitting in meetings.">
+<!-- SWAP ME — the portrait stands in until the cover exists; then point this
+     at https://francescolauriola.com/assets/img/projects/nesso-desk-assistant.jpg -->
+<meta property="og:image" content="https://francescolauriola.com/assets/img/portrait.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F8F3E8">
+<meta name="theme-color" content="#0A0805" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/robotomono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+
+<!-- shared header + footer, defined once in assets/js/components.js.
+     Not deferred: the custom elements must exist before the parser reaches them. -->
+<script src="assets/js/site.config.js"></script>
+<script src="assets/js/components.js"></script>
+</head>
+
+<body data-page="project">
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="arrow" viewBox="0 0 12 12">
+    <path d="M3 9 9 3M4.5 3H9v4.5" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<site-header></site-header>
+
+<!-- Same three links for browsers with JavaScript off, where <site-header>
+     stays empty. Keep in sync with the NAV array in assets/js/components.js —
+     the only thing on the site that is still duplicated per page. -->
+<noscript>
+  <nav class="nav nav--fallback" aria-label="Main">
+    <a class="nav__link" data-page="home"      href="/">home</a>
+    <a class="nav__link" data-page="portfolio" href="/portfolio">portfolio</a>
+    <a class="nav__link" data-page="bio"       href="/bio">bio &amp; cv</a>
+  </nav>
+</noscript>
+
+<main id="main">
+
+  <!-- Cover ------------------------------------------------------------ -->
+  <section class="case-head">
+    <div class="container">
+      <div class="meta meta--reverse">
+        <span class="mono meta__label">
+          project 01 of 06 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+        </span>
+        <h1 class="display case-head__title" data-dock="title">Nesso desk assistant</h1>
+      </div>
+      <p class="case-head__sub">Built on the Arduino Nesso N1</p>
+      <span class="mono tag case-head__tag">work in progress</span>
+
+      <div class="case-meta">
+        <div class="meta">
+          <span class="mono meta__label">context <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">Side project</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">date <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">Sep 2026</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">team <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">Solo</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">ownership <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">Concept, IxD, prototyping</span>
+        </div>
+        <div class="meta">
+          <span class="mono meta__label">hardware <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <span class="meta__value">Arduino Nesso N1</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;border-top:0;">
+    <div class="container">
+      <figure class="figure figure--inset reveal">
+        <img src="assets/img/projects/nesso/hero.jpg" width="1920" height="1080"
+             alt="The Nesso N1 clipped to the top edge of a laptop in a dim room, two round white eyes glowing on its screen.">
+      </figure>
+    </div>
+  </section>
+
+  <!-- Context ----------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">01 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Context</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            I built this <strong>desk assistant</strong> to stay <strong>productive</strong>, and
+            above all to keep distractions out of the dead time, which has multiplied with the
+            advent of <strong>AI</strong>.
+          </p>
+          <p>
+            It runs on the <strong>Arduino Nesso N1</strong>, a pocket-sized board with a 240×135
+            touch display, and sits on my computer. It tells me when I need to jump into a
+            <strong>meeting</strong> (and whether my mic is on) and when <strong>Claude</strong>
+            needs my attention. It also controls my <strong>music</strong>, which is always on when
+            I work from home.
+          </p>
+          <p>
+            It hangs on the <strong>top-left corner</strong> of the screen, held by a
+            <strong>small magnet</strong> behind it, so it comes off and goes back in a second.
+            Flip it and the face <strong>turns with it</strong>: the Nesso senses its own
+            orientation and corrects the display on the fly, with the cable on either side.
+          </p>
+        </div>
+        <figure class="figure figure--inset">
+          <video class="video" controls preload="none" playsinline width="720" height="1280"
+                 poster="assets/img/projects/nesso/mounting-poster.jpg"
+                 style="max-height:28rem;margin-inline:auto;width:auto">
+            <source src="assets/img/projects/nesso/mounting.mp4" type="video/mp4">
+            Your browser can't play this video. <a href="assets/img/projects/nesso/mounting.mp4">Download it</a> instead.
+          </video>
+          <span class="mono figure__caption">off the magnet, flipped, upright again</span>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- A simple interFace ------------------------------------------------ -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">02 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">A simple interFace</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            I wanted to experiment with a new, more “human” way of conveying states: not text,
+            icons and badges, but a <strong>face</strong>. An expression reads at a glance, from
+            across the desk, which also balanced out working with a <strong>very small screen</strong>.
+          </p>
+          <p>
+            So the face stays simple: two filled circles for eyes, with <strong>no pupils</strong>,
+            and <strong>no mouth</strong> at rest. It blinks at a random rhythm and now and then
+            glances to one side. Tilt the Nesso and the eyes follow; shake it and it gets
+            <strong>nauseous</strong>; low on battery, it looks <strong>tired</strong>.
+          </p>
+        </div>
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/nesso/on-the-screen.jpg" width="1200" height="1600" loading="lazy"
+               alt="The Nesso on the top-left corner of a laptop screen, its two round eyes lit.">
+          <span class="mono figure__caption">two circles, no pupils, no mouth</span>
+        </figure>
+      </div>
+
+      <!-- The two moving faces are GIFs: they loop on their own, like the face does. -->
+      <div class="figure-grid figure-grid--3" style="margin-top:var(--sp-6)">
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/nesso/rest.gif" width="480" height="360" loading="lazy"
+               alt="The Nesso on top of the laptop at rest: two round white eyes that blink, then glance to one side.">
+          <span class="mono figure__caption">at rest</span>
+        </figure>
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/nesso/shaken.gif" width="480" height="360" loading="lazy"
+               alt="A hand lifts the Nesso and shakes it; it comes back with green eyes and a wavy mouth, then turns white again.">
+          <span class="mono figure__caption">shaken</span>
+        </figure>
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/nesso/battery.jpg" width="1200" height="900" loading="lazy"
+               alt="The battery panel: eyes closed as two flat lines, and below them a lightning bolt with 100%.">
+          <span class="mono figure__caption">battery, on a key press</span>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- What it knows ------------------------------------------------------ -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">03 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">What it knows</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            The Nesso can't see my computer, so the computer tells it what's going on, every two
+            seconds:
+          </p>
+          <ul class="bullets">
+            <li>
+              <strong>Inactivity.</strong> After a minute without keyboard or trackpad, the face
+              gets sleepy; after five, it falls asleep and snores – so the sound brings my attention back.
+            </li>
+            <li>
+              <strong>Claude Code.</strong> While it works, the eyes turn terracotta and become a
+              starburst, a nod to Claude's logo. When it's done, a ding and a smile. When it needs
+              my answer, the face trembles and chimes.
+            </li>
+            <li>
+              <strong>Meetings.</strong> Based on my calendar: the mouth talks and the eyes hold still.
+            </li>
+            <li>
+              <strong>Microphone.</strong> It catches the calls the calendar doesn't know about,
+              like quick calls from our internal messaging apps.
+            </li>
+            <li>
+              <strong>Mute.</strong> The computer tells the Nesso whether I'm muted, and a key on its
+              side mutes me.
+            </li>
+            <li>
+              <strong>Music.</strong> Headphones, a gentle bob, the song title scrolling along the
+              bottom and a heart on the songs I've liked. Swipe to skip, double-tap to like.
+            </li>
+          </ul>
+          <p>
+            And when I push the cursor past the top of the screen, it lands on the Nesso, like on
+            a <strong>tiny second monitor</strong>.
+          </p>
+        </div>
+        <div style="display:grid;gap:var(--sp-5)">
+          <figure class="figure figure--inset">
+            <video class="video" controls preload="none" playsinline width="720" height="1280"
+                   poster="assets/img/projects/nesso/claude-poster.jpg"
+                   style="max-height:28rem;margin-inline:auto;width:auto">
+              <source src="assets/img/projects/nesso/claude.mp4" type="video/mp4">
+              Your browser can't play this video. <a href="assets/img/projects/nesso/claude.mp4">Download it</a> instead.
+            </video>
+            <span class="mono figure__caption">Claude works, Claude's done</span>
+          </figure>
+          <figure class="figure figure--inset">
+            <video class="video video--wide" controls preload="none" playsinline width="960" height="540"
+                   poster="assets/img/projects/nesso/meeting-poster.jpg">
+              <source src="assets/img/projects/nesso/meeting.mp4" type="video/mp4">
+              Your browser can't play this video. <a href="assets/img/projects/nesso/meeting.mp4">Download it</a> instead.
+            </video>
+            <span class="mono figure__caption">muted from Meet, unmuted from the Nesso</span>
+          </figure>
+        </div>
+      </div>
+
+      <div class="figure-grid figure-grid--3" style="margin-top:var(--sp-6)">
+        <figure class="figure figure--inset">
+          <video class="video" controls preload="none" playsinline width="720" height="1280"
+                 poster="assets/img/projects/nesso/spotify-poster.jpg">
+            <source src="assets/img/projects/nesso/spotify.mp4" type="video/mp4">
+            Your browser can't play this video. <a href="assets/img/projects/nesso/spotify.mp4">Download it</a> instead.
+          </video>
+          <span class="mono figure__caption">swipe to skip, double-tap to like</span>
+        </figure>
+        <figure class="figure figure--inset">
+          <video class="video" controls preload="none" playsinline width="720" height="1280"
+                 poster="assets/img/projects/nesso/sleep-poster.jpg">
+            <source src="assets/img/projects/nesso/sleep.mp4" type="video/mp4">
+            Your browser can't play this video. <a href="assets/img/projects/nesso/sleep.mp4">Download it</a> instead.
+          </video>
+          <span class="mono figure__caption">asleep</span>
+        </figure>
+        <figure class="figure figure--inset">
+          <video class="video" controls preload="none" playsinline width="720" height="1280"
+                 poster="assets/img/projects/nesso/cursor-poster.jpg">
+            <source src="assets/img/projects/nesso/cursor.mp4" type="video/mp4">
+            Your browser can't play this video. <a href="assets/img/projects/nesso/cursor.mp4">Download it</a> instead.
+          </video>
+          <span class="mono figure__caption">the cursor, on the Nesso</span>
+        </figure>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Design decisions -------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">04 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Small screen, hard choices</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            <strong>Failures get a signal; normality doesn't.</strong> A working Bluetooth
+            connection isn't drawn at all: only a small rune appears when it drops.
+          </p>
+          <p>
+            <strong>Every alert must end.</strong> When Claude waits for an answer, the face chimes
+            three times, then stops but keeps trembling: the question is still there. A tap on the
+            Nesso means “got it”; if I've walked away for 90 seconds, it calls once more. An alarm
+            you can't silence is one you learn to ignore.
+          </p>
+          <p>
+            <strong>No dozing at the wrong time.</strong> While Claude works or I'm on a call, I'm
+            not typing for good reasons, so the idle count freezes. Otherwise the face would fall
+            asleep right as Claude delivers the good news.
+          </p>
+          <p>
+            <strong>When in doubt, back to normal.</strong> Every signal can say “I don't know”, and
+            every signal expires. A dead script, a pulled cable or a calendar that doesn't answer
+            brings back the neutral face, never one stuck asleep or in a meeting.
+          </p>
+        </div>
+        <figure class="figure figure--inset">
+          <img src="assets/img/projects/nesso/faults.jpg" width="1200" height="900" loading="lazy"
+               alt="The Nesso on the edge of the laptop with gray eyes, a small Bluetooth rune and a yellow warning triangle side by side in the top-right corner of its screen.">
+          <span class="mono figure__caption">only failures get a signal</span>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zero permissions -------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">05 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Zero permissions</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>
+            One rule from the start: nothing on the computer gets more access than it needs. The
+            Nesso learns how long I've been idle, never what I type; how many meetings are on, never
+            what they're about; whether my mic is in use, never what it hears.
+          </p>
+          <p>
+            Two channels connect it to the computer, and very little crosses either of them. Even if
+            something went wrong on one side, the worst it could do is put the face to sleep or skip
+            a song.
+          </p>
+          <p>
+            Holding to that rule cost a couple of features along the way, a trade I'd make again.
+          </p>
+        </div>
+        <!-- The two channels, drawn inline so the text uses the site's fonts and
+             the colours follow the theme (site.css § 7.26). Thick solid arrow =
+             what a channel is for; thin dashed arrow = the little that comes
+             back. The board is the drawing from Cover/Nesso.svg, same colours. -->
+        <figure class="figure figure--inset">
+          <svg class="diagram" viewBox="0 0 360 512" role="img"
+               aria-labelledby="channels-title channels-desc">
+            <title id="channels-title">The two channels between the Nesso and the computer</title>
+            <desc id="channels-desc">
+              The Nesso N1 at the top, the computer at the bottom, two channels between them.
+              Bluetooth carries media keys and mute to the computer, and brings back from Google
+              Meet whether a call is on and muted. The USB cable carries status updates to
+              the Nesso, and brings back only a like for the song playing. What it sends is
+              as little as it can be: idle time as seconds, never keys; Claude Code as
+              working, waiting or done; the calendar as in a meeting or not, never titles;
+              the microphone as in use, never audio; the front app as one bit, never its
+              name; Spotify as the song playing.
+            </desc>
+
+            <!-- the board -->
+            <rect class="dg-box" width="360" height="116" rx="10"/>
+            <g transform="translate(16 19.5)">
+              <rect width="155.9" height="76.6" rx="9.4" fill="#000" stroke="#6A6A6A"/>
+              <rect x="12.4" y="12.4" width="91.4" height="51.8" rx="3" fill="#141414"/>
+              <ellipse cx="41.7" cy="33" rx="9.5" ry="10.7" fill="#FFF5E1"/>
+              <ellipse cx="73.7" cy="33" rx="9.5" ry="10.7" fill="#FFF5E1"/>
+              <path d="M123.9 20.2V56.2" stroke="#FFF" stroke-width="4.5" stroke-linecap="round"/>
+            </g>
+            <text class="dg-title" x="190" y="47">Nesso N1</text>
+            <text class="dg-mono" x="190" y="67">draws the face</text>
+            <text class="dg-mono" x="190" y="83">touch · keys · tilt</text>
+
+            <!-- The arrows stop 18 short of both boxes, so they read as
+                 travelling between them rather than glued on. -->
+
+            <!-- Bluetooth: out to the Mac, a little back from Meet -->
+            <path class="dg-flow" d="M20 134V294M15 289l5 5 5-5"/>
+            <path class="dg-flow dg-flow--back dg-dash" d="M34 294V136"/>
+            <path class="dg-flow dg-flow--back" d="M30.5 137.5L34 134l3.5 3.5"/>
+            <text class="dg-head" x="50" y="162">Bluetooth</text>
+            <text class="dg-mono" x="50" y="200">to the computer</text>
+            <use class="dg-arrow" href="#arrow" x="156.3" y="191.5" width="9" height="9" transform="rotate(135 160.8 196)"/>
+            <text class="dg-value" x="50" y="218">media keys, mute</text>
+            <text class="dg-mono" x="50" y="256">to the Nesso</text>
+            <use class="dg-arrow" href="#arrow" x="135.8" y="247.5" width="9" height="9" transform="rotate(-45 140.3 252)"/>
+            <text class="dg-back" x="50" y="274">Meet call status</text>
+
+            <!-- USB: in to the board, two words back -->
+            <path class="dg-flow" d="M200 294V134M195 139l5-5 5 5"/>
+            <path class="dg-flow dg-flow--back dg-dash" d="M214 134V292"/>
+            <path class="dg-flow dg-flow--back" d="M210.5 290.5L214 294l3.5-3.5"/>
+            <text class="dg-head" x="230" y="162">USB cable</text>
+            <text class="dg-mono" x="230" y="200">to the Nesso</text>
+            <use class="dg-arrow" href="#arrow" x="315.8" y="191.5" width="9" height="9" transform="rotate(-45 320.3 196)"/>
+            <text class="dg-value" x="230" y="218">status updates</text>
+            <text class="dg-mono" x="230" y="256">to the computer</text>
+            <use class="dg-arrow" href="#arrow" x="336.3" y="247.5" width="9" height="9" transform="rotate(135 340.8 252)"/>
+            <text class="dg-back" x="230" y="274">like a song</text>
+
+            <!-- the computer: the list is what the USB arrow carries, and how little of each -->
+            <rect class="dg-box" y="312" width="360" height="200" rx="10"/>
+            <text class="dg-title" x="16" y="342">Computer</text>
+            <text class="dg-mono" x="112" y="342">sent to the Nesso</text>
+            <use class="dg-arrow" href="#arrow" x="232" y="333.5" width="9" height="9" transform="rotate(-45 236.5 338)"/>
+            <path class="dg-rule" d="M16 356.5H344"/>
+            <text class="dg-mono" x="16" y="378">idle time</text>
+            <text class="dg-value" x="112" y="378">seconds, never keys</text>
+            <text class="dg-mono" x="16" y="400">Claude Code</text>
+            <text class="dg-value" x="112" y="400">working, waiting, done</text>
+            <text class="dg-mono" x="16" y="422">calendar</text>
+            <text class="dg-value" x="112" y="422">in a meeting, never titles</text>
+            <text class="dg-mono" x="16" y="444">microphone</text>
+            <text class="dg-value" x="112" y="444">in use, never audio</text>
+            <text class="dg-mono" x="16" y="466">front app</text>
+            <text class="dg-value" x="112" y="466">one bit, never its name</text>
+            <text class="dg-mono" x="16" y="488">Spotify</text>
+            <text class="dg-value" x="112" y="488">the song playing</text>
+          </svg>
+          <span class="mono figure__caption">two channels, and the little that crosses them</span>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conclusions ------------------------------------------------------- -->
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <div class="meta meta--reverse">
+          <span class="mono meta__label">06 <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+          <h2 class="h2">Conclusions</h2>
+        </div>
+      </div>
+      <div class="prose">
+        <ul class="bullets">
+          <li>
+            The goal was to build <strong>trust</strong>: a face I glance at a hundred times a
+            day is only useful if I can believe it, even when something breaks.
+          </li>
+          <li>
+            A tiny screen forces a <strong>hierarchy of signals</strong>: what gets color, what
+            gets shape, what gets sound and what gets nothing at all.
+          </li>
+          <li>
+            For things that last, like a meeting or a running task, an <strong>ambient
+            display</strong> works better than a notification: I can check it without being
+            interrupted.
+          </li>
+        </ul>
+        <p>
+          <strong>AI agents</strong> keep proving more capable, and they built a lot of this with
+          me. Still, every face landed in <strong>Figma</strong>: that's where I could take care
+          of the details.
+        </p>
+      </div>
+      <figure class="figure figure--inset" style="margin-top:var(--sp-6)">
+        <img src="assets/img/projects/nesso/figma-faces.png" width="1680" height="951" loading="lazy"
+             alt="The Nesso Assistant file in Figma: frames for Music mode (no like, liking, like), starburst eyes for Claude, the cursor on the face, and a work-in-progress notification with a bell.">
+        <span class="mono figure__caption">every face, drawn in Figma first</span>
+      </figure>
+      <div class="prose" style="margin-top:var(--sp-6)">
+        <p>
+          The project is still <strong>evolving</strong>. Every day I use it becomes a test,
+          and a way to find the next feature it needs.
+        </p>
+      </div>
+
+      <span class="mono runfoot">Side project | Nesso desk assistant</span>
+    </div>
+  </section>
+
+  <!-- Prev / next ------------------------------------------------------- -->
+  <div class="container">
+    <nav class="case-nav" aria-label="Other projects">
+      <a class="out" href="/portfolio">
+        <svg class="arrow" aria-hidden="true" style="transform:scaleX(-1)"><use href="#arrow"/></svg> all projects
+      </a>
+      <a class="out" href="/led-matrix-editor">
+        next: Arduino LED Matrix Editor <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg>
+      </a>
+    </nav>
+  </div>
+
+</main>
+
+<site-footer></site-footer>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/lightbox.js"></script>
+</body>
+</html>
