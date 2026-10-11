@@ -34,7 +34,7 @@
      The fallbacks are what shows if that script is ever missing — they are not
      a second source of truth, so leave them alone and edit the config. */
   var SITE      = window.SITE || {};
-  var LAST_EDIT = SITE.lastEdit || '09/2026';
+  var LAST_EDIT = SITE.lastEdit || '10/2026';
   var ROLE      = (SITE.name || 'Francesco Lauriola') + ' | ' +
                   (SITE.role || 'Senior UX Designer');
 
