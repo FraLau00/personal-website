@@ -1756,12 +1756,9 @@ body.is-grabbing .selbox__handle { opacity: 0; pointer-events: none; }
    Under 56rem the panel drops below the media. Chosen from six prototyped
    variants, where it was D. */
 
-/* The trigger on the page. The frame on hover would be the sortable-block
-   language; a lighter touch is enough here, since the ⤢ badge says the rest. */
-@media (hover: hover) {
-  .lb-thumb { transition: opacity 0.18s ease; }
-  .lb-thumb:hover { opacity: 0.92; }
-}
+/* The trigger on the page. No hover effect on the image itself: the ⤢
+   badge says it opens. A fade used to dim it, but on overlapping windows
+   (.shots) the one behind showed through the hovered one. */
 .lb-thumb:focus-visible { outline: 2px solid var(--select); outline-offset: 3px; }
 
 /* :where() keeps this at zero specificity: .figure needs a
@@ -2313,3 +2310,47 @@ img[data-locked-src] { width: 100%; background: var(--surface-alt); }
 }
 
 @media print { .gate { display: none; } }
+
+
+/* --- 7.28 Theme on scroll (prototype) ------------------------------------
+   The dark mode case study turns dark from its Final Design section — see
+   assets/js/theme-scroll.js, which also puts .theme-scroll on <html> and
+   registers the colour tokens below as <color>s. Registered, a custom
+   property can be transitioned, and every component reading it follows, so
+   the whole page fades instead of snapping.
+
+   --bg can't fade: in the dark theme it is a gradient. Here the body draws
+   its own two-stop gradient instead, flat in light (both stops warm-50) and
+   the dark theme's gradient in dark, and the stops fade like the rest.
+
+   Two speeds. Fading text and ground together, both cross the same grey
+   halfway and the words vanish for a moment — a quick text fade still
+   crosses that grey. So the grounds (background, surfaces, hairlines) fade
+   over 1s, and the text doesn't fade at all: it jumps at their midpoint,
+   0.5s in, where both the light and the dark text read on the grey.
+   prefers-reduced-motion is handled by § 8: the switch becomes instant. */
+
+.theme-scroll {
+  --bg-from: var(--warm-50);
+  --bg-to:   var(--warm-50);
+  transition-property: --bg-from, --bg-to, --surface, --surface-alt, --border, --border-subtle,
+    --text-muted, --text, --text-strong, --on-strong, --error;
+  transition-duration: 1s, 1s, 1s, 1s, 1s, 1s,
+    0s, 0s, 0s, 0s, 0s;
+  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s,
+    0.5s, 0.5s, 0.5s, 0.5s, 0.5s;
+  transition-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+}
+.theme-scroll[data-theme='dark'] {
+  --bg-from: var(--warm-900);
+  --bg-to:   var(--warm-950);
+}
+@media (prefers-color-scheme: dark) {
+  .theme-scroll:not([data-theme='light']) {
+    --bg-from: var(--warm-900);
+    --bg-to:   var(--warm-950);
+  }
+}
+.theme-scroll body {
+  background: linear-gradient(153deg, var(--bg-from) 0%, var(--bg-to) 100%), var(--bg-to);
+}
