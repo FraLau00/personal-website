@@ -206,6 +206,14 @@
 
 html { -webkit-text-size-adjust: 100%; cursor: var(--cursor); }
 
+/* The header sticks over the page (§ 7: .site-header 8px from the top, 1px
+   border each side; .site-header__inner 3.25rem tall, 3.75rem from 40rem).
+   A jump to an anchor — the home's link to the bio's random facts, "Skip to
+   content" — and a tab to a field stop below it, not under it. Change these
+   two with the header. */
+html { scroll-padding-top: calc(8px + 3.25rem + 2px); }
+@media (min-width: 40rem) { html { scroll-padding-top: calc(8px + 3.75rem + 2px); } }
+
 body {
   margin: 0;
   background: var(--bg);
@@ -1451,7 +1459,8 @@ body[data-page='bio']       .nav--fallback [data-page='bio'] {
    Home only. Cards can be dragged into a new order; the portrait and the
    facts chip can swap places. Mouse: drag from anywhere on the block.
    Touch: long-press anywhere, or drag the ⋮⋮ grip straight away — so a
-   normal tap still scrolls the page. Icons are Lucide (MIT), inlined. */
+   normal tap still scrolls the page. Icons are Lucide (ISC), inlined; the
+   licence is in assets/LICENSE-Lucide.txt. */
 
 [data-sortable] > * { position: relative; }
 
@@ -2354,3 +2363,212 @@ img[data-locked-src] { width: 100%; background: var(--surface-alt); }
 .theme-scroll body {
   background: linear-gradient(153deg, var(--bg-from) 0%, var(--bg-to) 100%), var(--bg-to);
 }
+
+
+/* --- 7.29 Night sky ("looking up", bio) ------------------------------------
+   The bio's "looking up" fact opens the sky over my hometown, right now:
+   assets/js/sky.js draws it on a canvas; the chrome around it — heading and
+   time, credits, where you are looking, "reset position" — is plain HTML
+   with these rules. The sky is always the dark theme, whatever the page is in.
+   Credits card: the constellation figures are CC BY 3.0 and need a visible
+   credit; keep its text in step with the sources in assets/js/sky-data.js. */
+
+/* The label that is a button, like "wanna see a magic trick?": no chrome,
+   the same muted mono. The only arrow on the site that points straight up. */
+.lookup {
+  margin: calc(-1 * var(--sp-1)) 0;
+  padding: var(--sp-1) 0;          /* a taller tap target, same position */
+  border: 0;
+  background: none;
+  font-family: var(--font-mono);
+  -webkit-tap-highlight-color: transparent;
+}
+.lookup:hover { color: var(--text); }
+
+/* The affordance: a stroke under the label draws itself in from the left,
+   holds, leaves to the right, rests — 3 s a loop. It stops once tapped
+   (the label is then an instruction), and on hover stays drawn. Only once
+   sky.js has run (.is-live): with JS off the label stays still. */
+.lookup [data-sky-text] { position: relative; }
+.lookup [data-sky-text]::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.lookup.is-live [data-sky-text]::after { animation: lookup-underline 3s ease-in-out infinite; }
+@keyframes lookup-underline {
+  0%     { transform: scaleX(0); transform-origin: left center; }
+  30%    { transform: scaleX(1); transform-origin: left center; }
+  45%    { transform: scaleX(1); transform-origin: left center; }
+  45.01% { transform: scaleX(1); transform-origin: right center; }
+  75%    { transform: scaleX(0); transform-origin: right center; }
+  100%   { transform: scaleX(0); transform-origin: right center; }
+}
+.lookup.is-live:hover [data-sky-text]::after { animation: none; transform: scaleX(1); }
+.lookup.is-armed [data-sky-text]::after { animation: none; transform: scaleX(0); }
+@media (prefers-reduced-motion: reduce) {
+  .lookup.is-live [data-sky-text]::after { animation: none; transform: scaleX(1); opacity: 0.5; }
+}
+.lookup.is-armed { color: var(--text); }
+.arrow--up { transform: rotate(-45deg); }
+
+/* the sky */
+
+html.sky-open { overflow: hidden; }
+
+.sky {
+  /* always the dark theme, whatever the page is in */
+  --text-muted:  var(--warm-400);
+  --text:        var(--warm-200);
+  --text-strong: var(--warm-50);
+  color-scheme: dark;
+
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: linear-gradient(153deg, var(--warm-900) 0%, var(--warm-950) 100%), var(--warm-950);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.sky[hidden] { display: none; }
+.sky.is-open { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .sky { transition: none; } }
+
+.sky__canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; }
+.sky.is-dragging .sky__canvas { cursor: grabbing; }
+
+.sky__hud {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  padding: max(var(--sp-4), env(safe-area-inset-top)) max(var(--sp-4), env(safe-area-inset-right)) 0 max(var(--sp-4), env(safe-area-inset-left));
+  pointer-events: none;
+}
+.sky__hud > * { pointer-events: auto; }
+/* stars pass behind the text: a halo in the sky's own colour keeps it legible */
+.sky__hud { text-shadow: 0 0 4px var(--warm-950), 0 0 10px var(--warm-950); }
+.sky__note { max-width: 15rem; white-space: normal; }
+.sky__note[hidden] { display: none; }
+
+.sky__close {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: var(--sp-2) 0 var(--sp-2) var(--sp-2);
+  border: 0;
+  background: none;
+  font-family: var(--font-mono);
+}
+.sky__close:hover { color: var(--text-strong); }
+.sky__close svg { width: 0.8em; height: 0.8em; stroke: currentColor; stroke-width: 1.5; fill: none; }
+
+/* Under the date: a mono label that happens to be a button, like the one
+   that opened the sky. */
+.sky__credits-open {
+  margin-top: var(--sp-1);
+  padding: var(--sp-1) 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-mono);
+  text-decoration: underline;
+  text-decoration-color: var(--warm-700);
+  text-underline-offset: 0.25em;
+}
+.sky__credits-open:hover, .sky__credits-open:focus-visible { color: var(--text-strong); text-decoration-color: currentColor; }
+
+/* Credits: a card over a dimmed sky. Its own scroll, and text that can be
+   selected — the sky around it takes neither. */
+.sky__credits {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: max(var(--sp-5), env(safe-area-inset-top)) var(--sp-4) max(var(--sp-5), env(safe-area-inset-bottom));
+  background: rgb(10 8 5 / 72%);
+}
+.sky__credits[hidden] { display: none; }
+.sky__credits-card {
+  display: grid;
+  gap: var(--sp-5);
+  width: 100%;
+  max-width: 30rem;
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  -webkit-user-select: text;
+  user-select: text;
+  padding: var(--sp-5);
+  background: var(--warm-850);
+  border: 1px solid var(--warm-700);
+  border-radius: var(--radius);
+}
+.sky__credits-head { display: flex; justify-content: space-between; align-items: center; }
+.sky__credits-title { margin: 0; font-size: var(--step-h3); font-weight: 600; color: var(--text-strong); }
+.sky__credit { margin: 0; font-size: var(--step-small); line-height: 1.45; color: var(--text); }
+.sky__credit p { margin: 0; }
+.sky__credit .link { color: var(--text-strong); }
+
+/* The foot: where you are looking, then the pointer hint or "reset position". */
+.sky__foot {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: max(var(--sp-5), env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+  pointer-events: none;
+  text-shadow: 0 0 4px var(--warm-950), 0 0 10px var(--warm-950);
+}
+.sky__foot > * { pointer-events: auto; }
+
+.sky__readout { display: flex; gap: var(--sp-6); }
+.sky__readout .meta { align-items: center; }
+.sky__readout .meta__value { font-variant-numeric: tabular-nums; min-width: 4.5em; text-align: center; }
+
+.sky__hint { margin: 0; }
+.sky__hint[hidden] { display: none; }
+
+/* A hairline, because the ground it may sit on is the same warm-850. */
+.sky__reset {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--warm-700);
+  border-radius: var(--radius-sm);
+  background: var(--warm-850);
+  color: var(--text);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  text-shadow: none;
+}
+.sky__reset:hover, .sky__reset:focus-visible { color: var(--text-strong); background: var(--warm-800); }
+.sky__reset[hidden] { display: none; }
+.sky__reset svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.sky__debug {
+  position: absolute;
+  left: var(--sp-4);
+  top: 50%;
+  margin: 0;
+  padding: var(--sp-2);
+  font: 11px/1.4 var(--font-mono);
+  color: var(--warm-200);
+  background: rgb(10 8 5 / 70%);
+  pointer-events: none;
+  white-space: pre;
+}
+.sky__debug[hidden] { display: none; }

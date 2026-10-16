@@ -105,6 +105,8 @@
 
   var ARROW_DOWN = '<svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg>';
   var ARROW_BACK = '<svg class="arrow" aria-hidden="true" style="transform:scaleX(-1)"><use href="#arrow"/></svg>';
+  /* Lucide eye and eye-off (ISC), from an earlier version, simplified.
+     The licence travels with them: assets/LICENSE-Lucide.txt */
   var EYE =
     '<svg class="gate__eye-on" viewBox="0 0 24 24" aria-hidden="true">' +
       '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>' +

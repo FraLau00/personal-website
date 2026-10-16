@@ -25,6 +25,9 @@
   var MEDIA = '.figure img, .figure video, .shots__item img';
   var CAPTION = '.figure__caption, .shots__caption';
 
+  /* Lucide icons (ISC): chevron-left, chevron-right and x — derived from
+     Feather, so MIT as well — and maximize-2, mirrored. The licence travels
+     with them: assets/LICENSE-Lucide.txt */
   var SVG = {
     prev:  'M15 18l-6-6 6-6',
     next:  'M9 6l6 6-6 6',

@@ -40,6 +40,11 @@
     <path d="M3 9 9 3M4.5 3H9v4.5" fill="none" stroke="currentColor" stroke-width="1.5"
           stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>
+  <!-- Lucide icons (ISC) — https://lucide.dev. The licence travels with them:
+       assets/LICENSE-Lucide.txt. Used by the sky's "reset position". -->
+  <symbol id="i-reset" viewBox="0 0 24 24">
+    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>
+  </symbol>
 </svg>
 
 <site-header></site-header>
@@ -354,7 +359,7 @@
   <!-- Random facts ------------------------------------------------------ -->
   <!-- The facts chip from the home page, reused: flat surface, one mono
        label per fact. No new CSS — .facts and .meta already do all of it.
-       id: the home page's "more random facts" link lands here. -->
+       id: the home page's "some random facts" link lands here. -->
   <section class="section" id="random-facts">
     <div class="container reveal">
 
@@ -393,10 +398,16 @@
           <span class="meta__value">20+ countries, and I've driven in at least nine</span>
         </div>
         <div class="meta">
-          <span class="mono meta__label">
-            looking up <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg>
-          </span>
-          <span class="meta__value">Hours lost to the night sky, good for a conversation about astrophysics, and two trips for the aurora</span>
+          <!-- Easter egg: the sky over my hometown (assets/js/sky.js). A label
+               that is a button, like the magic trick on the home; the arrow
+               is the hint — every other one here points down. The second line
+               of copy, phones only, is data-sky-then. -->
+          <button class="mono meta__label lookup" type="button" data-sky-ask
+                  data-sky-then="now hold your phone up to the sky">
+            <span data-sky-text>looking up</span>
+            <svg class="arrow arrow--up" aria-hidden="true"><use href="#arrow"/></svg>
+          </button>
+          <span class="meta__value">Hours lost to the night sky, good for a conversation about astrophysics, and two trips just for the northern lights</span>
         </div>
         <div class="meta">
           <span class="mono meta__label">
@@ -436,6 +447,99 @@
 
 <site-footer></site-footer>
 
+<!-- The sky behind "looking up": hidden until the tap. Styles: site.css § 7.29. -->
+<div class="sky" data-sky hidden role="dialog" aria-label="The sky over my hometown, right now">
+  <canvas class="sky__canvas" aria-hidden="true"></canvas>
+  <div class="sky__hud">
+    <div class="meta">
+      <span class="mono meta__label">
+        the sky over my hometown <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg>
+      </span>
+      <span class="meta__value" data-sky-time></span>
+      <span class="mono sky__note" data-sky-note hidden>the sun is up: you'd see none of this</span>
+      <button class="mono sky__credits-open" type="button" data-sky-credits-open aria-haspopup="dialog">credits</button>
+    </div>
+    <button class="mono sky__close" type="button" data-sky-close>
+      close <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <!-- Where you are looking: two metadata pairs, value above, label below
+       pointing up at it — the hero's "job title ↗" pattern. -->
+  <div class="sky__foot">
+    <div class="sky__readout">
+      <div class="meta meta--reverse">
+        <span class="mono meta__label">facing <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+        <span class="meta__value" data-sky-heading>–</span>
+      </div>
+      <div class="meta meta--reverse">
+        <span class="mono meta__label">altitude <svg class="arrow" aria-hidden="true"><use href="#arrow"/></svg></span>
+        <span class="meta__value" data-sky-alt>–</span>
+      </div>
+    </div>
+    <p class="mono sky__hint" data-sky-hint hidden></p>
+    <!-- after a finger drag on the phone: give the view back to the phone.
+         Same reset icon as the home's reset-order button (#i-reset, above). -->
+    <button class="mono sky__reset" type="button" data-sky-reset hidden>
+      <svg aria-hidden="true"><use href="#i-reset"/></svg>
+      reset position
+    </button>
+  </div>
+  <pre class="sky__debug" data-sky-debug hidden></pre>
+
+  <!-- Credits, shown where the material is: the constellation figures are
+       CC BY 3.0, which wants a visible attribution, the licence link and a note
+       of what was changed. The rest is courtesy. Fonts (OFL) and the reset icon
+       (ISC) only ask for their licence text to travel with the files — it does,
+       in assets/fonts/OFL-*.txt and assets/LICENSE-Lucide.txt — so they are not
+       listed here. Keep in step with the sources in assets/js/sky-data.js. -->
+  <div class="sky__credits" data-sky-credits hidden role="dialog" aria-modal="true" aria-labelledby="sky-credits-title">
+    <div class="sky__credits-card">
+      <div class="sky__credits-head">
+        <h2 class="sky__credits-title" id="sky-credits-title">Credits</h2>
+        <button class="mono sky__close" type="button" data-sky-credits-close>
+          close <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <div class="meta">
+        <span class="mono meta__label">stars <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+        <p class="sky__credit">Positions and brightness from
+          <a class="link" href="https://cdsarc.cds.unistra.fr/viz-bin/cat/V/137D" target="_blank" rel="noopener">XHIP</a>,
+          an extended Hipparcos compilation (Anderson &amp; Francis, 2012), via the
+          <a class="link" href="https://doi.org/10.26093/cds/vizier" target="_blank" rel="noopener">VizieR</a>
+          catalogue access tool, CDS, Strasbourg, France.</p>
+      </div>
+
+      <div class="meta">
+        <span class="mono meta__label">constellation figures <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+        <p class="sky__credit">Alan MacRobert's patterns from the
+          <a class="link" href="https://web.archive.org/web/20200107091323/https://www.iau.org/public/themes/constellations/" target="_blank" rel="noopener">IAU constellation charts</a>,
+          made with Sky &amp; Telescope magazine (Roger Sinnott &amp; Rick Fienberg),
+          <a class="link" href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.
+          Lines adapted by Olaf Frohn; here reduced to the stars down to magnitude 5.</p>
+      </div>
+
+      <div class="meta">
+        <span class="mono meta__label">star data <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+        <p class="sky__credit"><a class="link" href="https://github.com/ofrohn/d3-celestial" target="_blank" rel="noopener">d3-celestial</a>
+          by Olaf Frohn, BSD 3-Clause licence — filtered and reshaped for this page;
+          the full notice is in the data file.</p>
+      </div>
+
+      <div class="meta">
+        <span class="mono meta__label">sun, moon, planets <svg class="arrow arrow--down" aria-hidden="true"><use href="#arrow"/></svg></span>
+        <p class="sky__credit">Worked out on your device with
+          <a class="link" href="https://ssd.jpl.nasa.gov/planets/approx_pos.html" target="_blank" rel="noopener">JPL's approximate planetary elements</a>
+          (E. M. Standish) and
+          <a class="link" href="https://stjarnhimlen.se/comp/ppcomp.html" target="_blank" rel="noopener">Paul Schlyter's method</a> for the moon.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="assets/js/site.js"></script>
+<script src="assets/js/sky-data.js"></script>
+<script src="assets/js/sky-astro.js"></script>
+<script src="assets/js/sky.js"></script>
 </body>
 </html>
