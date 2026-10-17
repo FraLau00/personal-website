@@ -1081,6 +1081,29 @@ body[data-page='bio']       .nav--fallback [data-page='bio'] {
 .out:hover .arrow { transform: translate(1px, -1px); }
 .out:hover .arrow--down { transform: scaleY(-1) translate(1px, -1px); }
 
+/* The home's "some random facts" link borrows the bio's "looking up" loop
+   (§ 7.29): instead of the still underline, a stroke draws in from the left,
+   holds, leaves to the right, 3 s a loop. On hover it stays drawn; with
+   reduced motion it is the plain underline again. */
+.out--loop { text-decoration: none; }
+.out--loop > span { position: relative; }
+.out--loop > span::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: calc(0.2em - 1px);   /* level with the still underlines beside it */
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: lookup-underline 3s ease-in-out infinite;
+}
+.out--loop:hover > span::after { animation: none; transform: scaleX(1); background: var(--select); }
+@media (prefers-reduced-motion: reduce) {
+  .out--loop { text-decoration: underline; text-decoration-color: var(--border); }
+  .out--loop:hover { text-decoration-color: var(--select); }
+  .out--loop > span::after { display: none; }
+}
+
 /* Inside a card foot the 44px box would add dead space; the card is the target */
 .project-card__foot .out, .site-footer .out { min-height: 0; }
 
