@@ -1,6 +1,6 @@
 /* Francesco Lauriola — "looking up": the sky over my hometown, right now
  *
- * 1. The "looking up" label in the bio's random facts is a button. On a phone
+ * 1. The "looking up" label in the bio's "Off the clock" is a button. On a phone
  *    a tap asks for the motion sensors (Safari needs that tap; elsewhere it
  *    costs nothing) and turns the label into the instruction.
  * 2. Raise the phone in front of you, like a camera — its back above −5° —

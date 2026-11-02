@@ -31,6 +31,6 @@ window.SITE = {
   "name":        "Francesco Lauriola",
   "role":        "UX Designer",
   "roleInProse": "UX designer",
-  "lastEdit":    "10/2026",
+  "lastEdit":    "11/2026",
   "careerStart": "2021-09"
 };

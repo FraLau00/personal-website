@@ -208,7 +208,7 @@ html { -webkit-text-size-adjust: 100%; cursor: var(--cursor); }
 
 /* The header sticks over the page (§ 7: .site-header 8px from the top, 1px
    border each side; .site-header__inner 3.25rem tall, 3.75rem from 40rem).
-   A jump to an anchor — the home's link to the bio's random facts, "Skip to
+   A jump to an anchor — the home's link to the bio's "Off the clock", "Skip to
    content" — and a tab to a field stop below it, not under it. Change these
    two with the header. */
 html { scroll-padding-top: calc(8px + 3.25rem + 2px); }
@@ -785,6 +785,15 @@ body[data-page='bio']       .nav--fallback [data-page='bio'] {
 
 .hero__intro { margin-top: var(--sp-5); }
 
+/* The way into the bio's "Off the clock": a text link under the intro, a step
+   bigger than the other .out links so it holds up next to the lead. */
+.out.hero__more {   /* .out comes later in this file */
+  display: flex;
+  width: fit-content;
+  margin-top: var(--sp-2);
+  font-size: var(--step-small);
+}
+
 @media (min-width: 40rem) {
   .hero { padding-block: var(--sp-8) var(--sp-7); }
   .hero__name { margin-bottom: var(--sp-6); }
@@ -1003,7 +1012,8 @@ body[data-page='bio']       .nav--fallback [data-page='bio'] {
 
 /* "wanna see a magic trick?" under the projects heading, iPhone only (covers.js).
    A mono label that happens to be a button: no chrome, same muted ink, the
-   arrow pointing down at the covers that will do the trick. */
+   arrow pointing up. The stroke under it is the bio's "looking up" loop (§ 7.29):
+   it stops once tapped, when the label has become an instruction. */
 .trick {
   padding: var(--sp-1) 0;      /* a taller tap target, same look */
   border: 0;
@@ -1014,6 +1024,22 @@ body[data-page='bio']       .nav--fallback [data-page='bio'] {
 .trick[hidden] { display: none; }   /* the author display would otherwise beat the hidden attribute */
 .trick:disabled { color: var(--text-muted); }
 .trick.is-done { opacity: 0; }
+.trick [data-motion-text] { position: relative; }
+.trick [data-motion-text]::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: lookup-underline 3s ease-in-out infinite;
+}
+.trick:disabled [data-motion-text]::after { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .trick [data-motion-text]::after { animation: none; transform: scaleX(1); opacity: 0.5; }
+  .trick:disabled [data-motion-text]::after { transform: scaleX(0); }
+}
 
 /* Placeholder for a cover that has not been exported yet. Styled as a title
    card in the same language as the real covers, so it reads as intended.
@@ -1081,7 +1107,7 @@ body[data-page='bio']       .nav--fallback [data-page='bio'] {
 .out:hover .arrow { transform: translate(1px, -1px); }
 .out:hover .arrow--down { transform: scaleY(-1) translate(1px, -1px); }
 
-/* The home's "some random facts" link borrows the bio's "looking up" loop
+/* The hero's "more stuff about me" link borrows the bio's "looking up" loop
    (§ 7.29): instead of the still underline, a stroke draws in from the left,
    holds, leaves to the right, 3 s a loop. On hover it stays drawn; with
    reduced motion it is the plain underline again. */
@@ -2397,7 +2423,7 @@ img[data-locked-src] { width: 100%; background: var(--surface-alt); }
    credit; keep its text in step with the sources in assets/js/sky-data.js. */
 
 /* The label that is a button, like "wanna see a magic trick?": no chrome,
-   the same muted mono. The only arrow on the site that points straight up. */
+   the same muted mono. Its arrow points straight up, like the magic trick's. */
 .lookup {
   margin: calc(-1 * var(--sp-1)) 0;
   padding: var(--sp-1) 0;          /* a taller tap target, same position */
@@ -2409,7 +2435,8 @@ img[data-locked-src] { width: 100%; background: var(--surface-alt); }
 .lookup:hover { color: var(--text); }
 
 /* The affordance: a stroke under the label draws itself in from the left,
-   holds, leaves to the right, rests — 3 s a loop. It stops once tapped
+   holds, leaves to the right, rests — 3 s a loop, the arrow rising with it
+   and settling as it leaves. It stops once tapped
    (the label is then an instruction), and on hover stays drawn. Only once
    sky.js has run (.is-live): with JS off the label stays still. */
 .lookup [data-sky-text] { position: relative; }
@@ -2438,6 +2465,19 @@ img[data-locked-src] { width: 100%; background: var(--surface-alt); }
 }
 .lookup.is-armed { color: var(--text); }
 .arrow--up { transform: rotate(-45deg); }
+.lookup.is-live .arrow { animation: lookup-arrow 3s ease-in-out infinite; }
+@keyframes lookup-arrow {
+  0%   { transform: translateY(0) rotate(-45deg); }
+  30%  { transform: translateY(-3px) rotate(-45deg); }
+  45%  { transform: translateY(-3px) rotate(-45deg); }
+  75%  { transform: translateY(0) rotate(-45deg); }
+  100% { transform: translateY(0) rotate(-45deg); }
+}
+.lookup.is-live:hover .arrow { animation: none; transform: translateY(-3px) rotate(-45deg); }
+.lookup.is-live.is-armed .arrow { animation: none; transform: rotate(-45deg); }
+@media (prefers-reduced-motion: reduce) {
+  .lookup.is-live .arrow { animation: none; }
+}
 
 /* the sky */
 
